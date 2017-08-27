@@ -1,0 +1,58 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  animation: colorchange 10s infinite;
+}
+
+.global-nav {
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  transition: padding 1s;
+}
+
+.global-nav .logo {
+  height: 30px;
+}
+
+@keyframes colorchange
+{
+  0%  {background: #ccdbe2;}
+  50%  {background: #bed4d0;}
+  100%  {background: #ccdbe2;}
+}
+html { 
+  font-size: 32px; 
+  transition: font-size 1s;
+}
+@media only screen and (max-width: 1500px) {
+  html { 
+    font-size: 16px; 
+  }
+}
+@media only screen and (max-width: 1100px) {
+  html { 
+    font-size: 12px; 
+  }
+}
+@media only screen and (max-width: 700px) {
+  html { 
+    font-size: 8px; 
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .global-nav { 
+    padding-right: 10%; 
+    padding-left: 10%; 
+  }
+}
+@media only screen and (min-width: 1700px) {
+  .global-nav { 
+    padding-right: 15%; 
+    padding-left: 15%; 
+  }
+}

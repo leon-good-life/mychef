@@ -1,0 +1,39 @@
+article.header {
+  display: flex;
+  justify-content: space-around;
+  padding: 3%; 
+  align-items: center;
+}
+article.header img {
+  flex-grow: 1;
+  max-width: 30%;
+  padding: 5%;
+}
+article.header h1 {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 2;
+}
+
+@media only screen and (min-width: 1500px) {
+  article.header { 
+    padding-right: 10%; 
+    padding-left: 10%; 
+  }
+}
+@media only screen and (min-width: 1700px) {
+  article.header { 
+    padding-right: 15%; 
+    padding-left: 15%; 
+  }
+}
+
+.join-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 10%;
+  background: rgba(255, 255, 255, 0.75);
+}
