@@ -1,4 +1,4 @@
-# scrrenshots
+# screenshots
 
 ![screenshot](screenshot.png)
 
