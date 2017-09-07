@@ -4,8 +4,25 @@ import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-class JoinForm extends React.Component {
+class ßContactInfo extends React.Component {
   render() {
+    const localization = {
+      en: {
+        fullName: 'Full Name',
+        email: 'Email',
+        telephone: 'Telephone',
+        address: 'Address',
+        join: 'Join'
+      },
+      he: {
+        fullName: 'שם מלא',
+        email: 'דואר אלקטרוני',
+        telephone: 'טלפון',
+        address: 'כתובת',
+        join: 'הצטרף'
+      }
+    };
+    const values = localization[this.props.lang];
     const style = {
       color: 'black'
     };
@@ -14,32 +31,32 @@ class JoinForm extends React.Component {
     };
     return (
       <form style={{flexGrow:1, maxWidth:500}}>
-        <TextField hintText={this.props.values.fullName} 
-                   floatingLabelText={this.props.values.fullName}
+        <TextField hintText={values.fullName} 
+                   floatingLabelText={values.fullName}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true} />
         <br />
-        <TextField hintText={this.props.values.email} 
-                   floatingLabelText={this.props.values.email}
+        <TextField hintText={values.email} 
+                   floatingLabelText={values.email}
+                   type="email"
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true} />
         <br />
-        <TextField hintText={this.props.values.telephone} 
-                   floatingLabelText={this.props.values.telephone}
+        <TextField hintText={values.telephone} 
+                   floatingLabelText={values.telephone}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true} />
         <br />
-        <TextField hintText={this.props.values.address} 
-                   floatingLabelText={this.props.values.address}
+        <TextField hintText={values.address} 
+                   floatingLabelText={values.address}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true} />
         <br />
-        <div className="g-recaptcha" data-sitekey="6LeKUi4UAAAAAIcu0YwyHHd4ZEI9TIz5pAduEyGL"></div>
-        <FlatButton label={this.props.values.join} fullWidth={true} />
+        <FlatButton label={values.join} fullWidth={true} />
         <br />
       </form>
     );
@@ -49,8 +66,8 @@ class JoinForm extends React.Component {
   }
 }
 
-JoinForm.childContextTypes = {
+ContactInfo.childContextTypes = {
   muiTheme: React.PropTypes.object.isRequired
 };
     
-export default JoinForm;
+export default ContactInfo;

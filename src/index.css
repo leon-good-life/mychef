@@ -24,6 +24,7 @@ body {
   50%  {background: #bed4d0;}
   100%  {background: #ccdbe2;}
 }
+/*
 html { 
   font-size: 32px; 
   transition: font-size 1s;
@@ -42,7 +43,7 @@ html {
   html { 
     font-size: 8px; 
   }
-}
+}*/
 
 @media only screen and (min-width: 1500px) {
   .global-nav { 
