@@ -1,23 +1,23 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import CookNav from './CookNav';
+import ContactInfo from './ContactInfo';
+import Dishes from './Dishes';
 
 class Dashboard extends React.Component {
-  constructor(props){
-    super(props);
-  }
   render() {
-    const localization = {
-      en: {
-        logout: 'Sign Out'
-      },
-      he: {
-        logout: 'התנתק'
-      }
-    };
-    const values = localization[this.props.lang];
-    console.log(this.props.handleGoogleLogout);
+    const contactInfo = () => <ContactInfo lang={this.props.lang} profile={this.props.profile} />;
+    const dishes = () => <Dishes lang={this.props.lang} />;
     return (
-      <div>
-        <button onClick={this.props.handleGoogleLogout}>{values.logout}</button>
+      <div dir={this.props.lang === 'he' ? 'rtl' : 'ltr'}>
+        <CookNav lang={this.props.lang} profile={this.props.profile} handleGoogleLogout={this.props.handleGoogleLogout} />
+        <div className="form-container">
+          <Switch>
+            <Route path="/:lang/cook/contact-info/" component={contactInfo} />
+            <Route path="/:lang/cook/dishes/" component={dishes} />
+            <Route path="/:lang/cook/" component={contactInfo} />
+          </Switch>
+        </div>
       </div>
     );
   }

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-class ßContactInfo extends React.Component {
+class ContactInfo extends React.Component {
   render() {
     const localization = {
       en: {
@@ -12,14 +13,16 @@ class ßContactInfo extends React.Component {
         email: 'Email',
         telephone: 'Telephone',
         address: 'Address',
-        join: 'Join'
+        update: 'Update',
+        underDevelopment: 'This feature is under development'
       },
       he: {
         fullName: 'שם מלא',
         email: 'דואר אלקטרוני',
         telephone: 'טלפון',
         address: 'כתובת',
-        join: 'הצטרף'
+        update: 'עדכן',
+        underDevelopment: 'הפיצ׳ר הזה נמצא בפיתוח'
       }
     };
     const values = localization[this.props.lang];
@@ -35,6 +38,7 @@ class ßContactInfo extends React.Component {
                    floatingLabelText={values.fullName}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
+                   defaultValue={this.props.profile.name}
                    fullWidth={true} />
         <br />
         <TextField hintText={values.email} 
@@ -42,6 +46,7 @@ class ßContactInfo extends React.Component {
                    type="email"
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
+                   defaultValue={this.props.profile.email}
                    fullWidth={true} />
         <br />
         <TextField hintText={values.telephone} 
@@ -56,7 +61,7 @@ class ßContactInfo extends React.Component {
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true} />
         <br />
-        <FlatButton label={values.join} fullWidth={true} />
+        <FlatButton label={values.update} fullWidth={true} onClick={()=>alert(values.underDevelopment)} />
         <br />
       </form>
     );
@@ -67,7 +72,7 @@ class ßContactInfo extends React.Component {
 }
 
 ContactInfo.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired
+  muiTheme: PropTypes.object.isRequired
 };
     
 export default ContactInfo;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
@@ -37,7 +38,7 @@ class Meal extends React.Component {
 }
 
 Meal.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired
+  muiTheme: PropTypes.object.isRequired
 };
     
 export default Meal;
