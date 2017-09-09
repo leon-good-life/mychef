@@ -6,7 +6,7 @@ import Dishes from './Dishes';
 
 class Dashboard extends React.Component {
   render() {
-    const contactInfo = () => <ContactInfo lang={this.props.lang} profile={this.props.profile} />;
+    const contactInfo = () => <ContactInfo lang={this.props.lang} profile={this.props.profile} idToken={this.props.idToken} />;
     const dishes = () => <Dishes lang={this.props.lang} />;
     return (
       <div dir={this.props.lang === 'he' ? 'rtl' : 'ltr'}>

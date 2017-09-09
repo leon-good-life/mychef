@@ -5,7 +5,7 @@ class Dishes extends React.Component {
   render(){
     const localization = {
       en: {
-        addNew: 'Add new dish',
+        addNew: 'Add a new dish',
         underDevelopment: 'This feature is under development'
       },
       he: {

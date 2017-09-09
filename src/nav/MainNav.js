@@ -31,7 +31,7 @@ class MainNav extends Component {
     }
     return (
       <nav className="global-nav" dir={this.props.lang === 'he' ? 'rtl' : 'ltr'}>
-        <Link to="/"><img src={logo} alt="My Chef" className="logo" /></Link>
+        <Link to={cookPath}><img src={logo} alt="My Chef" className="logo" /></Link>
         <FlatButton 
           containerElement={<Link to={orderPath} />}
           label={values.orderFood}

@@ -16,8 +16,9 @@ class App extends Component {
   }
   render() {
     const orderComponet = ({ match }) => <Order lang={match.params.lang} />;
-    const cookComponent = ({ match }) => <Cook lang={match.params.lang} handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} />;
-    const defaultComponent = () => <div><MainNav lang="en" /> <Cook lang="en" handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} /></div>;
+    const cookComponentTemplate = lang => <Cook lang={lang} handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.id_token} />;
+    const cookComponent = ({ match }) => cookComponentTemplate(match.params.lang);
+    const defaultComponent = () => <div><MainNav lang="en" />{cookComponentTemplate('en')}</div>;
     const navComponent = ({ match }) => <MainNav lang={match.params.lang} />;
 
     return (
@@ -34,9 +35,9 @@ class App extends Component {
     );
   }
   handleGoogleLogin(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    var id_token = googleUser.getAuthResponse().id_token;
-    var xhr = new XMLHttpRequest();
+    const profile = googleUser.getBasicProfile();
+    const id_token = googleUser.getAuthResponse().id_token;
+    const xhr = new XMLHttpRequest();
     xhr.open('POST', window.location.origin + '/tokensignin');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
@@ -50,7 +51,8 @@ class App extends Component {
         name:  profile.getName(),
         email: profile.getEmail(),
         imgUrl: profile.getImageUrl()
-      }
+      },
+      id_token
     });
   }
   handleGoogleLogout(){

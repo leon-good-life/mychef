@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 class Cook extends Component {
   render() {
     if(this.props.isLoggedIn) {
-      return <Dashboard lang={this.props.lang} handleGoogleLogout={this.props.handleGoogleLogout} profile={this.props.profile} />
+      return <Dashboard lang={this.props.lang} handleGoogleLogout={this.props.handleGoogleLogout} profile={this.props.profile} idToken={this.props.idToken} />
     } else {
       return <Join lang={this.props.lang} handleGoogleLogin={this.props.handleGoogleLogin} />;
     }
