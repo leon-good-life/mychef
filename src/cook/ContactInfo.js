@@ -4,12 +4,13 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import queryString from 'query-string';
+import { updateUser, getUser } from '../ajax';
 
 class ContactInfo extends React.Component {
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       loading: true,
       error: false,
@@ -54,7 +55,7 @@ class ContactInfo extends React.Component {
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    defaultValue={this.state.data.user_filled_name || this.state.data.google_user_name}
-                   onChange={(e)=>{this.state.data.user_filled_name = e.target.value}}
+                   onChange={(e)=>{this.handleChange('user_filled_name', e.target.value)}}
                    fullWidth={true}
                    required />
         <br />
@@ -64,7 +65,7 @@ class ContactInfo extends React.Component {
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    defaultValue={this.state.data.user_filled_email || this.state.data.google_user_email}
-                   onChange={(e)=>{this.state.data.user_filled_email = e.target.value}}
+                   onChange={(e)=>{this.handleChange('user_filled_email', e.target.value)}}
                    fullWidth={true}
                    required />
         <br />
@@ -73,7 +74,7 @@ class ContactInfo extends React.Component {
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    defaultValue={this.state.data.user_filled_telephone}
-                   onChange={(e)=>{this.state.data.user_filled_telephone = e.target.value}}
+                   onChange={(e)=>{this.handleChange('user_filled_telephone', e.target.value)}}
                    fullWidth={true}
                    required />
         <br />
@@ -82,7 +83,7 @@ class ContactInfo extends React.Component {
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    defaultValue={this.state.data.user_filled_address}
-                   onChange={(e)=>{this.state.data.user_filled_address = e.target.value}}
+                   onChange={(e)=>{this.handleChange('user_filled_address', e.target.value)}}
                    fullWidth={true}
                    required />
         <br />
@@ -92,36 +93,34 @@ class ContactInfo extends React.Component {
     );
   }
   componentDidMount(){
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', window.location.origin + '/contact-info/');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = () => {
-      const data = JSON.parse(xhr.responseText);
-      this.setState({
-        data, // TODO
-        loading: false
-      });
-    };
-    xhr.send('idtoken=' + this.props.idToken);
+    getUser(
+      (data) => {
+        this.setState({
+          data,
+          loading: false
+        });
+      },
+      this.props.idToken
+    );
   }
   handleSubmit(e){
     e.preventDefault();
-    const data = {
-      name: this.state.user_filled_name,
-      email: this.state.user_filled_email,
-      telephone: this.state.user_filled_telephone,
-      address: this.state.user_filled_address,
-      idtoken: this.props.idToken
-    };
-    const dataToSend = queryString.stringify(data);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', window.location.origin + '/update-user/');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      console.log(xhr.responseText);
-      alert('Contact details updated successfully.');
-    };
-    xhr.send(dataToSend);
+    updateUser(
+      this.state.data.user_filled_name,
+      this.state.data.user_filled_email,
+      this.state.data.user_filled_telephone,
+      this.state.data.user_filled_address,
+      this.props.idToken
+    );
+  }
+  handleChange(name, value){
+    this.setState((prevState)=>{
+      let newData = JSON.parse(JSON.stringify(prevState.data)); // clone
+      newData[name] = value;
+      return {
+        data: newData
+      }
+    });
   }
   getChildContext() {
     return {muiTheme: getMuiTheme(baseTheme)};

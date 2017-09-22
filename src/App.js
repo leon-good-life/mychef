@@ -3,6 +3,7 @@ import Order from './order/Order';
 import Cook from './cook/Cook';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MainNav from './nav/MainNav';
+import { createUser } from './ajax';
 
 class App extends Component {
   constructor(props){
@@ -16,7 +17,7 @@ class App extends Component {
   }
   render() {
     const orderComponet = ({ match }) => <Order lang={match.params.lang} />;
-    const cookComponentTemplate = lang => <Cook lang={lang} handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.id_token} />;
+    const cookComponentTemplate = lang => <Cook lang={lang} handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.idToken} />;
     const cookComponent = ({ match }) => cookComponentTemplate(match.params.lang);
     const defaultComponent = () => <div><MainNav lang="en" />{cookComponentTemplate('en')}</div>;
     const navComponent = ({ match }) => <MainNav lang={match.params.lang} />;
@@ -36,14 +37,8 @@ class App extends Component {
   }
   handleGoogleLogin(googleUser) {
     const profile = googleUser.getBasicProfile();
-    const id_token = googleUser.getAuthResponse().id_token;
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', window.location.origin + '/tokensignin');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      console.log('Signed in as: ' + xhr.responseText);
-    };
-    xhr.send('idtoken=' + id_token);
+    const idToken = googleUser.getAuthResponse().id_token;
+    createUser(idToken);
     this.setState({
       isLoggedIn: true,
       profile: {
@@ -52,7 +47,7 @@ class App extends Component {
         email: profile.getEmail(),
         imgUrl: profile.getImageUrl()
       },
-      id_token
+      idToken
     });
   }
   handleGoogleLogout(){
