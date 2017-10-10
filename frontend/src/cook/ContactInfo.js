@@ -46,7 +46,7 @@ class ContactInfo extends React.Component {
       color: 'black'
     };
     const underlineStyle = {
-      borderColor: 'black'
+      borderColor: 'darkgray'
     };
     return (
       <form style={{flexGrow:1, maxWidth:500}} onSubmit={this.handleSubmit}>
