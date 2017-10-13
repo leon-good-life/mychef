@@ -39,4 +39,18 @@ function createUser(idToken){
   xhr.send();
 }
 
+function updateDish(id, name, description, user){
+  // todo
+  console.log('updateDish');
+  const data = { id, name, description, user };
+  const dataToSend = JSON.stringify(data);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', window.location.origin + '/dish');
+  xhr.setRequestHeader('X-Auth-Token', idToken);
+  xhr.addEventListener('load', function() {
+    console.log(xhr.responseText);
+  });
+  xhr.send();
+}
+
 export { updateUser, getUser, createUser };

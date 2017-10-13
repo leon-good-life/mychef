@@ -95,6 +95,57 @@ app.get('/user', (req, res)=>{
   };
   googleAuth(token, callback);
 });
+
+app.post('/dish', (req, res)=>{
+  // todo
+  const token = req.get('X-Auth-Token');
+  const id = req.body.id;
+  const name = req.body.name;
+  const description = req.body.description;
+  const user = req.body.user;
+  const callback = (userid, payload) => {
+    const dishKey = datastore.key([
+      'Dish',
+      id
+    ]);
+    const dish = {
+      name: name,
+      description: description,
+      user: user
+    };
+    const entity = {
+      key: dishKey,
+      data: dish
+    };
+    datastore.insert(entity).then(() => {
+      // Task inserted successfully.
+    });
+    //datastore.update(entity).then(() => {
+      // Task updated successfully.
+    //});
+    res.send(JSON.stringify(dish));
+  };
+  googleAuth(token, callback);
+});
+
+app.get('/dish', (req, res)=>{
+  // todo
+  
+  // const token = req.get('X-Auth-Token');
+  // const id = req.body.id;
+  // const callback = (userid, payload) => {
+  //   const dishKey = datastore.key([
+  //     'Dish',
+  //     id
+  //   ]);
+  //   datastore.get(userKey)
+  //   .then((results) => {
+  //     const entity = results[0];
+  //     res.send(JSON.stringify(entity));
+  //   });
+  // };
+  // googleAuth(token, callback);
+});
   
 
 const PORT = process.env.PORT || 8080;
