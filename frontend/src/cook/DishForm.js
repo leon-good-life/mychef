@@ -4,12 +4,16 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createDish } from '../ajax';
 
 class DishForm extends React.Component {
   constructor(props){
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      show: false
+      show: false,
+      dish_name: '',
+      dish_description: ''
     };
   }
   render(){
@@ -42,22 +46,35 @@ class DishForm extends React.Component {
       borderColor: 'black'
     };
     return (
-      <div style={{padding: '5px'}}>
+      <form style={{padding: '5px'}} onSubmit={this.handleSubmit}>
         <FlatButton label={'X'} onClick={()=>{this.setState({show: false})}} style={{float: 'right'}} />
         <TextField hintText={values.dishName} 
                    floatingLabelText={values.dishName}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true}
+                   defaultValue={this.state.dish_name}
+                   onChange={(e)=>{this.setState({dish_name: e.target.value})}}
                    required />
         <TextField hintText={values.dishDescription} 
                    floatingLabelText={values.dishDescription}
                    floatingLabelFocusStyle={style}
                    underlineFocusStyle={underlineStyle}
                    fullWidth={true}
+                   defaultValue={this.state.dish_description}
+                   onChange={(e)=>{this.setState({dish_description: e.target.value})}}
                    required />
-        <FlatButton label={values.save} fullWidth={true}  onClick={()=>{alert(values.underDevelopment)}} />
-      </div>
+        <FlatButton label={values.save} fullWidth={true} type="submit" />
+      </form>
+    );
+  }
+  handleSubmit(e){
+    e.preventDefault();
+    console.log(this.state.dish_name);
+    createDish(
+      this.state.dish_name,
+      this.state.dish_description,
+      this.props.idToken
     );
   }
   getChildContext() {

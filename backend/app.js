@@ -96,23 +96,14 @@ app.get('/user', (req, res)=>{
   googleAuth(token, callback);
 });
 
-app.post('/dish', (req, res)=>{
-  // todo
+app.put('/dish', (req, res)=>{
   const token = req.get('X-Auth-Token');
-  const id = req.body.id;
   const name = req.body.name;
   const description = req.body.description;
-  const user = req.body.user;
-  const callback = (userid, payload) => {
-    const dishKey = datastore.key([
-      'Dish',
-      id
-    ]);
-    const dish = {
-      name: name,
-      description: description,
-      user: user
-    };
+
+  const callback = (user, payload) => {
+    const dishKey = datastore.key('Dish');
+    const dish = { name, description, user };
     const entity = {
       key: dishKey,
       data: dish
@@ -120,9 +111,6 @@ app.post('/dish', (req, res)=>{
     datastore.insert(entity).then(() => {
       // Task inserted successfully.
     });
-    //datastore.update(entity).then(() => {
-      // Task updated successfully.
-    //});
     res.send(JSON.stringify(dish));
   };
   googleAuth(token, callback);
@@ -145,6 +133,12 @@ app.get('/dish', (req, res)=>{
   //   });
   // };
   // googleAuth(token, callback);
+});
+
+
+app.post('/aaa', (req, res)=>{
+  console.log()
+  console.log(req.body);
 });
   
 

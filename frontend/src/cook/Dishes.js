@@ -7,7 +7,7 @@ class Dishes extends React.Component {
     return (
       <div>
         <div className="add-new-dish">
-          <DishForm lang={this.props.lang} />
+          <DishForm lang={this.props.lang} idToken={this.props.idToken} />
         </div>
       </div>
     );
