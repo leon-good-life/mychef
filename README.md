@@ -24,3 +24,8 @@ cp -R ./build/ ../backend/public/
 cd ../backend/
 npm start
 ```
+
+## Deployment to Google App Engine
+```bash
+gcloud app deploy
+```
