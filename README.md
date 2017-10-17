@@ -8,6 +8,15 @@ www.mychef.io
 
 
 # Development instructions
+## Installation
+```bash
+cd frontend
+npm i
+cd ../backend/
+npm i
+```
+
+## Running (after code changes)
 ```bash
 cd frontend
 npm run build
