@@ -59,4 +59,13 @@ function getDishes(token, callback){
   xhr.send();
 }
 
-export { updateUser, getUser, createUser, createDish, getDishes };
+function deleteDish(id, token, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('DELETE', window.location.origin + '/dish');
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('load', callback);
+  xhr.send(JSON.stringify({id}));
+}
+
+export { updateUser, getUser, createUser, createDish, getDishes, deleteDish };

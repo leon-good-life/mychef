@@ -120,20 +120,34 @@ app.get('/dish', (req, res)=>{
   const token = req.get('X-Auth-Token');
   const callback = (user, payload) => {
     const query = datastore.createQuery('Dish').filter('user', '=', user);
-    datastore.runQuery(query).then((results) => {
-      const dishes = results[0];
+    datastore.runQuery(query, (err, entities, info) => {
+      const dishes = entities.map(dish=>{
+        console.info(dish[datastore.KEY]);
+        return {
+          name: dish.name,
+          description: dish.description,
+          id: dish[datastore.KEY].id
+        };
+      });
       res.send(JSON.stringify(dishes));
     });
   };
   googleAuth(token, callback);
 });
-
-
-app.post('/aaa', (req, res)=>{
-  console.log()
-  console.log(req.body);
-});
   
+app.delete('/dish', (req, res)=>{
+  const token = req.get('X-Auth-Token');
+  const id = parseInt(req.body.id);
+  const dishKey = datastore.key({
+    path: ['Dish', id]
+  });
+  console.log('dishKey', dishKey);
+  const callback = (user, payload) => {
+    const msg = datastore.delete(dishKey)
+    res.send(JSON.stringify(msg));
+  };
+  googleAuth(token, callback);
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
