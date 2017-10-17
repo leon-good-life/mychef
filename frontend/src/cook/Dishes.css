@@ -1,8 +1,25 @@
-.add-new-dish {
+.dishes {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.dishes > div {
   width: 240px;
   height: 240px;
   border: 5px solid rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  box-sizing: border-box;
 }
+
+.add-new-dish{
+  padding: 0 !important;
+}
+
 .add-new-dish-action{
   width: 100%;
   height: 100%;

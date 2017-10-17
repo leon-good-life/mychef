@@ -46,4 +46,17 @@ function createDish(name, description, token, callback){
   xhr.send(dataToSend);
 }
 
-export { updateUser, getUser, createUser, createDish };
+function getDishes(token, callback){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', window.location.origin + '/dish');
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.addEventListener('load', () => {
+    if(xhr.status >= 200 && xhr.status < 300){
+      const data = JSON.parse(xhr.responseText);
+      callback(data);
+    }
+  });
+  xhr.send();
+}
+
+export { updateUser, getUser, createUser, createDish, getDishes };

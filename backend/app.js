@@ -117,22 +117,15 @@ app.put('/dish', (req, res)=>{
 });
 
 app.get('/dish', (req, res)=>{
-  // todo
-  
-  // const token = req.get('X-Auth-Token');
-  // const id = req.body.id;
-  // const callback = (userid, payload) => {
-  //   const dishKey = datastore.key([
-  //     'Dish',
-  //     id
-  //   ]);
-  //   datastore.get(userKey)
-  //   .then((results) => {
-  //     const entity = results[0];
-  //     res.send(JSON.stringify(entity));
-  //   });
-  // };
-  // googleAuth(token, callback);
+  const token = req.get('X-Auth-Token');
+  const callback = (user, payload) => {
+    const query = datastore.createQuery('Dish').filter('user', '=', user);
+    datastore.runQuery(query).then((results) => {
+      const dishes = results[0];
+      res.send(JSON.stringify(dishes));
+    });
+  };
+  googleAuth(token, callback);
 });
 
 
