@@ -22,6 +22,7 @@ class DishForm extends React.Component {
         dishName: 'Dish name',
         dishDescription: 'Dish description',
         save: 'Save',
+        cancel: 'Cancel',
         created: 'Dish created successfully.'
       },
       he: {
@@ -30,6 +31,7 @@ class DishForm extends React.Component {
         dishName: 'שם המאכל',
         dishDescription: 'תיאור המאכל',
         save: 'שמור',
+        cancel: 'בטל',
         created: 'המאכל נוסף בהצלחה'
       }
     };
@@ -48,8 +50,7 @@ class DishForm extends React.Component {
       borderColor: 'black'
     };
     return (
-      <form style={{padding: '5px'}} onSubmit={this.handleSubmit}>
-        <FlatButton label={'X'} onClick={()=>{this.setState({show: false})}} style={{float: 'right'}} />
+      <form style={{padding: '5px', textAlign: 'center'}} onSubmit={this.handleSubmit}>
         <TextField hintText={values.dishName} 
                    floatingLabelText={values.dishName}
                    floatingLabelFocusStyle={style}
@@ -66,7 +67,8 @@ class DishForm extends React.Component {
                    defaultValue={this.state.dish_description}
                    onChange={(e)=>{this.setState({dish_description: e.target.value})}}
                    required />
-        <FlatButton label={values.save} fullWidth={true} type="submit" />
+        <FlatButton label={values.save} type="submit" />
+        <FlatButton label={values.cancel} onClick={()=>{this.setState({show: false})}} />
       </form>
     );
   }
