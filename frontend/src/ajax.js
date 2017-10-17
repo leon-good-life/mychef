@@ -1,4 +1,4 @@
-function updateUser(name, email, telephone, address, idToken){
+function updateUser(name, email, telephone, address, idToken, callback){
   console.log('updateUser');
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
@@ -6,10 +6,7 @@ function updateUser(name, email, telephone, address, idToken){
   xhr.open('POST', window.location.origin + '/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', () => {
-    console.log(xhr.responseText);
-    alert('Contact details updated successfully.');
-  });
+  xhr.addEventListener('load', callback);
   console.log(dataToSend);
   xhr.send(dataToSend);
 }

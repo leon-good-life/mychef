@@ -16,9 +16,7 @@ class ContactInfo extends React.Component {
       error: false,
       data: null
     };
-  }
-  render() {
-    const localization = {
+    this.localization = {
       en: {
         fullName: 'Full Name',
         email: 'Email',
@@ -26,7 +24,8 @@ class ContactInfo extends React.Component {
         address: 'Address',
         update: 'Update',
         underDevelopment: 'This feature is under development',
-        loading: 'Loading...'
+        loading: 'Loading...',
+        created: 'Contact details updated successfully.'
       },
       he: {
         fullName: 'שם מלא',
@@ -35,10 +34,13 @@ class ContactInfo extends React.Component {
         address: 'כתובת',
         update: 'עדכן',
         underDevelopment: 'הפיצ׳ר הזה נמצא בפיתוח',
-        loading: 'טוען...'
+        loading: 'טוען...',
+        created: 'פרטי הקשר נשמרו בהצלחה'
       }
     };
-    const values = localization[this.props.lang];
+  }
+  render() {
+    const values = this.localization[this.props.lang];
     if(this.state.loading === true) {
       return <div className="loading">{values.loading}</div>;
     }
@@ -105,12 +107,14 @@ class ContactInfo extends React.Component {
   }
   handleSubmit(e){
     e.preventDefault();
+    const values = this.localization[this.props.lang];
     updateUser(
       this.state.data.user_filled_name,
       this.state.data.user_filled_email,
       this.state.data.user_filled_telephone,
       this.state.data.user_filled_address,
-      this.props.idToken
+      this.props.idToken,
+      () => { alert(values.created); }
     );
   }
   handleChange(name, value){
