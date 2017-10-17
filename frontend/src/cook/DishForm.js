@@ -77,7 +77,10 @@ class DishForm extends React.Component {
       this.state.dish_name,
       this.state.dish_description,
       this.props.idToken,
-      () => { alert(values.created); }
+      () => { 
+        this.props.updateDishes();
+        alert(values.created); 
+      }
     );
   }
   getChildContext() {

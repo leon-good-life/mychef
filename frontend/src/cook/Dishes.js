@@ -49,7 +49,7 @@ class Dishes extends React.Component {
       <div className="dishes">
         {dishes}
         <div className="add-new-dish">
-          <DishForm lang={this.props.lang} idToken={this.props.idToken} />
+          <DishForm lang={this.props.lang} idToken={this.props.idToken} updateDishes={this.updateDishes} />
         </div>
       </div>
     );
