@@ -15,25 +15,27 @@ class DishForm extends React.Component {
       dish_name: '',
       dish_description: ''
     };
-  }
-  render(){
-    const localization = {
+    this.localization = {
       en: {
         addNew: 'Add a new dish',
         underDevelopment: 'This feature is under development',
         dishName: 'Dish name',
         dishDescription: 'Dish description',
-        save: 'Save'
+        save: 'Save',
+        created: 'Dish created successfully.'
       },
       he: {
         addNew: 'הוסף מאכל חדש',
         underDevelopment: 'הפיצ׳ר הזה נמצא בפיתוח',
         dishName: 'שם המאכל',
         dishDescription: 'תיאור המאכל',
-        save: 'שמור'
+        save: 'שמור',
+        created: 'המאכל נוסף בהצלחה'
       }
     };
-    const values = localization[this.props.lang];
+  }
+  render(){
+    const values = this.localization[this.props.lang];
     if (this.state.show === false) {
       return (
         <div onClick={()=>{this.setState({show: true})}} className="add-new-dish-action">+ {values.addNew}</div>
@@ -70,11 +72,12 @@ class DishForm extends React.Component {
   }
   handleSubmit(e){
     e.preventDefault();
-    console.log(this.state.dish_name);
+    const values = this.localization[this.props.lang];
     createDish(
       this.state.dish_name,
       this.state.dish_description,
-      this.props.idToken
+      this.props.idToken,
+      () => { alert(values.created); }
     );
   }
   getChildContext() {
@@ -86,4 +89,4 @@ DishForm.childContextTypes = {
   muiTheme: PropTypes.object.isRequired
 };
 
-export default DishForm;  
+export default DishForm;

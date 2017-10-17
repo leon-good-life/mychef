@@ -38,16 +38,14 @@ function createUser(idToken){
   xhr.send();
 }
 
-function createDish(name, description, token){
+function createDish(name, description, token, callback){
   const data = { name, description };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', window.location.origin + '/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', function() {
-    console.log(xhr.responseText);
-  });
+  xhr.addEventListener('load', callback);
   xhr.send(dataToSend);
 }
 
