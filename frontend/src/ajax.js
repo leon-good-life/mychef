@@ -29,9 +29,8 @@ function getUser(callback, idToken){
 }
 
 function createUser(idToken){
-  console.log('createUser');
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/create-user');
+  xhr.open('PUT', window.location.origin + '/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.addEventListener('load', function() {
     console.log('Signed in as: ' + xhr.responseText);

@@ -24,7 +24,7 @@ const googleAuth = (token, callback) => {
   });
 };
 
-app.post('/create-user/', (req, res)=>{
+app.put('/user', (req, res)=>{
   const token = req.get('X-Auth-Token');
   const callback = (userid, payload) => {
     const userKey = datastore.key([
