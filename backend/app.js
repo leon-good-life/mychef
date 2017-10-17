@@ -122,7 +122,6 @@ app.get('/dish', (req, res)=>{
     const query = datastore.createQuery('Dish').filter('user', '=', user);
     datastore.runQuery(query, (err, entities, info) => {
       const dishes = entities.map(dish=>{
-        console.info(dish[datastore.KEY]);
         return {
           name: dish.name,
           description: dish.description,
@@ -141,7 +140,6 @@ app.delete('/dish', (req, res)=>{
   const dishKey = datastore.key({
     path: ['Dish', id]
   });
-  console.log('dishKey', dishKey);
   const callback = (user, payload) => {
     const msg = datastore.delete(dishKey)
     res.send(JSON.stringify(msg));
