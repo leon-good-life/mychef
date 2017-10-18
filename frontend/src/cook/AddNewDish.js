@@ -60,7 +60,7 @@ class AddNewDish extends React.Component {
       opacity: 0,
     };
     
-    return(<form style={{flexGrow:1, maxWidth:500}} onSubmit={this.handleSubmit}>
+    return(<form style={{flexGrow:1, maxWidth:500, background: 'white',padding: '20px',borderRadius: '5px'}} onSubmit={this.handleSubmit}>
         <h1>{this.values.addNew}</h1>
         <RaisedButton
                   label={this.values.img}

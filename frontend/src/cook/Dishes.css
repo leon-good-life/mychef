@@ -7,17 +7,12 @@
 }
 
 .dishes > div {
-  width: 240px;
-  height: 240px;
-  border: 5px solid rgba(0, 0, 0, 0.1);
+  width: 275px;
   margin: 20px;
-  color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  box-sizing: border-box;
 }
 
-.add-new-dish{
-  padding: 0 !important;
+.add-new-dish a {
+  text-decoration: none;
 }
 
 .add-new-dish-action{
@@ -29,8 +24,17 @@
   cursor: pointer;
   color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
 }
 
 .add-new-dish-action:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(153, 153, 153, 0.2);
 }

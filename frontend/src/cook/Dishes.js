@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './Dishes.css';
@@ -19,11 +21,13 @@ class Dishes extends React.Component {
     this.localization = {
       en: {
         delete: 'Delete',
+        edit: 'Edit',
         addNew: 'Add a new dish',
         loading: 'Loading...'
       },
       he: {
         delete: 'מחק',
+        edit: 'ערוך',
         addNew: 'הוסף מאכל חדש',
         loading: 'טוען...'
       }
@@ -31,29 +35,31 @@ class Dishes extends React.Component {
     this.values = this.localization[this.props.lang];
   }
   render(){
+    const dishComponent = (dish) => (
+      <Card key={dish.id}>
+        <CardMedia overlay={<CardTitle title={dish.name} subtitle={dish.description} />}>
+          <img src={dish.image} alt={dish.name} />
+        </CardMedia>
+        <CardText>Price: {dish.price}</CardText>
+        <CardActions>
+          <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none'}} />
+          <FlatButton label={this.values.edit} labelStyle={{textTransform: 'none'}} />
+        </CardActions>
+      </Card>
+    );
+
     let dishes = '';
     if (this.state.loading) {
       dishes = <div>{this.values.loading}</div>;
     } else {
-      dishes = this.state.data.map((dish)=>(
-        <div key={dish.id} style={{backgroundImage: 'url("'+dish.image+'")', backgroundRepeat: 'round'}}>
-          <h1>{dish.name}</h1>
-          <div>{dish.description} <span>Price: {dish.price}</span></div>
-          
-          <FlatButton 
-            label={this.values.delete} 
-            fullWidth={true} 
-            labelStyle={{textTransform: 'none'}} 
-            onClick={(e)=>{this.handleDelete(dish.id)}} />
-        </div>
-      ));
+      dishes = this.state.data.map(dishComponent);
     }
     const addNewDishPath = `/${this.props.lang}/cook/add-new-dish/`;
     return (
       <div className="dishes">
         {dishes}
         <div className="add-new-dish">
-          <Link to={addNewDishPath}>
+          <Link to={addNewDishPath} >
             <div className="add-new-dish-action">+ {this.values.addNew}</div>
           </Link>
         </div>

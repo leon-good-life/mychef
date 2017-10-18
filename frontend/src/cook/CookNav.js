@@ -11,7 +11,7 @@ class CookNav extends React.Component {
   render() {
     const localization = {
       en: {
-        logout: 'Sign Out',
+        logout: 'Sign out',
         hello: 'Hello',
         dishes: 'Dishes',
         contactInfo: 'Edit contact inforamation'
@@ -42,7 +42,7 @@ class CookNav extends React.Component {
           containerElement={<Link to={contactInfoPath} />}
           label={values.contactInfo}
           labelStyle={{textTransform: 'none'}} />
-        <RaisedButton label={values.logout} onClick={this.props.handleGoogleLogout} />
+        <RaisedButton label={values.logout} onClick={this.props.handleGoogleLogout} labelStyle={{textTransform: 'none'}} />
       </nav>
     );
   }
