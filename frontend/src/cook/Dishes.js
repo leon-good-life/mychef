@@ -23,13 +23,15 @@ class Dishes extends React.Component {
         delete: 'Delete',
         edit: 'Edit',
         addNew: 'Add a new dish',
-        loading: 'Loading...'
+        loading: 'Loading...',
+        price: 'Price:'
       },
       he: {
         delete: 'מחק',
         edit: 'ערוך',
         addNew: 'הוסף מאכל חדש',
-        loading: 'טוען...'
+        loading: 'טוען...',
+        price: 'מחיר:'
       }
     };
     this.values = this.localization[this.props.lang];
@@ -40,7 +42,7 @@ class Dishes extends React.Component {
         <CardMedia overlay={<CardTitle title={dish.name} subtitle={dish.description} />}>
           <img src={dish.image} alt={dish.name} />
         </CardMedia>
-        <CardText>Price: {dish.price}</CardText>
+        <CardText>{this.values.price} {dish.price}</CardText>
         <CardActions>
           <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none'}} />
           <FlatButton label={this.values.edit} labelStyle={{textTransform: 'none'}} />
@@ -48,16 +50,13 @@ class Dishes extends React.Component {
       </Card>
     );
 
-    let dishes = '';
     if (this.state.loading) {
-      dishes = <div>{this.values.loading}</div>;
-    } else {
-      dishes = this.state.data.map(dishComponent);
+      return <div>{this.values.loading}</div>;
     }
     const addNewDishPath = `/${this.props.lang}/cook/add-new-dish/`;
     return (
       <div className="dishes">
-        {dishes}
+        {this.state.data.map(dishComponent)}
         <div className="add-new-dish">
           <Link to={addNewDishPath} >
             <div className="add-new-dish-action">+ {this.values.addNew}</div>
