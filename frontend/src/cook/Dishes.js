@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
@@ -19,10 +20,12 @@ class Dishes extends React.Component {
     this.localization = {
       en: {
         delete: 'Delete',
+        addNew: 'Add a new dish',
         loading: 'Loading...'
       },
       he: {
         delete: 'מחק',
+        addNew: 'הוסף מאכל חדש',
         loading: 'טוען...'
       }
     };
@@ -34,7 +37,7 @@ class Dishes extends React.Component {
       dishes = <div>{this.values.loading}</div>;
     } else {
       dishes = this.state.data.map((dish)=>(
-        <div key={dish.id}>
+        <div key={dish.id} style={{backgroundImage: 'url("'+dish.image+'")', backgroundRepeat: 'round'}}>
           <h1>{dish.name}</h1>
           <div>{dish.description}</div>
           <FlatButton 
@@ -45,11 +48,14 @@ class Dishes extends React.Component {
         </div>
       ));
     }
+    const addNewDishPath = `/${this.props.lang}/cook/add-new-dish/`;
     return (
       <div className="dishes">
         {dishes}
         <div className="add-new-dish">
-          <DishForm lang={this.props.lang} idToken={this.props.idToken} updateDishes={this.updateDishes} />
+          <Link to={addNewDishPath}>
+            <div className="add-new-dish-action">+ {this.values.addNew}</div>
+          </Link>
         </div>
       </div>
     );

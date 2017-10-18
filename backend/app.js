@@ -100,10 +100,11 @@ app.put('/dish', (req, res)=>{
   const token = req.get('X-Auth-Token');
   const name = req.body.name;
   const description = req.body.description;
+  const image = req.body.image;
 
   const callback = (user, payload) => {
     const dishKey = datastore.key('Dish');
-    const dish = { name, description, user };
+    const dish = { name, description, image, user };
     const entity = {
       key: dishKey,
       data: dish
@@ -125,7 +126,8 @@ app.get('/dish', (req, res)=>{
         return {
           name: dish.name,
           description: dish.description,
-          id: dish[datastore.KEY].id
+          id: dish[datastore.KEY].id,
+          image: dish.image
         };
       });
       res.send(JSON.stringify(dishes));
