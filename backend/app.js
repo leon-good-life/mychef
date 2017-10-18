@@ -1,10 +1,21 @@
 'use strict';
 
+const format = require('util').format;
 const Datastore = require('@google-cloud/datastore');
 const datastore = Datastore();
+const GoogleStorage = require('@google-cloud/storage');
+const storage = GoogleStorage();
+const Multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
+  }
+});
 
 app.use(bodyParser.json()); // support json encoded bodies
 //app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -27,6 +38,7 @@ const googleAuth = (token, callback) => {
 app.put('/user', (req, res)=>{
   const token = req.get('X-Auth-Token');
   const callback = (userid, payload) => {
+
     const userKey = datastore.key([
       'User',
       userid
@@ -40,10 +52,17 @@ app.put('/user', (req, res)=>{
       key: userKey,
       data: user
     };
-    datastore.insert(entity).then(() => {
-      // Task inserted successfully.
-    });
-    res.send(JSON.stringify(user));
+    datastore.get(userKey)
+      .then((results) => {
+        const result = results[0];
+        console.log('results', results);
+        if (typeof results === 'undefined') {
+          datastore.insert(entity).then(() => {
+            // Task inserted successfully.
+          });
+          res.send(JSON.stringify(user));
+        }
+      });
   };
   googleAuth(token, callback);
 });
@@ -148,6 +167,38 @@ app.delete('/dish', (req, res)=>{
     const msg = datastore.delete(dishKey)
     res.send(JSON.stringify(msg));
   };
+  googleAuth(token, callback);
+});
+
+app.put('/dish-image', multer.single('file'), (req, res, next) => {
+
+  const token = req.get('X-Auth-Token');
+  const callback = (userid, payload) => {
+
+    if (!req.file) {
+      res.status(400).send('No file uploaded.');
+      return;
+    }
+
+    const bucket = storage.bucket('mychef-123.appspot.com');
+    const blob = bucket.file(req.file.originalname);
+    const blobStream = blob.createWriteStream();
+
+    blobStream.on('error', (err) => {
+      //next(err);
+      res.status(500).send('Error');
+    });
+
+    blobStream.on('finish', () => {
+      // The public URL can be used to directly access the file via HTTP.
+      const publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+      bucket.makePublic(function(err) {});    
+      res.status(201).send(publicUrl);
+    });
+
+    blobStream.end(req.file.buffer);
+  };
+
   googleAuth(token, callback);
 });
 

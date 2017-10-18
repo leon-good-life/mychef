@@ -68,4 +68,24 @@ function deleteDish(id, token, callback) {
   xhr.send(JSON.stringify({id}));
 }
 
-export { updateUser, getUser, createUser, createDish, getDishes, deleteDish };
+function uploadDishImage(data, token, progress, created, error) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', window.location.origin + '/dish-image', true);
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.upload.addEventListener('progress', function (e) {
+    if (e.lengthComputable) {
+      var percentLoaded = Math.round((e.loaded / e.total) * 100);
+      progress(percentLoaded, e.loaded, e.total);
+    }
+  });
+  xhr.addEventListener('load', function (e) {
+    if (e.target.status == 201) {
+      created(e.target.responseText);
+    } else {
+      error(e.target.status, e.target.statusText);
+    }
+  });
+  xhr.send(data);
+}
+
+export { updateUser, getUser, createUser, createDish, getDishes, deleteDish, uploadDishImage };

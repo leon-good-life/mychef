@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { createDish } from '../ajax';
+import { createDish, uploadDishImage } from '../ajax';
 
 class AddNewDish extends React.Component {
   constructor(props){
@@ -19,7 +19,9 @@ class AddNewDish extends React.Component {
       dish_description: '',
       isSaving: false,
       image: '',
-      price: ''
+      price: '',
+      isUploading: false,
+      progress: 0
     };
     this.localization = {
       en: {
@@ -68,6 +70,7 @@ class AddNewDish extends React.Component {
                   labelStyle={{textTransform: 'none'}}>
             <input type="file" style={uploadInputStyle} onChange={this.handleImgSelect} />
         </RaisedButton>
+        {this.state.isUploading ? <progress min="0" max="100" value={this.state.progress}></progress> : ''}
         <TextField hintText={this.values.dishName} 
                    floatingLabelText={this.values.dishName}
                    floatingLabelFocusStyle={{color: 'black'}}
@@ -121,6 +124,25 @@ class AddNewDish extends React.Component {
     );
   }
   handleImgSelect(e){
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append('file', file);
+    uploadDishImage(
+      formData,
+      this.props.idToken,
+      (percentLoaded, loaded, total)=>{
+        this.setState({
+          isUploading: true,
+          progress: percentLoaded
+        });
+      }, 
+      (imgUrl)=>{
+        this.setState({'image': imgUrl});
+      }, 
+      (err)=>{
+        console.log(err);
+      }
+    );
   }
   getChildContext() {
     return {muiTheme: getMuiTheme(baseTheme)};
