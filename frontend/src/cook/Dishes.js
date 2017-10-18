@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import DishForm from './DishForm';
 import './Dishes.css';
 import { getDishes, deleteDish } from '../ajax';
 
@@ -39,7 +38,8 @@ class Dishes extends React.Component {
       dishes = this.state.data.map((dish)=>(
         <div key={dish.id} style={{backgroundImage: 'url("'+dish.image+'")', backgroundRepeat: 'round'}}>
           <h1>{dish.name}</h1>
-          <div>{dish.description}</div>
+          <div>{dish.description} <span>Price: {dish.price}</span></div>
+          
           <FlatButton 
             label={this.values.delete} 
             fullWidth={true} 

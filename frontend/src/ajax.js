@@ -35,8 +35,8 @@ function createUser(idToken){
   xhr.send();
 }
 
-function createDish(name, description, image, token, callback){
-  const data = { name, description, image };
+function createDish(name, description, image, price, token, callback){
+  const data = { name, description, image, price };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', window.location.origin + '/dish');

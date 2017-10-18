@@ -101,10 +101,11 @@ app.put('/dish', (req, res)=>{
   const name = req.body.name;
   const description = req.body.description;
   const image = req.body.image;
+  const price = req.body.price;
 
   const callback = (user, payload) => {
     const dishKey = datastore.key('Dish');
-    const dish = { name, description, image, user };
+    const dish = { name, description, image, price, user };
     const entity = {
       key: dishKey,
       data: dish
@@ -127,7 +128,8 @@ app.get('/dish', (req, res)=>{
           name: dish.name,
           description: dish.description,
           id: dish[datastore.KEY].id,
-          image: dish.image
+          image: dish.image,
+          price: dish.price
         };
       });
       res.send(JSON.stringify(dishes));

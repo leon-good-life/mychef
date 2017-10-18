@@ -18,7 +18,8 @@ class AddNewDish extends React.Component {
       dish_name: '',
       dish_description: '',
       isSaving: false,
-      image: ''
+      image: '',
+      price: ''
     };
     this.localization = {
       en: {
@@ -83,12 +84,13 @@ class AddNewDish extends React.Component {
                    defaultValue={this.state.dish_description}
                    onChange={(e)=>{this.setState({dish_description: e.target.value})}}
                    required />
-        <br />
         <TextField hintText={this.values.price} 
                    floatingLabelText={this.values.price}
                    floatingLabelFocusStyle={{color: 'black'}}
                    underlineFocusStyle={{borderColor: 'black'}}
                    fullWidth={true}
+                   defaultValue={this.state.price}
+                   onChange={(e)=>{this.setState({price: e.target.value})}}
                    required />
         <RaisedButton label={this.values.save} 
                       type="submit" 
@@ -110,6 +112,7 @@ class AddNewDish extends React.Component {
       this.state.dish_name,
       this.state.dish_description,
       this.state.image,
+      this.state.price,
       this.props.idToken,
       () => { 
         this.setState({isSaving: false});
