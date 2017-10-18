@@ -55,12 +55,13 @@ app.put('/user', (req, res)=>{
     datastore.get(userKey)
       .then((results) => {
         const result = results[0];
-        console.log('results', results);
         if (typeof results === 'undefined') {
           datastore.insert(entity).then(() => {
             // Task inserted successfully.
           });
           res.send(JSON.stringify(user));
+        } else {
+          res.status(200).send("user already exists.");
         }
       });
   };
@@ -137,23 +138,69 @@ app.put('/dish', (req, res)=>{
   googleAuth(token, callback);
 });
 
+app.post('/dish', (req, res)=>{
+  const token = req.get('X-Auth-Token');
+  const name = req.body.name;
+  const description = req.body.description;
+  const image = req.body.image;
+  const price = req.body.price;
+  const id = parseInt(req.body.id);
+  const dishKey = datastore.key({
+    path: ['Dish', id]
+  });
+
+  const callback = (user, payload) => {
+    const dish = { name, description, image, price, user };
+    const entity = {
+      key: dishKey,
+      data: dish
+    };
+    datastore.update(entity).then(() => {
+      // Task inserted successfully.
+    });
+    res.send(JSON.stringify(dish));
+  };
+  googleAuth(token, callback);
+});
+
 app.get('/dish', (req, res)=>{
   const token = req.get('X-Auth-Token');
-  const callback = (user, payload) => {
-    const query = datastore.createQuery('Dish').filter('user', '=', user);
-    datastore.runQuery(query, (err, entities, info) => {
-      const dishes = entities.map(dish=>{
-        return {
-          name: dish.name,
-          description: dish.description,
-          id: dish[datastore.KEY].id,
-          image: dish.image,
-          price: dish.price
-        };
+  let callback;
+  if (req.query.hasOwnProperty('id')) {
+    const dishId = parseInt(req.query.id);
+    console.log('dishId', dishId);
+    callback = (user, payload) => {
+      console.log('dishId', dishId);
+      const dishKey = datastore.key([
+        'Dish',
+        dishId
+      ]);
+      datastore.get(dishKey).then((results) => {
+        const dish = results[0];
+        console.log('results', results);
+        // if (dish.user !== user) {
+        //   res.status(403).send('Unauthorized, Forbidden.');
+        // }
+        res.send(JSON.stringify(dish));
       });
-      res.send(JSON.stringify(dishes));
-    });
-  };
+    };
+  } else {
+    callback = (user, payload) => {
+      const query = datastore.createQuery('Dish').filter('user', '=', user);
+      datastore.runQuery(query, (err, entities, info) => {
+        const dishes = entities.map(dish=>{
+          return {
+            name: dish.name,
+            description: dish.description,
+            id: dish[datastore.KEY].id,
+            image: dish.image,
+            price: dish.price
+          };
+        });
+        res.send(JSON.stringify(dishes));
+      });
+    };
+  }
   googleAuth(token, callback);
 });
   

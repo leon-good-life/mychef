@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './Dishes.css';
@@ -37,18 +36,21 @@ class Dishes extends React.Component {
     this.values = this.localization[this.props.lang];
   }
   render(){
-    const dishComponent = (dish) => (
-      <Card key={dish.id}>
-        <CardMedia overlay={<CardTitle title={dish.name} subtitle={dish.description} />}>
-          <img src={dish.image} alt={dish.name} />
-        </CardMedia>
-        <CardText>{this.values.price} {dish.price}</CardText>
-        <CardActions>
-          <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none'}} />
-          <FlatButton label={this.values.edit} labelStyle={{textTransform: 'none'}} />
-        </CardActions>
-      </Card>
-    );
+    const dishComponent = (dish) => {
+      const editDishPath = `/${this.props.lang}/cook/edit-dish/${dish.id}/`;
+      return (
+        <Card key={dish.id}>
+          <CardMedia overlay={<CardTitle title={dish.name} subtitle={dish.description} />}>
+            <img src={dish.image} alt={dish.name} />
+          </CardMedia>
+          <CardText>{this.values.price} {dish.price}</CardText>
+          <CardActions>
+            <FlatButton label={this.values.edit} containerElement={<Link to={editDishPath} />} labelStyle={{textTransform: 'none'}} />
+            <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none'}} labelStyle={{float: 'right'}} />
+          </CardActions>
+        </Card>
+      )
+    };
 
     if (this.state.loading) {
       return <div>{this.values.loading}</div>;

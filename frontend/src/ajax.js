@@ -46,6 +46,30 @@ function createDish(name, description, image, price, token, callback){
   xhr.send(dataToSend);
 }
 
+function updateDish(id, name, description, image, price, token, callback){
+  const data = { id, name, description, image, price };
+  const dataToSend = JSON.stringify(data);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', window.location.origin + '/dish');
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('load', callback);
+  xhr.send(dataToSend);
+}
+
+function getDish(id, token, callback){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', window.location.origin + '/dish?id=' + id);
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.addEventListener('load', () => {
+    if(xhr.status >= 200 && xhr.status < 300){
+      const dish = JSON.parse(xhr.responseText);
+      callback(dish.name, dish.description, dish.image, dish.price);
+    }
+  });
+  xhr.send();
+}
+
 function getDishes(token, callback){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', window.location.origin + '/dish');
@@ -79,7 +103,7 @@ function uploadDishImage(data, token, progress, created, error) {
     }
   });
   xhr.addEventListener('load', function (e) {
-    if (e.target.status == 201) {
+    if (e.target.status === 201) {
       created(e.target.responseText);
     } else {
       error(e.target.status, e.target.statusText);
@@ -88,4 +112,4 @@ function uploadDishImage(data, token, progress, created, error) {
   xhr.send(data);
 }
 
-export { updateUser, getUser, createUser, createDish, getDishes, deleteDish, uploadDishImage };
+export { updateUser, getUser, createUser, createDish, getDishes, deleteDish, uploadDishImage, getDish, updateDish };
