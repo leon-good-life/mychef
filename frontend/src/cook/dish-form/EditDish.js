@@ -24,7 +24,7 @@ class EditDish extends React.Component {
     };
     const values = localization[this.props.lang];
     if (this.state.isLoading) {
-      return <div>{values.loading}</div>;
+      return <h1>{values.loading}</h1>;
     }
     return (
       <DishForm lang={this.props.lang} 

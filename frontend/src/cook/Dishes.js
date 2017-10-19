@@ -53,7 +53,7 @@ class Dishes extends React.Component {
     };
 
     if (this.state.loading) {
-      return <div>{this.values.loading}</div>;
+      return <h1>{this.values.loading}</h1>;
     }
     const addNewDishPath = `/${this.props.lang}/cook/add-new-dish/`;
     return (

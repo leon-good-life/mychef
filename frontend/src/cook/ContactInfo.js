@@ -42,7 +42,7 @@ class ContactInfo extends React.Component {
   render() {
     const values = this.localization[this.props.lang];
     if(this.state.loading === true) {
-      return <div className="loading">{values.loading}</div>;
+      return <h1 className="loading">{values.loading}</h1>;
     }
     const style = {
       color: 'black'

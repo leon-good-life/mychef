@@ -29,7 +29,7 @@ class Admin extends Component {
       );
     }
     if (this.state.loading) {
-      return <div>Loading...</div>;
+      return <h1>Loading...</h1>;
     }
     const users = this.state.users.map((user)=>{
       return (
