@@ -1,13 +1,10 @@
 'use strict';
-
-const format = require('util').format;
-const GoogleStorage = require('@google-cloud/storage');
-const storage = GoogleStorage();
 const Multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const db = require('./db.js');
+const storage = require('./storage.js');
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
@@ -143,32 +140,19 @@ app.delete('/dish', (req, res)=>{
 });
 
 app.put('/dish-image', multer.single('file'), (req, res, next) => {
-
   const token = req.get('X-Auth-Token');
   const callback = (userid, payload) => {
-
     if (!req.file) {
       res.status(400).send('No file uploaded.');
       return;
     }
-
-    const bucket = storage.bucket('mychef-123.appspot.com');
-    const blob = bucket.file(req.file.originalname);
-    const blobStream = blob.createWriteStream();
-
-    blobStream.on('error', (err) => {
-      //next(err);
-      res.status(500).send('Error');
+    storage.uploadDishImage(req.file.originalname, req.file.buffer, (result)=>{
+      if (result === 'ERROR') {
+        res.status(500).send('Error');
+      } else {
+        res.status(201).send(result);
+      }
     });
-
-    blobStream.on('finish', () => {
-      // The public URL can be used to directly access the file via HTTP.
-      const publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-      bucket.makePublic(function(err) {});    
-      res.status(201).send(publicUrl);
-    });
-
-    blobStream.end(req.file.buffer);
   };
 
   googleAuth(token, callback);
