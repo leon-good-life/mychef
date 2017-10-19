@@ -1,4 +1,4 @@
-function updateUser(name, email, telephone, address, idToken, callback){
+export function updateUser(name, email, telephone, address, idToken, callback){
   console.log('updateUser');
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
@@ -11,7 +11,7 @@ function updateUser(name, email, telephone, address, idToken, callback){
   xhr.send(dataToSend);
 }
 
-function getUser(callback, idToken){
+export function getUser(callback, idToken){
   console.log('getUser');
   const xhr = new XMLHttpRequest();
   xhr.open('GET', window.location.origin + '/user');
@@ -25,7 +25,7 @@ function getUser(callback, idToken){
   xhr.send();
 }
 
-function createUser(idToken){
+export function createUser(idToken){
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', window.location.origin + '/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
@@ -35,7 +35,7 @@ function createUser(idToken){
   xhr.send();
 }
 
-function createDish(name, description, image, price, token, callback){
+export function createDish(name, description, image, price, token, callback){
   const data = { name, description, image, price };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
@@ -46,7 +46,7 @@ function createDish(name, description, image, price, token, callback){
   xhr.send(dataToSend);
 }
 
-function updateDish(id, name, description, image, price, token, callback){
+export function updateDish(id, name, description, image, price, token, callback){
   const data = { id, name, description, image, price };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
@@ -57,7 +57,7 @@ function updateDish(id, name, description, image, price, token, callback){
   xhr.send(dataToSend);
 }
 
-function getDish(id, token, callback){
+export function getDish(id, token, callback){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', window.location.origin + '/dish?id=' + id);
   xhr.setRequestHeader('X-Auth-Token', token);
@@ -70,7 +70,7 @@ function getDish(id, token, callback){
   xhr.send();
 }
 
-function getDishes(token, callback){
+export function getDishes(token, callback){
   const xhr = new XMLHttpRequest();
   xhr.open('GET', window.location.origin + '/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
@@ -83,7 +83,7 @@ function getDishes(token, callback){
   xhr.send();
 }
 
-function deleteDish(id, token, callback) {
+export function deleteDish(id, token, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open('DELETE', window.location.origin + '/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
@@ -92,7 +92,7 @@ function deleteDish(id, token, callback) {
   xhr.send(JSON.stringify({id}));
 }
 
-function uploadDishImage(data, token, progress, created, error) {
+export function uploadDishImage(data, token, progress, created, error) {
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', window.location.origin + '/dish-image', true);
   xhr.setRequestHeader('X-Auth-Token', token);
@@ -111,5 +111,3 @@ function uploadDishImage(data, token, progress, created, error) {
   });
   xhr.send(data);
 }
-
-export { updateUser, getUser, createUser, createDish, getDishes, deleteDish, uploadDishImage, getDish, updateDish };
