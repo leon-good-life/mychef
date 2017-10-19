@@ -32,6 +32,7 @@ const googleAuth = (token, callback) => {
 };
 
 app.put('/user', (req, res)=>{
+  //console.log('PUT /user');
   const token = req.get('X-Auth-Token');
   const callback = (googleUserId, payload) => {
     db.getUser(googleUserId, (response) => {
@@ -48,6 +49,7 @@ app.put('/user', (req, res)=>{
 });
 
 app.post('/user', (req, res)=>{
+  //console.log('POST /user');
   const token = req.get('X-Auth-Token');
   const name = req.body.name;
   const email = req.body.email;
@@ -62,6 +64,7 @@ app.post('/user', (req, res)=>{
 });
 
 app.get('/user', (req, res)=>{
+  //console.log('GET /user');
   const token = req.get('X-Auth-Token');
   const callback = (googleUserId, payload) => {
     db.getUser(googleUserId, (response) => {
@@ -76,6 +79,7 @@ app.get('/user', (req, res)=>{
 });
 
 app.put('/dish', (req, res)=>{
+  //console.log('PUT /dish');
   const token = req.get('X-Auth-Token');
   const name = req.body.name;
   const description = req.body.description;
@@ -91,6 +95,7 @@ app.put('/dish', (req, res)=>{
 });
 
 app.post('/dish', (req, res)=>{
+  //console.log('POST /dish');
   const token = req.get('X-Auth-Token');
   const name = req.body.name;
   const description = req.body.description;
@@ -106,6 +111,7 @@ app.post('/dish', (req, res)=>{
 });
 
 app.get('/dish', (req, res)=>{
+  //console.log('GET /dish');
   const token = req.get('X-Auth-Token');
   let callback;
   if (req.query.hasOwnProperty('id')) {
@@ -129,6 +135,7 @@ app.get('/dish', (req, res)=>{
 });
   
 app.delete('/dish', (req, res)=>{
+  //console.log('DELETE /dish');
   const token = req.get('X-Auth-Token');
   const dishId = parseInt(req.body.id);
   const callback = (user, payload) => {
@@ -140,6 +147,7 @@ app.delete('/dish', (req, res)=>{
 });
 
 app.put('/dish-image', multer.single('file'), (req, res) => {
+  //console.log('PUT /dish-image');
   const token = req.get('X-Auth-Token');
   const callback = (userid, payload) => {
     if (!req.file) {
@@ -159,6 +167,7 @@ app.put('/dish-image', multer.single('file'), (req, res) => {
 });
 
 app.get('/users-admin', (req, res) => {
+  //console.log('GET /users-admin');
   const token = req.get('X-Auth-Token');
   const callback = (userId, payload) => {
     if(userId === '116208633581747511292') {
@@ -173,6 +182,7 @@ app.get('/users-admin', (req, res) => {
 });
 
 app.post('/verify-user-admin', (req, res) => {
+  //console.log('POST /users-admin');
   const token = req.get('X-Auth-Token');
   const callback = (userId, payload) => {
     if(userId === '116208633581747511292') {

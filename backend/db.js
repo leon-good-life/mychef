@@ -8,7 +8,7 @@ const datastore = Datastore();
 exports.getUser = (userId, callback) => {
   const userKey = datastore.key(['User', userId]);
   datastore.get(userKey).then((results) => {
-    if (typeof results === 'undefined') {
+    if (typeof results[0] === 'undefined') {
       callback('USER_NOT_FOUND');
     } else {
       const user = results[0];
