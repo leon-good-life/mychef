@@ -182,12 +182,13 @@ app.get('/users-admin', (req, res) => {
 });
 
 app.post('/verify-user-admin', (req, res) => {
-  //console.log('POST /users-admin');
+  //console.log('POST /verify-user-admin');
   const token = req.get('X-Auth-Token');
-  const callback = (userId, payload) => {
-    if(userId === '116208633581747511292') {
-      db.adminVerifyUser(userId, ()=>{
-        res.send('ok');
+  const userId = req.body.userId;
+  const callback = (adminId, payload) => {
+    if(adminId === '116208633581747511292') {
+      db.adminVerifyUser(userId, (user)=>{
+        res.send(user);
       });
     } else {
       res.status(401).send('Unauthorized');

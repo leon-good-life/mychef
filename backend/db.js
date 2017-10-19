@@ -17,46 +17,13 @@ exports.getUser = (userId, callback) => {
   });
 };
 
-exports.adminGetUsers = (callback) => {
-  const query = datastore.createQuery('User');
-  datastore.runQuery(query, (err, entities, info) => {
-    const users = entities.map(user=>{
-      return {
-        id: user[datastore.KEY].id,
-        google_user_email: user.google_user_email,
-        google_user_picture: user.google_user_picture,
-        google_user_name: user.google_user_name,
-        user_filled_name: user.user_filled_name,
-        user_filled_email: user.user_filled_email,
-        user_filled_telephone: user.user_filled_telephone,
-        user_filled_address: user.user_filled_address
-      };
-    });
-    callback(JSON.stringify(users));
-  });
-};
-
-exports.adminVerifyUser = (userId, callback) => {
-  const userKey = datastore.key(['User', userId]);
-  datastore.get(userKey).then((results) => {
-    let user = results[0];
-    user.verified = true;
-    const entity = {
-      key: userKey,
-      data: user
-    };
-    datastore.update(entity).then(() => {
-      callback(JSON.stringify(user));
-    });
-  });
-};
-
 exports.createUser = (googleUserId, payload, callback) => {
   const userKey = datastore.key(['User', googleUserId]);
   const user = {
     google_user_email: payload['email'],
     google_user_picture: payload['picture'],
-    google_user_name: payload['name']
+    google_user_name: payload['name'],
+    verified: false
   };
   const entity = {
     key: userKey,
@@ -69,21 +36,22 @@ exports.createUser = (googleUserId, payload, callback) => {
 
 exports.updateUser = (userId, payload, name, email, telephone, address, callback) => {
   const userKey = datastore.key(['User', userId]);
-  const user = {
-    google_user_email: payload['email'],
-    google_user_picture: payload['picture'],
-    google_user_name: payload['name'],
-    user_filled_name: name,
-    user_filled_email: email,
-    user_filled_telephone: telephone,
-    user_filled_address: address
-  };
-  const entity = {
-    key: userKey,
-    data: user
-  };
-  datastore.update(entity).then(() => {
-    callback(JSON.stringify(user));
+  datastore.get(userKey).then((results) => {
+    let user = results[0];
+    user.google_user_email = payload['email'];
+    user.google_user_picture = payload['picture'];
+    user.google_user_name = payload['name'];
+    user.user_filled_name = name;
+    user.user_filled_email = email;
+    user.user_filled_telephone = telephone;
+    user.user_filled_address = address;
+    const entity = {
+      key: userKey,
+      data: user
+    };
+    datastore.update(entity).then(() => {
+      callback(JSON.stringify(user));
+    });
   });
 };
 
@@ -106,7 +74,7 @@ exports.getDishes = (userId, callback) => {
       return {
         name: dish.name,
         description: dish.description,
-        id: dish[datastore.KEY].id,
+        id: dish[datastore.KEY].id || dish[datastore.KEY].name,
         image: dish.image,
         price: dish.price
       };
@@ -143,4 +111,45 @@ exports.deleteDish = (dishId, callback) => {
   const dishKey = datastore.key({path: ['Dish', dishId]});
   const msg = datastore.delete(dishKey);
   callback(JSON.stringify(msg));
+};
+
+/*---------------
+    Admin
+---------------*/
+
+exports.adminGetUsers = (callback) => {
+  //console.log('db adminGetUsers');
+  const query = datastore.createQuery('User');
+  datastore.runQuery(query, (err, entities, info) => {
+    const users = entities.map(user=>{
+      return {
+        id: user[datastore.KEY].name,
+        google_user_email: user.google_user_email,
+        google_user_picture: user.google_user_picture,
+        google_user_name: user.google_user_name,
+        user_filled_name: user.user_filled_name,
+        user_filled_email: user.user_filled_email,
+        user_filled_telephone: user.user_filled_telephone,
+        user_filled_address: user.user_filled_address,
+        verified: user.verified
+      };
+    });
+    callback(JSON.stringify(users));
+  });
+};
+
+exports.adminVerifyUser = (userId, callback) => {
+  //console.log('db adminVerifyUser');
+  const userKey = datastore.key(['User', userId]);
+  datastore.get(userKey).then((results) => {
+    let user = results[0];
+    user.verified = true;
+    const entity = {
+      key: userKey,
+      data: user
+    };
+    datastore.update(entity).then(() => {
+      callback(JSON.stringify(user));
+    });
+  });
 };

@@ -128,6 +128,7 @@ export function adminVerifyUser(userId, token, callback){
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
   xhr.open('POST', window.location.origin + '/verify-user-admin');
+  xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.addEventListener('load', callback);
   xhr.send(dataToSend);

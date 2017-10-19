@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { adminGetUsers, adminVerifyUser } from '../ajax';
 import GoogleLogin from 'react-google-login';
 import './admin.css';
+import PropTypes from 'prop-types';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Toggle from 'material-ui/Toggle';
 
 class Admin extends Component {
   constructor(props){
     super(props);
+    this.handleToggle = this.handleToggle.bind(this);
     this.state = {
       loading: true,
       users: []
@@ -36,16 +41,18 @@ class Admin extends Component {
           <td>{user.user_filled_email}</td>
           <td>{user.user_filled_telephone}</td>
           <td>{user.user_filled_address}</td>
-          <td><button>Verify user</button></td>
+          <td><Toggle toggled={user.verified} 
+                      onToggle={(e, isInputChecked) => {this.handleToggle(user.id, isInputChecked);}} 
+                      label="Verify user" /></td>
         </tr>
       );
     });
     return (
       <table>
         <tr>
-          <th>Email<br />(from Google Account)</th>
-          <th>Profile Picture<br />(from Google Account)</th>
-          <th>User Name<br />(from Google Account)</th>
+          <th>Email<br />(Google Account)</th>
+          <th>Profile Picture<br />(Google Account)</th>
+          <th>User Name<br />(Google Account)</th>
           <th>Name</th>
           <th>Email</th>
           <th>Telephone</th>
@@ -57,14 +64,37 @@ class Admin extends Component {
     );
   }
   componentDidMount(){
-    adminGetUsers(this.props.idToken, (users) => {
-      console.log(users);
-      this.setState({
-        users,
-        loading: false
+    if(this.props.isLoggedIn) {
+      adminGetUsers(this.props.idToken, (users) => {
+        this.setState({
+          users,
+          loading: false
+        });
       });
-    });
+    }
+  }
+  handleToggle(userId, isInputChecked){
+    console.log('userId', userId);
+    if(isInputChecked){
+      adminVerifyUser(userId, this.props.idToken, ()=>{
+        adminGetUsers(this.props.idToken, (users) => {
+          this.setState({
+            users,
+            loading: false
+          });
+        });
+      });
+    }
+  }
+  getChildContext() {
+    return {
+      muiTheme: getMuiTheme(baseTheme)
+    };
   }
 }
+
+Admin.childContextTypes = {
+  muiTheme: PropTypes.object.isRequired
+};
 
 export default Admin;
