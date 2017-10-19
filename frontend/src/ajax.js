@@ -1,5 +1,4 @@
 export function updateUser(name, email, telephone, address, idToken, callback){
-  console.log('updateUser');
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
@@ -7,7 +6,6 @@ export function updateUser(name, email, telephone, address, idToken, callback){
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
-  console.log(dataToSend);
   xhr.send(dataToSend);
 }
 
@@ -108,4 +106,29 @@ export function uploadDishImage(data, token, progress, created, error) {
     }
   });
   xhr.send(data);
+}
+
+export function adminGetUsers(token, callback){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', window.location.origin + '/users-admin');
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.addEventListener('load', (e) => {
+    if(xhr.status >= 200 && xhr.status < 300){
+      const data = JSON.parse(xhr.responseText);
+      callback(data);
+    } else {
+      callback([]);
+    }
+  });
+  xhr.send();
+}
+
+export function adminVerifyUser(userId, token, callback){
+  const data = { userId };
+  const dataToSend = JSON.stringify(data);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', window.location.origin + '/verify-user-admin');
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.addEventListener('load', callback);
+  xhr.send(dataToSend);
 }

@@ -17,6 +17,40 @@ exports.getUser = (userId, callback) => {
   });
 };
 
+exports.adminGetUsers = (callback) => {
+  const query = datastore.createQuery('User');
+  datastore.runQuery(query, (err, entities, info) => {
+    const users = entities.map(user=>{
+      return {
+        id: user[datastore.KEY].id,
+        google_user_email: user.google_user_email,
+        google_user_picture: user.google_user_picture,
+        google_user_name: user.google_user_name,
+        user_filled_name: user.user_filled_name,
+        user_filled_email: user.user_filled_email,
+        user_filled_telephone: user.user_filled_telephone,
+        user_filled_address: user.user_filled_address
+      };
+    });
+    callback(JSON.stringify(users));
+  });
+};
+
+exports.adminVerifyUser = (userId, callback) => {
+  const userKey = datastore.key(['User', userId]);
+  datastore.get(userKey).then((results) => {
+    let user = results[0];
+    user.verified = true;
+    const entity = {
+      key: userKey,
+      data: user
+    };
+    datastore.update(entity).then(() => {
+      callback(JSON.stringify(user));
+    });
+  });
+};
+
 exports.createUser = (googleUserId, payload, callback) => {
   const userKey = datastore.key(['User', googleUserId]);
   const user = {

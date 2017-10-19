@@ -139,7 +139,7 @@ app.delete('/dish', (req, res)=>{
   googleAuth(token, callback);
 });
 
-app.put('/dish-image', multer.single('file'), (req, res, next) => {
+app.put('/dish-image', multer.single('file'), (req, res) => {
   const token = req.get('X-Auth-Token');
   const callback = (userid, payload) => {
     if (!req.file) {
@@ -155,6 +155,34 @@ app.put('/dish-image', multer.single('file'), (req, res, next) => {
     });
   };
 
+  googleAuth(token, callback);
+});
+
+app.get('/users-admin', (req, res) => {
+  const token = req.get('X-Auth-Token');
+  const callback = (userId, payload) => {
+    if(userId === '116208633581747511292') {
+      db.adminGetUsers((users)=>{
+        res.send(users);
+      });
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  };
+  googleAuth(token, callback);
+});
+
+app.post('/verify-user-admin', (req, res) => {
+  const token = req.get('X-Auth-Token');
+  const callback = (userId, payload) => {
+    if(userId === '116208633581747511292') {
+      db.adminVerifyUser(userId, ()=>{
+        res.send('ok');
+      });
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  };
   googleAuth(token, callback);
 });
 
