@@ -19,17 +19,23 @@ class Admin extends Component {
   render() {
     if(!this.props.isLoggedIn) {
       return (
-        <GoogleLogin
-          clientId="377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com"
-          buttonText="Login with Google"
-          onSuccess={this.props.handleGoogleLogin}
-          onFailure={this.props.handleGoogleLogin}
-          isSignedIn={true}
-          className="google-login" />
+        <div className="admin-container">
+          <GoogleLogin
+            clientId="377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com"
+            buttonText="Login with Google"
+            onSuccess={this.props.handleGoogleLogin}
+            onFailure={this.props.handleGoogleLogin}
+            isSignedIn={true}
+            className="google-login" />
+        </div>
       );
     }
     if (this.state.loading) {
-      return <h1>Loading...</h1>;
+      return (
+        <div className="admin-container">
+          <h1>Loading...</h1>
+        </div>
+      );
     }
     const users = this.state.users.map((user)=>{
       return (
@@ -42,25 +48,27 @@ class Admin extends Component {
           <td>{user.user_filled_telephone}</td>
           <td>{user.user_filled_address}</td>
           <td><Toggle toggled={user.verified} 
-                      onToggle={(e, isInputChecked) => {this.handleToggle(user.id, isInputChecked);}} 
-                      label="Verify user" /></td>
+                      onToggle={(e, isInputChecked) => {this.handleToggle(user.id, isInputChecked);}} /></td>
         </tr>
       );
     });
     return (
-      <table>
-        <tr>
-          <th>Email<br />(Google Account)</th>
-          <th>Profile Picture<br />(Google Account)</th>
-          <th>User Name<br />(Google Account)</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Telephone</th>
-          <th>Address</th>
-          <th>Verify user</th>
-        </tr>
-        {users}
-      </table>
+      <div className="admin-container">
+        <h1>Admin Panel</h1>
+        <table>
+          <tr>
+            <th>Email<br />(Google Account)</th>
+            <th>Profile Picture<br />(Google Account)</th>
+            <th>User Name<br />(Google Account)</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Address</th>
+            <th>Verify user</th>
+          </tr>
+          {users}
+        </table>
+      </div>
     );
   }
   componentDidMount(){
