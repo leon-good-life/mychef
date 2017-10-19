@@ -46,7 +46,7 @@ class Dishes extends React.Component {
           <CardText>{this.values.price} {dish.price}</CardText>
           <CardActions>
             <FlatButton label={this.values.edit} containerElement={<Link to={editDishPath} />} labelStyle={{textTransform: 'none'}} />
-            <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none'}} labelStyle={{float: 'right'}} />
+            <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none', float: 'right'}} />
           </CardActions>
         </Card>
       )
