@@ -8,6 +8,7 @@
 
 .dishes > div {
   width: 275px;
+  min-height: 275px;
   margin: 20px;
 }
 
