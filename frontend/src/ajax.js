@@ -96,13 +96,11 @@ export function uploadDishImage(data, token, progress, created, error) {
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', window.location.origin + '/dish-image', true);
   xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.upload.addEventListener('progress', function (e) {
-    if (e.lengthComputable) {
-      var percentLoaded = Math.round((e.loaded / e.total) * 100);
-      progress(percentLoaded, e.loaded, e.total);
-    }
-  });
-  xhr.addEventListener('load', function (e) {
+  xhr.upload.addEventListener('loadstart', e => progress(parseInt((e.loaded / e.total) * 100)));
+  xhr.upload.addEventListener('progress', e => progress(parseInt((e.loaded / e.total) * 100)));
+  xhr.upload.addEventListener('load', e => progress(parseInt((e.loaded / e.total) * 100)));
+  xhr.addEventListener('load', (e) => {
+    console.log('xhr.load', e);
     if (e.target.status === 201) {
       created(e.target.responseText);
     } else {

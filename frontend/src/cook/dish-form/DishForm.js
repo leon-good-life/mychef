@@ -59,6 +59,7 @@ class EditDish extends React.Component {
         style={{flexGrow:1, maxWidth:500, background: 'white',padding: '20px',borderRadius: '5px'}} 
         onSubmit={(e)=>this.props.handleSubmit(e, this.state.dishName, this.state.dishDescription, this.state.dishImage, this.state.dishPrice)}>
           <h1>{this.props.h1}</h1>
+          {this.state.dishImage!=='' ? <img src={this.state.dishImage} alt={this.state.dishName} style={{width: '100px', float: 'left'}} /> : ''}
           <RaisedButton
                     label={values.img}
                     labelPosition="before"
@@ -67,6 +68,7 @@ class EditDish extends React.Component {
                     labelStyle={{textTransform: 'none'}}>
               <input type="file" style={uploadInputStyle} onChange={this.handleImgSelect} />
           </RaisedButton>
+          <br />
           {this.state.isUploading ? <progress min="0" max="100" value={this.state.progress}></progress> : ''}
           <TextField hintText={values.dishName} 
                     floatingLabelText={values.dishName}
@@ -110,10 +112,10 @@ class EditDish extends React.Component {
     uploadDishImage(
       formData,
       this.props.idToken,
-      (percentLoaded, loaded, total)=>{
+      (progress)=>{
         this.setState({
           isUploading: true,
-          progress: percentLoaded
+          progress
         });
       }, 
       (imgUrl)=>{
