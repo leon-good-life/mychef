@@ -22,6 +22,8 @@ class Dashboard extends React.Component {
             <Route path="/:lang/cook/add-new-dish/" component={addNewDish} />
             <Route path="/:lang/cook/edit-dish/:dishId/" component={editDish} />
             <Route path="/:lang/cook/" component={contactInfo} />
+            <Route path="/:lang/" component={contactInfo} />
+            <Route path="/" component={contactInfo} />
           </Switch>
         </div>
       </div>
