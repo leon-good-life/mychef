@@ -38,6 +38,7 @@ class Dishes extends React.Component {
   render(){
     const dishComponent = (dish) => {
       const editDishPath = `/${this.props.lang}/cook/edit-dish/${dish.id}/`;
+      const deleteDishPath = `/${this.props.lang}/cook/confirm-delete/${dish.id}/`;
       return (
         <Card key={dish.id}>
           <CardMedia overlay={<CardTitle title={dish.name} subtitle={dish.description} />}>
@@ -46,7 +47,7 @@ class Dishes extends React.Component {
           <CardText>{this.values.price} {dish.price}</CardText>
           <CardActions>
             <FlatButton label={this.values.edit} containerElement={<Link to={editDishPath} />} labelStyle={{textTransform: 'none'}} />
-            <FlatButton label={this.values.delete} onClick={(e)=>{this.handleDelete(dish.id)}} labelStyle={{textTransform: 'none', float: 'right'}} />
+            <FlatButton label={this.values.delete} containerElement={<Link to={deleteDishPath} />} labelStyle={{textTransform: 'none'}} />
           </CardActions>
         </Card>
       )
