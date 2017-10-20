@@ -1,3 +1,7 @@
+/*---------------
+    Users
+---------------*/
+
 export function updateUser(name, email, telephone, address, idToken, callback){
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
@@ -32,6 +36,10 @@ export function createUser(idToken){
   });
   xhr.send();
 }
+
+/*---------------
+    Dishes
+---------------*/
 
 export function createDish(name, description, image, price, token, callback){
   const data = { name, description, image, price };
@@ -107,6 +115,21 @@ export function uploadDishImage(data, token, progress, created, error) {
   });
   xhr.send(data);
 }
+
+export function updateAvailability(id, quantity, time, token, callback) {
+  const data = { id, quantity, time };
+  const dataToSend = JSON.stringify(data);
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', window.location.origin + '/update-availability', true);
+  xhr.setRequestHeader('X-Auth-Token', token);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('load', callback);
+  xhr.send(data);
+}
+
+/*---------------
+    Admin
+---------------*/
 
 export function adminGetUsers(token, callback){
   const xhr = new XMLHttpRequest();

@@ -113,6 +113,21 @@ exports.deleteDish = (dishId, callback) => {
   callback(JSON.stringify(msg));
 };
 
+exports.updateAvailability = (id, quantity , time, callback) => {
+  const dishKey = datastore.key({path: ['Dish', id]});
+  getDish(id, (dish)=>{
+    dish.quantity = quantity;
+    dish.time = time;
+    const entity = {
+      key: dishKey,
+      data: dish
+    };
+    datastore.update(entity).then(() => {
+      callback(JSON.stringify(dish));
+    });
+  });
+};
+
 /*---------------
     Admin
 ---------------*/

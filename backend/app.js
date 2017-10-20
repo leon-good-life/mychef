@@ -31,6 +31,10 @@ const googleAuth = (token, callback) => {
   });
 };
 
+/*---------------
+    Users
+---------------*/
+
 app.put('/user', (req, res)=>{
   //console.log('PUT /user');
   const token = req.get('X-Auth-Token');
@@ -77,6 +81,10 @@ app.get('/user', (req, res)=>{
   };
   googleAuth(token, callback);
 });
+
+/*---------------
+    Dishes
+---------------*/
 
 app.put('/dish', (req, res)=>{
   //console.log('PUT /dish');
@@ -165,6 +173,27 @@ app.put('/dish-image', multer.single('file'), (req, res) => {
 
   googleAuth(token, callback);
 });
+
+app.post('/dish-availability', (req, res)=>{
+  //console.log('POST /dish-availability');
+  const token = req.get('X-Auth-Token');
+  const callback = (userId, payload) => {
+    db.getUser(userId, (user)=>{
+      if (user.verified === true) {
+        db.updateAvailability(dishId, quantity, time, ()=>{
+          res.send('ok');
+        });
+      } else {
+        res.status(401).send('Unauthorized');
+      }
+    });
+  };
+  googleAuth(token, callback);
+});
+
+/*---------------
+    Admin
+---------------*/
 
 app.get('/users-admin', (req, res) => {
   //console.log('GET /users-admin');
