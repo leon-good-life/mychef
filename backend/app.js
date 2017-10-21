@@ -13,217 +13,170 @@ const multer = Multer({
   }
 });
 
-app.use(bodyParser.json()); // support json encoded bodies
-//app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json());
 
 app.use('/', express.static('public'));
-app.use('/*/*/', express.static('public'));
 
-const googleAuth = (token, callback) => {
+/*--------------------
+    Authentication
+--------------------*/
+
+let googleUserId, payload;
+
+app.use('/rest/*', (req, res, next)=>{
+  console.log('app.use /rest/*');
+  const token = req.get('X-Auth-Token');
   const CLIENT_ID = '377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com'; // public
   const GoogleAuth = require('google-auth-library');
   const auth = new GoogleAuth;
   const client = new auth.OAuth2(CLIENT_ID, '', '');
   client.verifyIdToken(token, CLIENT_ID, (e, login)=>{
-    const payload = login.getPayload();
-    const userid = payload['sub'];
-    callback(userid, payload);
+    payload = login.getPayload();
+    googleUserId = payload['sub'];
+    next();
   });
-};
+});
 
 /*---------------
     Users
 ---------------*/
 
-app.put('/user', (req, res)=>{
-  //console.log('PUT /user');
-  const token = req.get('X-Auth-Token');
-  const callback = (googleUserId, payload) => {
-    db.getUser(googleUserId, (response) => {
-      if (response === 'USER_NOT_FOUND') {
-        db.createUser(googleUserId, payload, (user) => {
-          res.send(JSON.stringify(user));
-        });
-      } else {
-        res.status(200).send("user already exists.");
-      }
-    });
-  };
-  googleAuth(token, callback);
+app.put('/rest/user', (req, res)=>{
+  console.log('PUT /rest/user');
+  db.getUser(googleUserId, (response) => {
+    if (response === 'USER_NOT_FOUND') {
+      db.createUser(googleUserId, payload, (user) => {
+        res.send(JSON.stringify(user));
+      });
+    } else {
+      res.status(200).send("user already exists.");
+    }
+  });
 });
 
-app.post('/user', (req, res)=>{
-  //console.log('POST /user');
-  const token = req.get('X-Auth-Token');
+app.post('/rest/user', (req, res)=>{
+  console.log('POST /rest/user');
   const name = req.body.name;
   const email = req.body.email;
   const telephone = req.body.telephone;
   const address = req.body.address;
-  const callback = (userid, payload) => {
-    db.updateUser(userid, payload, name, email, telephone, address, (user) => {
-      res.send(JSON.stringify(user));
-    });
-  };
-  googleAuth(token, callback);
+  db.updateUser(googleUserId, payload, name, email, telephone, address, (user) => {
+    res.send(JSON.stringify(user));
+  });
 });
 
-app.get('/user', (req, res)=>{
-  //console.log('GET /user');
-  const token = req.get('X-Auth-Token');
-  const callback = (googleUserId, payload) => {
-    db.getUser(googleUserId, (response) => {
-      if (response === 'USER_NOT_FOUND') {
-        res.status(404).send(response);
-      } else {
-        res.send(response);
-      }
-    });
-  };
-  googleAuth(token, callback);
+app.get('/rest/user', (req, res)=>{
+  console.log('GET /rest/user');
+  db.getUser(googleUserId, (response) => {
+    if (response === 'USER_NOT_FOUND') {
+      res.status(404).send(response);
+    } else {
+      res.send(response);
+    }
+  });
 });
 
 /*---------------
     Dishes
 ---------------*/
 
-app.put('/dish', (req, res)=>{
-  //console.log('PUT /dish');
-  const token = req.get('X-Auth-Token');
+app.put('/rest/dish', (req, res)=>{
+  console.log('PUT /rest/dish');
   const name = req.body.name;
   const description = req.body.description;
   const image = req.body.image;
   const price = req.body.price;
 
-  const callback = (user, payload) => {
-    db.createDish(name, description, image, price, user, (dish) => {
-      res.send(dish);
-    });
-  };
-  googleAuth(token, callback);
+  db.createDish(name, description, image, price, googleUserId, (dish) => {
+    res.send(dish);
+  });
 });
 
-app.post('/dish', (req, res)=>{
-  //console.log('POST /dish');
-  const token = req.get('X-Auth-Token');
+app.post('/rest/dish', (req, res)=>{
+  console.log('POST /rest/dish');
   const name = req.body.name;
   const description = req.body.description;
   const image = req.body.image;
   const price = req.body.price;
   const id = parseInt(req.body.id);
-  const callback = (user, payload) => {
-    db.updateDish(id, name, description, image, price, user, (dish) => {
-      res.send(dish);
-    });
-  };
-  googleAuth(token, callback);
+  db.updateDish(id, name, description, image, price, googleUserId, (dish) => {
+    res.send(dish);
+  });
 });
 
-app.get('/dish', (req, res)=>{
-  //console.log('GET /dish');
-  const token = req.get('X-Auth-Token');
-  let callback;
+app.get('/rest/dish', (req, res)=>{
+  console.log('GET /rest/dish');
   if (req.query.hasOwnProperty('id')) {
     const dishId = parseInt(req.query.id);
-    callback = (user, payload) => {
-      db.getDish(dishId, (dish) => {
-        // if (dish.user !== user) {
-        //   res.status(403).send('Unauthorized, Forbidden.');
-        // }
-        res.send(dish);
-      });
-    };
+    db.getDish(dishId, (dish) => {
+      // if (dish.user !== user) {
+      //   res.status(403).send('Unauthorized, Forbidden.');
+      // }
+      res.send(dish);
+    });
   } else {
-    callback = (user, payload) => {
-      db.getDishes(user, (dishes)=>{
-        res.send(dishes);
-      });
-    };
+    db.getDishes(googleUserId, (dishes)=>{
+      res.send(dishes);
+    });
   }
-  googleAuth(token, callback);
 });
   
-app.delete('/dish', (req, res)=>{
-  //console.log('DELETE /dish');
-  const token = req.get('X-Auth-Token');
+app.delete('/rest/dish', (req, res)=>{
   const dishId = parseInt(req.body.id);
-  const callback = (user, payload) => {
-    db.deleteDish(dishId, (msg) => {
-      res.send(msg);
-    });
-  };
-  googleAuth(token, callback);
+  db.deleteDish(dishId, (msg) => {
+    res.send(msg);
+  });
 });
 
-app.put('/dish-image', multer.single('file'), (req, res) => {
-  //console.log('PUT /dish-image');
-  const token = req.get('X-Auth-Token');
-  const callback = (userid, payload) => {
-    if (!req.file) {
-      res.status(400).send('No file uploaded.');
-      return;
+app.put('/rest/dish-image', multer.single('file'), (req, res) => {
+  if (!req.file) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
+  storage.uploadDishImage(req.file.originalname, req.file.buffer, (result)=>{
+    if (result === 'ERROR') {
+      res.status(500).send('Error');
+    } else {
+      res.status(201).send(result);
     }
-    storage.uploadDishImage(req.file.originalname, req.file.buffer, (result)=>{
-      if (result === 'ERROR') {
-        res.status(500).send('Error');
-      } else {
-        res.status(201).send(result);
-      }
-    });
-  };
-
-  googleAuth(token, callback);
+  });
 });
 
-app.post('/dish-availability', (req, res)=>{
-  //console.log('POST /dish-availability');
-  const token = req.get('X-Auth-Token');
-  const callback = (userId, payload) => {
-    db.getUser(userId, (user)=>{
-      if (user.verified === true) {
-        db.updateAvailability(dishId, quantity, time, ()=>{
-          res.send('ok');
-        });
-      } else {
-        res.status(401).send('Unauthorized');
-      }
-    });
-  };
-  googleAuth(token, callback);
+app.post('/rest/dish-availability', (req, res)=>{
+  db.getUser(googleUserId, (user)=>{
+    if (user.verified === true) {
+      db.updateAvailability(dishId, quantity, time, ()=>{
+        res.send('ok');
+      });
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  });
 });
 
 /*---------------
     Admin
 ---------------*/
 
-app.get('/users-admin', (req, res) => {
-  //console.log('GET /users-admin');
-  const token = req.get('X-Auth-Token');
-  const callback = (userId, payload) => {
-    if(userId === '116208633581747511292') {
-      db.adminGetUsers((users)=>{
-        res.send(users);
-      });
-    } else {
-      res.status(401).send('Unauthorized');
-    }
-  };
-  googleAuth(token, callback);
+app.get('/rest/users-admin', (req, res) => {
+  if(googleUserId === '116208633581747511292') {
+    db.adminGetUsers((users)=>{
+      res.send(users);
+    });
+  } else {
+    res.status(401).send('Unauthorized');
+  }
 });
 
-app.post('/verify-user-admin', (req, res) => {
-  //console.log('POST /verify-user-admin');
-  const token = req.get('X-Auth-Token');
+app.post('/rest/verify-user-admin', (req, res) => {
   const userId = req.body.userId;
-  const callback = (adminId, payload) => {
-    if(adminId === '116208633581747511292') {
-      db.adminVerifyUser(userId, (user)=>{
-        res.send(user);
-      });
-    } else {
-      res.status(401).send('Unauthorized');
-    }
-  };
-  googleAuth(token, callback);
+  if(googleUserId === '116208633581747511292') {
+    db.adminVerifyUser(userId, (user)=>{
+      res.send(user);
+    });
+  } else {
+    res.status(401).send('Unauthorized');
+  }
 });
 
 const PORT = process.env.PORT || 8080;

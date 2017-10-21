@@ -6,7 +6,7 @@ export function updateUser(name, email, telephone, address, idToken, callback){
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/user');
+  xhr.open('POST', window.location.origin + '/rest/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
@@ -16,7 +16,7 @@ export function updateUser(name, email, telephone, address, idToken, callback){
 export function getUser(callback, idToken){
   console.log('getUser');
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/user');
+  xhr.open('GET', window.location.origin + '/rest/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.addEventListener('load', () => {
     if(xhr.status >= 200 && xhr.status < 300){
@@ -29,7 +29,7 @@ export function getUser(callback, idToken){
 
 export function createUser(idToken){
   const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/user');
+  xhr.open('PUT', window.location.origin + '/rest/user');
   xhr.setRequestHeader('X-Auth-Token', idToken);
   xhr.addEventListener('load', function() {
     console.log('Signed in as: ' + xhr.responseText);
@@ -45,7 +45,7 @@ export function createDish(name, description, image, price, token, callback){
   const data = { name, description, image, price };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/dish');
+  xhr.open('PUT', window.location.origin + '/rest/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
@@ -56,7 +56,7 @@ export function updateDish(id, name, description, image, price, token, callback)
   const data = { id, name, description, image, price };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/dish');
+  xhr.open('POST', window.location.origin + '/rest/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
@@ -65,7 +65,7 @@ export function updateDish(id, name, description, image, price, token, callback)
 
 export function getDish(id, token, callback){
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/dish?id=' + id);
+  xhr.open('GET', window.location.origin + '/rest/dish?id=' + id);
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.addEventListener('load', () => {
     if(xhr.status >= 200 && xhr.status < 300){
@@ -78,7 +78,7 @@ export function getDish(id, token, callback){
 
 export function getDishes(token, callback){
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/dish');
+  xhr.open('GET', window.location.origin + '/rest/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.addEventListener('load', () => {
     if(xhr.status >= 200 && xhr.status < 300){
@@ -91,7 +91,7 @@ export function getDishes(token, callback){
 
 export function deleteDish(id, token, callback) {
   const xhr = new XMLHttpRequest();
-  xhr.open('DELETE', window.location.origin + '/dish');
+  xhr.open('DELETE', window.location.origin + '/rest/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
@@ -100,7 +100,7 @@ export function deleteDish(id, token, callback) {
 
 export function uploadDishImage(data, token, progress, created, error) {
   const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/dish-image', true);
+  xhr.open('PUT', window.location.origin + '/rest/dish-image', true);
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.upload.addEventListener('loadstart', e => progress(parseInt((e.loaded / e.total) * 100)));
   xhr.upload.addEventListener('progress', e => progress(parseInt((e.loaded / e.total) * 100)));
@@ -120,7 +120,7 @@ export function updateAvailability(id, quantity, time, token, callback) {
   const data = { id, quantity, time };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/update-availability', true);
+  xhr.open('POST', window.location.origin + '/rest/update-availability', true);
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.addEventListener('load', callback);
@@ -133,7 +133,7 @@ export function updateAvailability(id, quantity, time, token, callback) {
 
 export function adminGetUsers(token, callback){
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/users-admin');
+  xhr.open('GET', window.location.origin + '/rest/users-admin');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.addEventListener('load', (e) => {
     if(xhr.status >= 200 && xhr.status < 300){
@@ -150,7 +150,7 @@ export function adminVerifyUser(userId, token, callback){
   const data = { userId };
   const dataToSend = JSON.stringify(data);
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/verify-user-admin');
+  xhr.open('POST', window.location.origin + '/rest/verify-user-admin');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.addEventListener('load', callback);
