@@ -1,11 +1,12 @@
 'use strict';
-const Multer = require('multer');
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const db = require('./db.js');
-const storage = require('./storage.js');
 
+const express = require('express');
+const app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const Multer = require('multer');
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -13,7 +14,8 @@ const multer = Multer({
   }
 });
 
-app.use(bodyParser.json());
+const db = require('./db.js');
+const storage = require('./storage.js');
 
 app.use('/', express.static('public'));
 
@@ -24,7 +26,6 @@ app.use('/', express.static('public'));
 let googleUserId, payload;
 
 app.use('/rest/*', (req, res, next)=>{
-  console.log('app.use /rest/*');
   const token = req.get('X-Auth-Token');
   const CLIENT_ID = '377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com'; // public
   const GoogleAuth = require('google-auth-library');
@@ -42,7 +43,6 @@ app.use('/rest/*', (req, res, next)=>{
 ---------------*/
 
 app.put('/rest/user', (req, res)=>{
-  console.log('PUT /rest/user');
   db.getUser(googleUserId, (response) => {
     if (response === 'USER_NOT_FOUND') {
       db.createUser(googleUserId, payload, (user) => {
@@ -55,7 +55,6 @@ app.put('/rest/user', (req, res)=>{
 });
 
 app.post('/rest/user', (req, res)=>{
-  console.log('POST /rest/user');
   const name = req.body.name;
   const email = req.body.email;
   const telephone = req.body.telephone;
@@ -66,7 +65,6 @@ app.post('/rest/user', (req, res)=>{
 });
 
 app.get('/rest/user', (req, res)=>{
-  console.log('GET /rest/user');
   db.getUser(googleUserId, (response) => {
     if (response === 'USER_NOT_FOUND') {
       res.status(404).send(response);
@@ -81,7 +79,6 @@ app.get('/rest/user', (req, res)=>{
 ---------------*/
 
 app.put('/rest/dish', (req, res)=>{
-  console.log('PUT /rest/dish');
   const name = req.body.name;
   const description = req.body.description;
   const image = req.body.image;
@@ -93,7 +90,6 @@ app.put('/rest/dish', (req, res)=>{
 });
 
 app.post('/rest/dish', (req, res)=>{
-  console.log('POST /rest/dish');
   const name = req.body.name;
   const description = req.body.description;
   const image = req.body.image;
@@ -105,7 +101,6 @@ app.post('/rest/dish', (req, res)=>{
 });
 
 app.get('/rest/dish', (req, res)=>{
-  console.log('GET /rest/dish');
   if (req.query.hasOwnProperty('id')) {
     const dishId = parseInt(req.query.id);
     db.getDish(dishId, (dish) => {
