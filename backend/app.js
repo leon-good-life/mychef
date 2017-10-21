@@ -104,9 +104,6 @@ app.get('/rest/dish', (req, res)=>{
   if (req.query.hasOwnProperty('id')) {
     const dishId = parseInt(req.query.id);
     db.getDish(dishId, (dish) => {
-      // if (dish.user !== user) {
-      //   res.status(403).send('Unauthorized, Forbidden.');
-      // }
       res.send(dish);
     });
   } else {
