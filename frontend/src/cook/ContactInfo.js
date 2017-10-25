@@ -95,15 +95,12 @@ class ContactInfo extends React.Component {
     );
   }
   componentDidMount(){
-    getUser(
-      (data) => {
-        this.setState({
-          data,
-          loading: false
-        });
-      },
-      this.props.idToken
-    );
+    getUser(this.props.idToken).then(data => {
+      this.setState({
+        data,
+        loading: false
+      });
+    });
   }
   handleSubmit(e){
     e.preventDefault();

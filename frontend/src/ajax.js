@@ -1,40 +1,44 @@
+// TODO: use the new Fetch API instead of XMLHttpRequest
+
 /*---------------
     Users
 ---------------*/
 
-export function updateUser(name, email, telephone, address, idToken, callback){
+export function updateUser(name, email, telephone, address, token, callback){
   const data = { name, email, telephone, address };
   const dataToSend = JSON.stringify(data);
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/rest/user');
-  xhr.setRequestHeader('X-Auth-Token', idToken);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', callback);
-  xhr.send(dataToSend);
+  return fetch(window.location.origin + '/rest/user', {
+    method: 'POST',
+    headers: {
+      'X-Auth-Token': token,
+      'Content-Type': 'application/json'
+    },
+    body: dataToSend
+  }).then(response => callback(response.text()));
 }
 
-export function getUser(callback, idToken){
-  console.log('getUser');
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/rest/user');
-  xhr.setRequestHeader('X-Auth-Token', idToken);
-  xhr.addEventListener('load', () => {
-    if(xhr.status >= 200 && xhr.status < 300){
-      const data = JSON.parse(xhr.responseText);
-      callback(data);
+export function getUser(token){
+  return fetch(window.location.origin + '/rest/user', {
+    headers: {
+      'X-Auth-Token': token
     }
+  }).then(response => {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response.json());
+    }
+    return Promise.reject(new Error(response.statusText));
   });
-  xhr.send();
 }
 
-export function createUser(idToken){
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/rest/user');
-  xhr.setRequestHeader('X-Auth-Token', idToken);
-  xhr.addEventListener('load', function() {
-    console.log('Signed in as: ' + xhr.responseText);
+export function createUser(token){
+  return fetch(window.location.origin + '/rest/user', {
+    method: 'PUT',
+    headers: {
+      'X-Auth-Token': token
+    }
+  }).then((response) => {
+    console.log('Signed in as: ' + response.text());
   });
-  xhr.send();
 }
 
 /*---------------
@@ -44,17 +48,27 @@ export function createUser(idToken){
 export function createDish(name, description, image, price, token, callback){
   const data = { name, description, image, price };
   const dataToSend = JSON.stringify(data);
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/rest/dish');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', callback);
-  xhr.send(dataToSend);
+  return fetch(window.location.origin + '/rest/dish', {
+    method: 'PUT',
+    headers: {
+      'X-Auth-Token': token,
+      'Content-Type': 'application/json'
+    },
+    body: dataToSend
+  }).then(callback);
 }
 
 export function updateDish(id, name, description, image, price, token, callback){
   const data = { id, name, description, image, price };
   const dataToSend = JSON.stringify(data);
+  return fetch(window.location.origin + '/rest/dish', {
+    method: 'POST',
+    headers: {
+      'X-Auth-Token': token,
+      'Content-Type': 'application/json'
+    },
+    body: dataToSend
+  });
   const xhr = new XMLHttpRequest();
   xhr.open('POST', window.location.origin + '/rest/dish');
   xhr.setRequestHeader('X-Auth-Token', token);
