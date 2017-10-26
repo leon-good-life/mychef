@@ -40,11 +40,11 @@ class EditDish extends React.Component {
   componentDidMount(){
     getDish(
       this.props.match.params.dishId,
-      this.props.idToken,
-      (dishName, dishDescription, dishImage, dishPrice) => {
-        this.setState({dishName, dishDescription, dishImage, dishPrice, isLoading: false})
-      }
-    );
+      this.props.idToken
+    ).then(dish => {
+      const [dishName, dishDescription, dishImage, dishPrice] = [dish.name, dish.description, dish.image, dish.price];
+      this.setState({dishName, dishDescription, dishImage, dishPrice, isLoading: false});
+    });
   }
   handleSubmit(e, name, description, image, price){
     e.preventDefault();

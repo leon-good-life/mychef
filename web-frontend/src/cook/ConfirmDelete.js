@@ -53,9 +53,10 @@ class ConfirmDelete extends React.Component {
   componentDidMount(){
     getDish(
       this.props.match.params.dishId,
-      this.props.idToken,
-      dishName=>this.setState({dishName, isLoading: false})
-    );
+      this.props.idToken
+    ).then((dish) => {
+      this.setState({dishName: dish.name, isLoading: false});
+    });
   }
   handleSubmit(e){
     e.preventDefault();

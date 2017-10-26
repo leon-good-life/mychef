@@ -110,9 +110,10 @@ class ContactInfo extends React.Component {
       this.state.data.user_filled_email,
       this.state.data.user_filled_telephone,
       this.state.data.user_filled_address,
-      this.props.idToken,
-      () => { alert(values.created); }
-    );
+      this.props.idToken
+    ).then(() => { 
+      alert(values.created); 
+    });
   }
   handleChange(name, value){
     this.setState((prevState)=>{

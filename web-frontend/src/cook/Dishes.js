@@ -85,9 +85,8 @@ class Dishes extends React.Component {
     );
   }
   updateDishes(){
-    getDishes(
-      this.props.idToken,
-      (data) => {
+    getDishes(this.props.idToken)
+      .then((data) => {
         this.setState({
           loading: false,
           data

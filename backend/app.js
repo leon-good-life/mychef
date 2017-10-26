@@ -104,7 +104,7 @@ app.get('/rest/dish', (req, res)=>{
   if (req.query.hasOwnProperty('id')) {
     const dishId = parseInt(req.query.id);
     db.getDish(dishId, (dish) => {
-      res.send();
+      res.send(dish);
     });
   } else {
     db.getDishes(googleUserId, (dishes)=>{

@@ -1,43 +1,40 @@
-// TODO: use the new Fetch API instead of XMLHttpRequest
-
 /*---------------
     Users
 ---------------*/
 
-export function updateUser(name, email, telephone, address, token, callback){
+export function updateUser(name, email, telephone, address, token){
   const data = { name, email, telephone, address };
-  const dataToSend = JSON.stringify(data);
-  return fetch(window.location.origin + '/rest/user', {
-    method: 'POST',
-    headers: {
-      'X-Auth-Token': token,
-      'Content-Type': 'application/json'
-    },
-    body: dataToSend
-  }).then(response => callback(response.text()));
+  const body = JSON.stringify(data);
+  const url = window.location.origin + '/rest/user';
+  const method = 'POST';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  return fetch(url, { method, headers, body})
+    .then(response => Promise.resolve(response.text()));
 }
 
 export function getUser(token){
-  return fetch(window.location.origin + '/rest/user', {
-    headers: {
-      'X-Auth-Token': token
-    }
-  }).then(response => {
-    if (response.status >= 200 && response.status < 300) {
-      return Promise.resolve(response.json());
-    }
-    return Promise.reject(new Error(response.statusText));
+  const url = window.location.origin + '/rest/user';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  return fetch(url, { headers })
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response.json());
+      }
+      return Promise.reject(new Error(response.statusText));
   });
 }
 
 export function createUser(token){
-  return fetch(window.location.origin + '/rest/user', {
-    method: 'PUT',
-    headers: {
-      'X-Auth-Token': token
-    }
-  }).then((response) => {
-    console.log('Signed in as: ' + response.text());
+  const url = window.location.origin + '/rest/user';
+  const method = 'PUT';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  return fetch(url, {method, headers})
+    .then((response) => {
+      console.log('Signed in as: ' + response.text());
   });
 }
 
@@ -47,80 +44,81 @@ export function createUser(token){
 
 export function createDish(name, description, image, price, token, callback){
   const data = { name, description, image, price };
-  const dataToSend = JSON.stringify(data);
-  return fetch(window.location.origin + '/rest/dish', {
-    method: 'PUT',
-    headers: {
-      'X-Auth-Token': token,
-      'Content-Type': 'application/json'
-    },
-    body: dataToSend
-  }).then(callback);
+  const body = JSON.stringify(data);
+  const url = window.location.origin + '/rest/dish';
+  const method = 'PUT';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  return fetch(url, {method, headers, body}).then(callback);
+  //.then(response => Promise.resolve(response.text()));
 }
 
 export function updateDish(id, name, description, image, price, token, callback){
   const data = { id, name, description, image, price };
-  const dataToSend = JSON.stringify(data);
-  return fetch(window.location.origin + '/rest/dish', {
-    method: 'POST',
-    headers: {
-      'X-Auth-Token': token,
-      'Content-Type': 'application/json'
-    },
-    body: dataToSend
-  });
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/rest/dish');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', callback);
-  xhr.send(dataToSend);
+  const body = JSON.stringify(data);
+  const url = window.location.origin + '/rest/dish';
+  const method = 'POST';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  return fetch(url, { method, headers, body}).then(callback);
 }
 
-export function getDish(id, token, callback){
+export function getDish(id, token){
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/rest/dish?id=' + id);
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.addEventListener('load', () => {
-    if(xhr.status >= 200 && xhr.status < 300){
-      const dish = JSON.parse(xhr.responseText);
-      callback(dish.name, dish.description, dish.image, dish.price);
-    }
-  });
-  xhr.send();
+  const url = window.location.origin + '/rest/dish?id=' + id;
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  return fetch(url, {headers})
+    .then(response => {
+      if(response.status >= 200 && response.status < 300){
+        return Promise.resolve(response.json());
+      }
+      return Promise.reject(new Error(response.statusText));
+    });
 }
 
-export function getDishes(token, callback){
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/rest/dish');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.addEventListener('load', () => {
-    if(xhr.status >= 200 && xhr.status < 300){
-      const data = JSON.parse(xhr.responseText);
-      callback(data);
-    }
-  });
-  xhr.send();
+export function getDishes(token){
+  const url = window.location.origin + '/rest/dish';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  return fetch(url, {headers})
+    .then(response => {
+      if(response.status >= 200 && response.status < 300){
+        return Promise.resolve(response.json());
+      }
+      return Promise.reject(new Error(response.statusText));
+    });
 }
 
 export function deleteDish(id, token, callback) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('DELETE', window.location.origin + '/rest/dish');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', callback);
-  xhr.send(JSON.stringify({id}));
+  const url = window.location.origin + '/rest/dish';
+  const method = 'DELETE';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  const body = JSON.stringify({id});
+  return fetch(url, {method, headers, body})
+    .then(callback);
 }
 
 export function uploadDishImage(data, token, progress, created, error) {
   const xhr = new XMLHttpRequest();
-  xhr.open('PUT', window.location.origin + '/rest/dish-image', true);
+  const url = window.location.origin + '/rest/dish-image';
+  const method = 'PUT';
+  /*
+    Fetch API is not supporing upload progress tracking.
+    The only solution right now is to use XMLHttpRequest.
+    There is a proposal/standard called Streams API, 
+    When it will be implemented by browsers, then rewrite this code:
+  */
+  xhr.open(method, url, true);
   xhr.setRequestHeader('X-Auth-Token', token);
   xhr.upload.addEventListener('loadstart', e => progress(parseInt((e.loaded / e.total) * 100)));
   xhr.upload.addEventListener('progress', e => progress(parseInt((e.loaded / e.total) * 100)));
   xhr.upload.addEventListener('load', e => progress(parseInt((e.loaded / e.total) * 100)));
   xhr.addEventListener('load', (e) => {
-    console.log('xhr.load', e);
     if (e.target.status === 201) {
       created(e.target.responseText);
     } else {
@@ -132,41 +130,46 @@ export function uploadDishImage(data, token, progress, created, error) {
 
 export function updateAvailability(id, quantity, time, token, callback) {
   const data = { id, quantity, time };
-  const dataToSend = JSON.stringify(data);
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/rest/update-availability', true);
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.addEventListener('load', callback);
-  xhr.send(data);
+  const body = JSON.stringify(data);
+  const url = window.location.origin + '/rest/update-availability';
+  const method = 'POST';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  return fetch(url, {method, headers, body})
+    .then(callback);
 }
 
 /*---------------
     Admin
 ---------------*/
 
-export function adminGetUsers(token, callback){
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', window.location.origin + '/rest/users-admin');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.addEventListener('load', (e) => {
-    if(xhr.status >= 200 && xhr.status < 300){
-      const data = JSON.parse(xhr.responseText);
-      callback(data);
-    } else {
-      callback([]);
-    }
-  });
-  xhr.send();
+export function adminGetUsers(token){
+  const url = window.location.origin + '/rest/users-admin';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  return fetch(url, {headers})
+    .then(response => {
+      if(response.status >= 200 && response.status < 300){
+        return Promise.resolve(response.json());
+      }
+      return Promise.reject(new Error(response.statusText));
+    });
 }
 
-export function adminVerifyUser(userId, token, callback){
+export function adminVerifyUser(userId, token){
   const data = { userId };
-  const dataToSend = JSON.stringify(data);
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', window.location.origin + '/rest/verify-user-admin');
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('X-Auth-Token', token);
-  xhr.addEventListener('load', callback);
-  xhr.send(dataToSend);
+  const body = JSON.stringify(data);
+  const url = window.location.origin + '/rest/verify-user-admin';
+  const method = 'POST';
+  let headers = {};
+  headers['X-Auth-Token'] = token;
+  headers['Content-Type'] = 'application/json';
+  return fetch(url, {method, headers, body})
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response.json());
+      }
+      return Promise.reject(new Error(response.statusText));
+});
 }

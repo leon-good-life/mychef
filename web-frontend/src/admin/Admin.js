@@ -73,19 +73,19 @@ class Admin extends Component {
   }
   componentDidMount(){
     if(this.props.isLoggedIn) {
-      adminGetUsers(this.props.idToken, (users) => {
-        this.setState({
-          users,
-          loading: false
-        });
+      adminGetUsers(this.props.idToken)
+        .then((users) => {
+          this.setState({
+            users,
+            loading: false
+          });
       });
     }
   }
   handleToggle(userId, isInputChecked){
-    console.log('userId', userId);
     if(isInputChecked){
-      adminVerifyUser(userId, this.props.idToken, ()=>{
-        adminGetUsers(this.props.idToken, (users) => {
+      adminVerifyUser(userId, this.props.idToken).then(()=>{
+        adminGetUsers(this.props.idToken).then((users) => {
           this.setState({
             users,
             loading: false
