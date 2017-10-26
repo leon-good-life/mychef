@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import FloatLabelTextInput from 'react-native-floating-label-text-input';
+import { StyleSheet, Text, View, TextInput, Button, Platform } from 'react-native';
 
 export default class App extends React.Component {
   constructor(props){
@@ -17,36 +16,44 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.titleText}>Contact Info</Text>
-        <Text>Name</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(name) => this.setState({name})}
-          value={this.state.name}
-          placeholder="Name"
-        />
-        <Text>Email</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({email})}
-          value={this.state.email}
-          placeholder="Email"
-          keyboardType="email-address"
-        />
-        <Text>Phone number</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({phoneNumber})}
-          value={this.state.phoneNumber}
-          placeholder="Phone number"
-          keyboardType="numeric"
-        />
-        <Text>Address</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({address})}
-          value={this.state.address}
-          placeholder="Address"
-        />
+        <View style={styles.inputContainer}>
+          <Text>Name: </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(name) => this.setState({name})}
+            value={this.state.name}
+            placeholder="Name"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>Email: </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(email) => this.setState({email})}
+            value={this.state.email}
+            placeholder="Email"
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>Phone number: </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+            value={this.state.phoneNumber}
+            placeholder="Phone number"
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>Address: </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(address) => this.setState({address})}
+            value={this.state.address}
+            placeholder="Address"
+          />
+        </View>
         <Button
           onPress={this.handleSave}
           title="Save"
@@ -63,23 +70,23 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    ...Platform.select({
+      ios: {
+        marginTop: 40
+      }
+    })
+  },
+  inputContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginTop: 40
+    justifyContent: 'space-between'
   },
   titleText: {
     fontSize: 40,
     fontWeight: 'bold',
   },
-  label: {
-    
-  },
-  textInput: {
-    height: 40, 
-    borderColor: 'gray', 
-    borderWidth: 1, 
-    width: '90%'
+  input: {
+    height: 40,
+    flex: 1
   }
 });
