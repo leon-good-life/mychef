@@ -1,3 +1,3 @@
-Mobile apps for iOS and Android devices.
+Native mobile apps for iOS and Android devices.
 
 Under development.
