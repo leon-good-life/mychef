@@ -51,12 +51,11 @@ class EditDish extends React.Component {
     updateDish(
       this.props.match.params.dishId,
       name, description, image, price,
-      this.props.idToken,
-      () => { 
-        const dishesPath = `/${this.props.lang}/cook/dishes/`;
-        this.props.history.push(dishesPath);
-      }
-    );
+      this.props.idToken
+    ).then(() => { 
+      const dishesPath = `/${this.props.lang}/cook/dishes/`;
+      this.props.history.push(dishesPath);
+    });
   }
 }
 

@@ -25,13 +25,11 @@ class AddNewDish extends React.Component {
   }
   handleSubmit(e, name, description, image, price){
     e.preventDefault();
-    createDish(name, description, image, price,
-      this.props.idToken,
-      () => { 
+    createDish(name, description, image, price, this.props.idToken)
+      .then(() => { 
         const dishesPath = `/${this.props.lang}/cook/dishes/`;
         this.props.history.push(dishesPath);
-      }
-    );
+      });
   }
 }
 

@@ -42,7 +42,7 @@ export function createUser(token){
     Dishes
 ---------------*/
 
-export function createDish(name, description, image, price, token, callback){
+export function createDish(name, description, image, price, token){
   const data = { name, description, image, price };
   const body = JSON.stringify(data);
   const url = window.location.origin + '/rest/dish';
@@ -50,11 +50,11 @@ export function createDish(name, description, image, price, token, callback){
   let headers = {};
   headers['X-Auth-Token'] = token;
   headers['Content-Type'] = 'application/json';
-  return fetch(url, {method, headers, body}).then(callback);
-  //.then(response => Promise.resolve(response.text()));
+  return fetch(url, {method, headers, body})
+    .then(response => Promise.resolve(response.text()));
 }
 
-export function updateDish(id, name, description, image, price, token, callback){
+export function updateDish(id, name, description, image, price, token){
   const data = { id, name, description, image, price };
   const body = JSON.stringify(data);
   const url = window.location.origin + '/rest/dish';
@@ -62,7 +62,8 @@ export function updateDish(id, name, description, image, price, token, callback)
   let headers = {};
   headers['X-Auth-Token'] = token;
   headers['Content-Type'] = 'application/json';
-  return fetch(url, { method, headers, body}).then(callback);
+  return fetch(url, { method, headers, body})
+    .then(response => Promise.resolve(response.text()));
 }
 
 export function getDish(id, token){
@@ -92,7 +93,7 @@ export function getDishes(token){
     });
 }
 
-export function deleteDish(id, token, callback) {
+export function deleteDish(id, token) {
   const url = window.location.origin + '/rest/dish';
   const method = 'DELETE';
   let headers = {};
@@ -100,7 +101,7 @@ export function deleteDish(id, token, callback) {
   headers['Content-Type'] = 'application/json';
   const body = JSON.stringify({id});
   return fetch(url, {method, headers, body})
-    .then(callback);
+    .then(response => Promise.resolve(response.text()));
 }
 
 export function uploadDishImage(data, token, progress, created, error) {
@@ -128,7 +129,7 @@ export function uploadDishImage(data, token, progress, created, error) {
   xhr.send(data);
 }
 
-export function updateAvailability(id, quantity, time, token, callback) {
+export function updateAvailability(id, quantity, time, token) {
   const data = { id, quantity, time };
   const body = JSON.stringify(data);
   const url = window.location.origin + '/rest/update-availability';
@@ -137,7 +138,7 @@ export function updateAvailability(id, quantity, time, token, callback) {
   headers['X-Auth-Token'] = token;
   headers['Content-Type'] = 'application/json';
   return fetch(url, {method, headers, body})
-    .then(callback);
+    .then(response => Promise.resolve(response.text()));
 }
 
 /*---------------

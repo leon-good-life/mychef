@@ -11,7 +11,6 @@ import { getDishes, deleteDish } from '../ajax';
 class Dishes extends React.Component {
   constructor(props){
     super(props);
-    this.handleDelete = this.handleDelete.bind(this);
     this.updateDishes = this.updateDishes.bind(this);
     this.state = {
       loading: true,
@@ -70,19 +69,6 @@ class Dishes extends React.Component {
   }
   componentDidMount(){
     this.updateDishes();
-  }
-  handleDelete(id){
-    this.setState({
-      loading: true,
-      data: null
-    });
-    deleteDish(
-      id,
-      this.props.idToken,
-      () => {
-        this.updateDishes();
-      }
-    );
   }
   updateDishes(){
     getDishes(this.props.idToken)

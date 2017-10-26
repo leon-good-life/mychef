@@ -94,12 +94,11 @@ class Availability extends React.Component {
       this.props.match.params.dishId,
       this.state.quantity,
       this.state.time,
-      this.props.idToken,
-      () => {
-        const dishesPath = `/${this.props.lang}/cook/dishes/`;
-        this.props.history.push(dishesPath);
-      }
-    );
+      this.props.idToken
+    ).then(() => {
+      const dishesPath = `/${this.props.lang}/cook/dishes/`;
+      this.props.history.push(dishesPath);
+    });
   }
   getChildContext() {
     return {muiTheme: getMuiTheme(baseTheme)};

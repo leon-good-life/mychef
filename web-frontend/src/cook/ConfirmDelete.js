@@ -65,12 +65,11 @@ class ConfirmDelete extends React.Component {
     });
     deleteDish(
       this.props.match.params.dishId,
-      this.props.idToken,
-      () => {
-        const dishesPath = `/${this.props.lang}/cook/dishes/`;
-        this.props.history.push(dishesPath);
-      }
-    );
+      this.props.idToken
+    ).then(() => {
+      const dishesPath = `/${this.props.lang}/cook/dishes/`;
+      this.props.history.push(dishesPath);
+    });
   }
   getChildContext() {
     return {muiTheme: getMuiTheme(baseTheme)};
