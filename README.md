@@ -10,7 +10,7 @@ www.mychef.io
 # Development instructions
 ## Installation
 ```bash
-cd frontend
+cd web-frontend
 npm i
 cd ../backend/
 npm i
@@ -18,7 +18,7 @@ npm i
 
 ## Running (after code changes)
 ```bash
-cd frontend
+cd web-frontend
 npm run build
 cp -R ./build/ ../backend/public/
 cd ../backend/
