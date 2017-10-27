@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import dishes from './dishes';
-import users from './users';
+import user from './user';
 
 const rootReducer = combineReducers({
   dishes,
-  users
+  user
 });
 
 export default rootReducer;

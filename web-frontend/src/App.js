@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import Order from './order/Order';
 import Cook from './cook/Cook';
 import Admin from './admin/Admin';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MainNav from './nav/MainNav';
 import { createUser } from './ajax';
 
@@ -25,17 +27,19 @@ class App extends Component {
     const adminComponent = () => <Admin handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.idToken} />;
 
     return (
-      <BrowserRouter>
-        <div>
-          <Route path="/:lang/" component={navComponent} />
-          <Switch>
-            <Route path="/:lang/order/" component={orderComponet} />
-            <Route path="/:lang/cook/" component={cookComponent} />
-            <Route path="/:lang/admin/" component={adminComponent} />
-            <Route path="/" component={defaultComponent} />
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <div>
+            <Route path="/:lang/" component={navComponent} />
+            <Switch>
+              <Route path="/:lang/order/" component={orderComponet} />
+              <Route path="/:lang/cook/" component={cookComponent} />
+              <Route path="/:lang/admin/" component={adminComponent} />
+              <Route path="/" component={defaultComponent} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </Provider>
     );
   }
   handleGoogleLogin(googleUser) {

@@ -1,6 +1,6 @@
 import * as ActionTypes from '../action-types/dishes';
 
-export const dishes = (state = {dishes: [], isFetching: false}, action) => {
+const dishes = (state = {dishes: [], isFetching: false}, action) => {
   switch(action.type){
     case ActionTypes.GET_DISHES_REQUEST:
       return {
@@ -8,7 +8,7 @@ export const dishes = (state = {dishes: [], isFetching: false}, action) => {
         dishes: [...state.dishes]
       };
       break;
-    case ActionTypes.GET_DISHES_SUCCSESS:
+    case ActionTypes.GET_DISHES_SUCCESS:
       return {
         isFetching: false,
         dishes: action.dishes
@@ -24,3 +24,5 @@ export const dishes = (state = {dishes: [], isFetching: false}, action) => {
       return state;
   }
 };
+
+export default dishes;

@@ -1,6 +1,6 @@
 import * as ActionTypes from '../action-types/user';
 
-export const users = (state = {contact: null, isFetching: false}, action) => {
+const user = (state = {contact: null, isFetching: false}, action) => {
   switch(action.type){
     case ActionTypes.GET_USER_REQUEST:
       return {
@@ -8,7 +8,7 @@ export const users = (state = {contact: null, isFetching: false}, action) => {
         contact: [...state.contact]
       };
       break;
-    case ActionTypes.GET_USER_SUCCSESS:
+    case ActionTypes.GET_USER_SUCCESS:
       return {
         isFetching: false,
         contact: action.contact
@@ -21,3 +21,5 @@ export const users = (state = {contact: null, isFetching: false}, action) => {
       return state;
   }
 };
+
+export default user;
