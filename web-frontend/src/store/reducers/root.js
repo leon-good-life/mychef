@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import dishes from './dishes';
-import contactInfo from './contact-info';
+import users from './users';
 
 const rootReducer = combineReducers({
   dishes,
-  contactInfo
+  users
 });
 
 export default rootReducer;
