@@ -25,8 +25,8 @@ describe('async actions', () => {
         }
       });
     const expectedActions = [
-      { type: types.GET_DISHES_REQUEST, loading: true },
-      { type: types.GET_DISHES_SUCCESS, dishes, loading: false }
+      { type: types.GET_DISHES_REQUEST },
+      { type: types.GET_DISHES_SUCCESS, dishes }
     ]
     const store = mockStore();
 
