@@ -22,18 +22,18 @@ describe('async actions', () => {
         body: dishes, 
         headers: { 
           'content-type': 'application/json' 
-        } 
+        }
       });
     const expectedActions = [
-      { type: types.GET_DISHES_REQUEST },
-      { type: types.GET_DISHES_SUCCESS, dishes }
+      { type: types.GET_DISHES_REQUEST, loading: true },
+      { type: types.GET_DISHES_SUCCESS, dishes, loading: false }
     ]
-    const store = mockStore()
+    const store = mockStore();
 
     return store.dispatch(actions.getDishes()).then(() => {
       // return of async actions
       console.log(store.getActions());
-      expect(store.getActions()).toEqual(expectedActions)
+      expect(store.getActions()).toEqual(expectedActions);
     })
   })
 });
