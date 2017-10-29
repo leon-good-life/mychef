@@ -2,9 +2,15 @@ www.mychef.io
 
 # screenshots
 
-![screenshot](screenshot.png)
+![screenshot](screenshots/1.png)
 
-![screenshot hebrew interface](screenshot-hebrew.png)
+![screenshot hebrew interface](screenshots/2.png)
+
+![screenshot 3](screenshots/3.png)
+
+![screenshot 4](screenshots/5.png)
+
+![screenshot 6](screenshots/6.png)
 
 
 # Development instructions
