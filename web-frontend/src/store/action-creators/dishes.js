@@ -23,3 +23,26 @@ export const getDishes = (token) => ((dispatch) => {
     error => dispatch(getDishesError(error))
   );
 });
+
+
+export const deleteDishRequest = () => ({ 
+  type: DishesTypes.DELETE_DISH_REQUEST
+});
+
+export const deleteDishSuccess = (dishes) => ({ 
+  type: DishesTypes.DELETE_DISH_SUCCESS, 
+  dishes 
+});
+
+export const deleteDishError = (error) => ({ 
+  type: DishesTypes.DELETE_DISH_ERROR, 
+  error 
+});
+
+export const deleteDish = (id, token) => ((dispatch) => {
+  dispatch(deleteDishRequest());
+  return DishesAjax.deleteDish(id, token).then(
+    dishes => dispatch(deleteDishSuccess()),
+    error => dispatch(deleteDishError(error))
+  );
+});
