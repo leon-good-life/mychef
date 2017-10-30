@@ -1,8 +1,10 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import { Link } from 'react-router-dom';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 
 const Dish = ({lang, dish}) => {
   const localization = {
@@ -31,8 +33,8 @@ const Dish = ({lang, dish}) => {
       </CardText>
       
       <CardActions>
-        <FlatButton label={values.edit} containerElement={<Link to={editDishPath} />} labelStyle={{textTransform: 'none'}} />
-        <FlatButton label={values.delete} containerElement={<Link to={deleteDishPath} />} labelStyle={{textTransform: 'none'}} />
+        <RaisedButton label={values.edit} containerElement={<Link to={editDishPath} />} labelStyle={{textTransform: 'none'}} icon={<EditIcon />} />
+        <RaisedButton label={values.delete} containerElement={<Link to={deleteDishPath} />} labelStyle={{textTransform: 'none'}} icon={<DeleteIcon />} />
       </CardActions>
     </Card>
   )
