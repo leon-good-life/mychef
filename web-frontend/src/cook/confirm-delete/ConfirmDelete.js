@@ -1,21 +1,21 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Loading from './Loading';
+import Deleting from './Deleting';
 import ConfirmDeleteForm from './ConfirmDeleteForm';
 import { connect } from 'react-redux';
-import { deleteDish } from '../store/action-creators/dishes';
+import { deleteDish } from '../../store/action-creators/dishes';
 
 class ConfirmDelete extends React.Component {
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      isLoading: false
+      isDeleting: false
     };
   }
   render(){
-    if (this.state.isLoading) {
-      return <Loading lang={this.props.lang} />;
+    if (this.state.isDeleting) {
+      return <Deleting lang={this.props.lang} />;
     }
     const dish = this.props.dishes.find(dish=>dish.id===this.props.match.params.dishId);
     return <ConfirmDeleteForm 
@@ -26,7 +26,7 @@ class ConfirmDelete extends React.Component {
   handleSubmit(e){
     e.preventDefault();
     this.setState({
-      isLoading: true
+      isDeleting: true
     });
     this.props.dispatch(deleteDish(
       this.props.match.params.dishId,

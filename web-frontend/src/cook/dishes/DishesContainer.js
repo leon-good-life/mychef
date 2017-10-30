@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from '../Loading';
+import Loading from './Loading';
 import Dishes from './Dishes';
 import { connect } from 'react-redux';
 import { getDishes } from '../../store/action-creators/dishes';

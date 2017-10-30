@@ -5,8 +5,8 @@ import ContactInfo from './ContactInfo';
 import DishesContainer from './dishes/DishesContainer';
 import AddNewDish from './dish-form/AddNewDish';
 import EditDish from './dish-form/EditDish';
-import ConfirmDelete from './ConfirmDelete';
-import Availability from './Availability';
+import ConfirmDelete from './confirm-delete/ConfirmDelete';
+import Availability from './availability/Availability';
 
 class Dashboard extends React.Component {
   render() {
