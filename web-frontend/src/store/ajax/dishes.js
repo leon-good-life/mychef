@@ -88,7 +88,7 @@ export function uploadDishImage(data, token, progress, created, error) {
 export function updateAvailability(id, quantity, time, token) {
   const data = { id, quantity, time };
   const body = JSON.stringify(data);
-  const url = window.location.origin + '/rest/update-availability';
+  const url = window.location.origin + '/rest/dish-availability';
   const method = 'POST';
   let headers = {};
   headers['X-Auth-Token'] = token;

@@ -135,6 +135,9 @@ app.put('/rest/dish-image', multer.single('file'), (req, res) => {
 });
 
 app.post('/rest/dish-availability', (req, res)=>{
+  const dishId = parseInt(req.body.id);
+  const quantity = parseInt(req.body.quantity);
+  const time = req.body.time;
   db.getUser(googleUserId, (user)=>{
     if (user.verified === true) {
       db.updateAvailability(dishId, quantity, time, ()=>{

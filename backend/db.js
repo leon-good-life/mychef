@@ -59,13 +59,14 @@ exports.updateUser = (userId, payload, name, email, telephone, address, callback
     Dishes
 ---------------*/
 
-exports.getDish = (dishId, callback) => {
+const getDish = (dishId, callback) => {
   const dishKey = datastore.key(['Dish', dishId]);
   datastore.get(dishKey).then((results) => {
     const dish = results[0];
     callback(dish);
   });
 };
+exports.getDish = getDish;
 
 exports.getDishes = (userId, callback) => {
   const query = datastore.createQuery('Dish').filter('user', '=', userId);
@@ -118,7 +119,6 @@ exports.deleteDish = (dishId, callback) => {
 exports.updateAvailability = (id, quantity , time, callback) => {
   const dishKey = datastore.key({path: ['Dish', id]});
   getDish(id, (dish)=>{
-    console.log("dish", dish)
     dish.quantity = quantity;
     dish.time = time;
     const entity = {

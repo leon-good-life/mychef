@@ -15,7 +15,9 @@ class Availability extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      quantity: 3,
+      time: "THREE_HOURS",
     };
   }
   render(){
