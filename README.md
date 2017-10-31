@@ -12,8 +12,6 @@ www.mychef.io
 
 ![screenshot 5](screenshots/5.png)
 
-![screenshot 6](screenshots/6.png)
-
 
 # Development instructions
 ## Installation
