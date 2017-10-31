@@ -12,7 +12,7 @@ exports.getUser = (userId, callback) => {
       callback('USER_NOT_FOUND');
     } else {
       const user = results[0];
-      callback(JSON.stringify(user));
+      callback(user);
     }
   });
 };
@@ -30,7 +30,7 @@ exports.createUser = (googleUserId, payload, callback) => {
     data: user
   };
   datastore.insert(entity).then(() => {
-    callback(JSON.stringify(user));
+    callback(user);
   });
 };
 
@@ -50,7 +50,7 @@ exports.updateUser = (userId, payload, name, email, telephone, address, callback
       data: user
     };
     datastore.update(entity).then(() => {
-      callback(JSON.stringify(user));
+      callback(user);
     });
   });
 };
@@ -63,7 +63,7 @@ exports.getDish = (dishId, callback) => {
   const dishKey = datastore.key(['Dish', dishId]);
   datastore.get(dishKey).then((results) => {
     const dish = results[0];
-    callback(JSON.stringify(dish));
+    callback(dish);
   });
 };
 
@@ -76,10 +76,12 @@ exports.getDishes = (userId, callback) => {
         description: dish.description,
         id: dish[datastore.KEY].id || dish[datastore.KEY].name,
         image: dish.image,
-        price: dish.price
+        price: dish.price,
+        quantity: dish.quantity || 0,
+        time: dish.time || null
       };
     });
-    callback(JSON.stringify(dishes));
+    callback(dishes);
   });
 };
 
@@ -91,7 +93,7 @@ exports.createDish = (name, description, image, price, user, callback) => {
     data: dish
   };
   datastore.insert(entity).then(() => {
-    callback(JSON.stringify(dish));
+    callback(dish);
   });
 };
 
@@ -103,19 +105,20 @@ exports.updateDish = (id, name, description, image, price, user, callback) => {
     data: dish
   };
   datastore.update(entity).then(() => {
-    callback(JSON.stringify(dish));
+    callback(dish);
   });
 };
 
 exports.deleteDish = (dishId, callback) => {
   const dishKey = datastore.key({path: ['Dish', dishId]});
   const msg = datastore.delete(dishKey);
-  callback(JSON.stringify(msg));
+  callback(msg);
 };
 
 exports.updateAvailability = (id, quantity , time, callback) => {
   const dishKey = datastore.key({path: ['Dish', id]});
   getDish(id, (dish)=>{
+    console.log("dish", dish)
     dish.quantity = quantity;
     dish.time = time;
     const entity = {
@@ -123,7 +126,7 @@ exports.updateAvailability = (id, quantity , time, callback) => {
       data: dish
     };
     datastore.update(entity).then(() => {
-      callback(JSON.stringify(dish));
+      callback(dish);
     });
   });
 };
@@ -149,7 +152,7 @@ exports.adminGetUsers = (callback) => {
         verified: user.verified
       };
     });
-    callback(JSON.stringify(users));
+    callback(users);
   });
 };
 
@@ -164,7 +167,7 @@ exports.adminVerifyUser = (userId, callback) => {
       data: user
     };
     datastore.update(entity).then(() => {
-      callback(JSON.stringify(user));
+      callback(user);
     });
   });
 };
