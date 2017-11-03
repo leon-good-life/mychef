@@ -1,5 +1,3 @@
-www.mychef.io
-
 # screenshots
 
 ![screenshot](screenshots/1.png)
