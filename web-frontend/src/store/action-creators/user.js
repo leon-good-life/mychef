@@ -1,24 +1,80 @@
-import * as UserTypes from '../action-types/user';
-import * as UserAjax from '../ajax/user';
+import * as ActionTypes from '../action-types/user';
+import * as Ajax from '../ajax/user';
 
-export const getUserRequest = () => ({ 
-  type: UserTypes.GET_USER_REQUEST 
+/*
+  Create user
+*/
+
+export const createUserRequest = () => ({ 
+  type: ActionTypes.CREATE_USER_REQUEST 
 });
 
-export const getUserSuccess = (user) => ({ 
-  type: UserTypes.GET_USER_SUCCESS, 
-  user 
+export const createUserSuccess = (user) => ({ 
+  type: ActionTypes.CREATE_USER_SUCCESS,
+  user
 });
 
-export const getUserError = (error) => ({ 
-  type: UserTypes.GET_USER_ERROR, 
+export const createUserError = (error) => ({ 
+  type: ActionTypes.CREATE_USER_ERROR, 
   error 
 });
 
-export const getUser = (token) => ((dispatch) => {
-  dispatch(getUserRequest());
-  return UserAjax.getUser(token).then(
-    user => dispatch(getUserSuccess(user)),
-    error => dispatch(getUserError(error))
+export const createUser = (token) => ((dispatch) => {
+  dispatch(createUserRequest());
+  return Ajax.createUser(token).then(
+    user => dispatch(createUserSuccess(user)),
+    error => dispatch(createUserError(error))
+  );
+});
+
+/*
+  Fetch user
+*/
+
+export const fetchUserRequest = () => ({ 
+  type: ActionTypes.FETCH_USER_REQUEST 
+});
+
+export const fetchUserSuccess = (user) => ({ 
+  type: ActionTypes.FETCH_USER_SUCCESS, 
+  user 
+});
+
+export const fetchUserError = (error) => ({ 
+  type: ActionTypes.FETCH_USER_ERROR, 
+  error 
+});
+
+export const fetchUser = (token) => ((dispatch) => {
+  dispatch(fetchUserRequest());
+  return Ajax.fetchUser(token).then(
+    user => dispatch(fetchUserSuccess(user)),
+    error => dispatch(fetchUserError(error))
+  );
+});
+
+/*
+  Update user
+*/
+
+export const updateUserRequest = () => ({ 
+  type: ActionTypes.UPDATE_USER_REQUEST 
+});
+
+export const updateUserSuccess = (user) => ({ 
+  type: ActionTypes.UPDATE_USER_SUCCESS,
+  user
+});
+
+export const updateUserError = (error) => ({ 
+  type: ActionTypes.UPDATE_USER_ERROR, 
+  error 
+});
+
+export const updateUser = (token) => ((dispatch) => {
+  dispatch(updateUserRequest());
+  return Ajax.updateUser(token).then(
+    user => dispatch(updateUserSuccess(user)),
+    error => dispatch(updateUserError(error))
   );
 });

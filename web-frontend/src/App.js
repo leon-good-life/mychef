@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Order from './order/Order';
 import Cook from './cook/Cook';
-import Admin from './admin/Admin';
+import AdminContainer from './admin/AdminContainer';
 import MainNav from './nav/MainNav';
 import { createUser } from './ajax';
 
@@ -24,7 +24,7 @@ class App extends Component {
     const cookComponent = ({ match }) => cookComponentTemplate(match.params.lang);
     const defaultComponent = () => <div><MainNav lang="en" />{cookComponentTemplate('en')}</div>;
     const navComponent = ({ match }) => <MainNav lang={match.params.lang} />;
-    const adminComponent = () => <Admin handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.idToken} />;
+    const adminComponent = () => <AdminContainer handleGoogleLogin={this.handleGoogleLogin} handleGoogleLogout={this.handleGoogleLogout} isLoggedIn={this.state.isLoggedIn} profile={this.state.profile} idToken={this.state.idToken} />;
 
     return (
       <Provider store={store}>

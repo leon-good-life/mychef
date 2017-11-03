@@ -1,58 +1,25 @@
-import React, { Component } from 'react';
-import { adminGetUsers, adminVerifyUser } from '../ajax';
-import GoogleLogin from 'react-google-login';
-import './admin.css';
-import PropTypes from 'prop-types';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import React from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Toggle from 'material-ui/Toggle';
 
-class Admin extends Component {
-  constructor(props){
-    super(props);
-    this.handleToggle = this.handleToggle.bind(this);
-    this.state = {
-      loading: true,
-      users: []
-    };
-  }
-  render() {
-    if(!this.props.isLoggedIn) {
-      return (
-        <div className="admin-container">
-          <GoogleLogin
-            clientId="377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com"
-            buttonText="Login with Google"
-            onSuccess={this.props.handleGoogleLogin}
-            onFailure={this.props.handleGoogleLogin}
-            isSignedIn={true}
-            className="google-login" />
-        </div>
-      );
-    }
-    if (this.state.loading) {
-      return (
-        <div className="admin-container">
-          <h1>Loading...</h1>
-        </div>
-      );
-    }
-    const users = this.state.users.map((user)=>{
-      return (
-        <tr key={user.id}>
-          <td>{user.google_user_email}</td>
-          <td><img src={user.google_user_picture} alt="profile picture" /></td>
-          <td>{user.google_user_name}</td>
-          <td>{user.user_filled_name}</td>
-          <td>{user.user_filled_email}</td>
-          <td>{user.user_filled_telephone}</td>
-          <td>{user.user_filled_address}</td>
-          <td><Toggle toggled={user.verified} 
-                      onToggle={(e, isInputChecked) => {this.handleToggle(user.id, isInputChecked);}} /></td>
-        </tr>
-      );
-    });
+const Admin = ({users, handleToggle}) => {
+  const usersRows = users.map((user)=>{
     return (
+      <tr key={user.id}>
+        <td>{user.google_user_email}</td>
+        <td><img src={user.google_user_picture} alt="profile picture" /></td>
+        <td>{user.google_user_name}</td>
+        <td>{user.user_filled_name}</td>
+        <td>{user.user_filled_email}</td>
+        <td>{user.user_filled_telephone}</td>
+        <td>{user.user_filled_address}</td>
+        <td><Toggle toggled={user.verified} 
+                    onToggle={(e, isInputChecked) => {handleToggle(user.id, isInputChecked);}} /></td>
+      </tr>
+    );
+  });
+  return (
+    <MuiThemeProvider>
       <div className="admin-container">
         <h1>Admin Panel</h1>
         <table>
@@ -66,43 +33,11 @@ class Admin extends Component {
             <th>Address</th>
             <th>Verify user</th>
           </tr>
-          {users}
+          {usersRows}
         </table>
       </div>
-    );
-  }
-  componentDidMount(){
-    if(this.props.isLoggedIn) {
-      adminGetUsers(this.props.idToken)
-        .then((users) => {
-          this.setState({
-            users,
-            loading: false
-          });
-      });
-    }
-  }
-  handleToggle(userId, isInputChecked){
-    if(isInputChecked){
-      adminVerifyUser(userId, this.props.idToken).then(()=>{
-        adminGetUsers(this.props.idToken).then((users) => {
-          this.setState({
-            users,
-            loading: false
-          });
-        });
-      });
-    }
-  }
-  getChildContext() {
-    return {
-      muiTheme: getMuiTheme(baseTheme)
-    };
-  }
-}
-
-Admin.childContextTypes = {
-  muiTheme: PropTypes.object.isRequired
+    </MuiThemeProvider>
+  )
 };
 
 export default Admin;

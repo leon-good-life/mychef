@@ -8,13 +8,13 @@ import * as actions from '../action-creators/dishes';
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-describe('async actions', () => {
+describe('dishes async actions', () => {
   afterEach(() => {
     fetchMock.reset()
     fetchMock.restore()
   })
 
-  it('creates GET_DISHES_SUCCESS when fetching dishes has been done', () => {
+  it('creates FETCH_DISHES_SUCCESS when fetching dishes has been done', () => {
     const url = window.location.origin + '/rest/dish';
     const dishes = [{"name":"Miso soup","description":"Japanish dish","id":"5642554087309312","image":"https://storage.googleapis.com/mychef-123.appspot.com/IMG_1781.JPG","price":"55"}];
     fetchMock
@@ -25,12 +25,12 @@ describe('async actions', () => {
         }
       });
     const expectedActions = [
-      { type: types.GET_DISHES_REQUEST },
-      { type: types.GET_DISHES_SUCCESS, dishes }
+      { type: types.FETCH_DISHES_REQUEST },
+      { type: types.FETCH_DISHES_SUCCESS, dishes }
     ]
     const store = mockStore();
 
-    return store.dispatch(actions.getDishes()).then(() => {
+    return store.dispatch(actions.fetchDishes()).then(() => {
       // return of async actions
       console.log(store.getActions());
       expect(store.getActions()).toEqual(expectedActions);

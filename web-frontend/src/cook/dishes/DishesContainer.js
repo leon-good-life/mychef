@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Loading from './Loading';
 import Dishes from './Dishes';
 import { connect } from 'react-redux';
-import { getDishes } from '../../store/action-creators/dishes';
+import { fetchDishes } from '../../store/action-creators/dishes';
 import { updateAvailability } from '../../ajax';
 
 class DishesContainer extends React.Component {
@@ -18,7 +18,7 @@ class DishesContainer extends React.Component {
     return <Dishes lang={this.props.lang} dishes={this.props.data} toggleAvailability={this.toggleAvailability} />;
   }
   componentDidMount(){
-    this.props.dispatch(getDishes(this.props.idToken));
+    this.props.dispatch(fetchDishes(this.props.idToken));
   }
   toggleAvailability(id, isToggled){
     if (isToggled) {
@@ -31,7 +31,7 @@ class DishesContainer extends React.Component {
         "THREE_HOURS",
         this.props.idToken
       ).then(()=>{
-        window.location.reload();
+        this.props.dispatch(fetchDishes(this.props.idToken));
       });
     }
   }
@@ -39,12 +39,11 @@ class DishesContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    loading: state.dishes.isFetching,
+    loading: state.dishes.isProcessingRequest,
     data: state.dishes.dishes
   };
 };
 
 DishesContainer = connect(mapStateToProps)(DishesContainer);
-
 
 export default withRouter(DishesContainer);
