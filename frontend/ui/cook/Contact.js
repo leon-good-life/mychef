@@ -1,5 +1,6 @@
 import React from 'react'
 import translateComponent from '../../utils/translateComponent'
+import Loading from '../Loading'
 
 const translations = {
   en: {
@@ -22,14 +23,27 @@ class Contact extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      fullName: this.props.fullName || '',
-      email: this.props.email || '',
-      telephone: this.props.telephone || '',
-      address: this.props.address || ''
+      name: '',
+      email: '',
+      telephone: '',
+      address: '',
+      loading: true
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      name: nextProps.contact.name,
+      email: nextProps.contact.email,
+      telephone: nextProps.contact.telephone,
+      address: nextProps.contact.address,
+      loading: nextProps.loading
+    })
+  }
   render() {
+    if (this.props.loading) {
+      return <Loading />
+    }
     return (
       <div className="card">
         <form className="card-body" onSubmit={this.handleSubmit}>
@@ -43,8 +57,8 @@ class Contact extends React.Component {
                 className="form-control"
                 id="inputFullName"
                 placeholder={this.props.translated.fullName}
-                defaultValue={this.state.fullName}
-                onChange={e => this.setState({ fullName: e.target.value })}
+                value={this.state.name}
+                onChange={e => this.setState({ name: e.target.value })}
               />
             </div>
             <div className="form-group col-md-6">
@@ -54,7 +68,7 @@ class Contact extends React.Component {
                 className="form-control"
                 id="inputEmail"
                 placeholder={this.props.translated.email}
-                defaultValue={this.state.email}
+                value={this.state.email}
                 onChange={e => this.setState({ email: e.target.value })}
               />
             </div>
@@ -69,7 +83,7 @@ class Contact extends React.Component {
                 className="form-control"
                 id="inputTelephone"
                 placeholder={this.props.translated.telephone}
-                defaultValue={this.state.telephone}
+                value={this.state.telephone}
                 onChange={e => this.setState({ telephone: e.target.value })}
               />
             </div>
@@ -82,7 +96,7 @@ class Contact extends React.Component {
                 className="form-control"
                 id="inputAddress"
                 placeholder={this.props.translated.address}
-                defaultValue={this.state.address}
+                value={this.state.address}
                 onChange={e => this.setState({ address: e.target.value })}
               />
             </div>
@@ -94,10 +108,13 @@ class Contact extends React.Component {
       </div>
     )
   }
+  componentWillMount() {
+    this.props.load()
+  }
   handleSubmit(e) {
     e.preventDefault()
-    this.props.handleSubmit({
-      fullName: this.state.fullName,
+    this.props.submit({
+      name: this.state.name,
       email: this.state.email,
       telephone: this.state.telephone,
       address: this.state.address

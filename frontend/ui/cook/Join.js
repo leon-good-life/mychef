@@ -1,4 +1,5 @@
 import React from 'react'
+import GoogleLogin from 'react-google-login'
 import translateComponent from '../../utils/translateComponent'
 
 const translations = {
@@ -22,9 +23,14 @@ const Join = ({ login, translated }) => (
         >
           <h1 className="display-3">{translated.cook}</h1>
           <p className="lead">
-            <button className="btn btn-primary btn-lg" onClick={login}>
-              {translated.login}
-            </button>
+            <GoogleLogin
+              clientId="377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com"
+              buttonText={translated.login}
+              onSuccess={login}
+              onFailure={login}
+              isSignedIn={true}
+              className="btn btn-primary btn-lg"
+            />
           </p>
         </div>
         <img

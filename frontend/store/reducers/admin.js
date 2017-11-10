@@ -1,12 +1,12 @@
-import * as ActionTypes from '../action-types/admin';
+import * as ActionTypes from '../action-types/admin'
 
 const defaultState = {
   adminUsers: null,
   isProcessingRequest: false
-};
+}
 
 const adminReducer = (state = defaultState, action) => {
-  switch(action.type){
+  switch (action.type) {
     /*
       Admin fetch users
     */
@@ -15,20 +15,20 @@ const adminReducer = (state = defaultState, action) => {
       return {
         adminUsers: Object.assign({}, state.adminUsers),
         isProcessingRequest: true
-      };
-      break;
+      }
+      break
     case ActionTypes.ADMIN_FETCH_USERS_SUCCESS:
       return {
         adminUsers: action.users,
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
     case ActionTypes.ADMIN_FETCH_USERS_ERROR:
       return {
         adminUsers: Object.assign({}, state.adminUsers),
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
 
     /*
       Admin verify user
@@ -38,28 +38,24 @@ const adminReducer = (state = defaultState, action) => {
       return {
         adminUsers: Object.assign({}, state.adminUsers),
         isProcessingRequest: true
-        
-      };
-      break;
+      }
+      break
     case ActionTypes.ADMIN_VERIFY_USER_SUCCESS:
       return {
         adminUsers: Object.assign({}, state.adminUsers),
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
     case ActionTypes.ADMIN_VERIFY_USER_ERROR:
       return {
         adminUsers: Object.assign({}, state.adminUsers),
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
 
-
-
-      
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default adminReducer;
+export default adminReducer

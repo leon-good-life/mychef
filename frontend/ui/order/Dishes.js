@@ -15,7 +15,7 @@ const Dishes = ({ dishes, translated }) => {
   const DishesCards = dishes =>
     dishes.map(dish => (
       <div className="card" key={dish.id}>
-        <img className="card-img-top" src={dish.picture} alt={dish.name} />
+        <img className="card-img-top" src={dish.image} alt={dish.name} />
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>

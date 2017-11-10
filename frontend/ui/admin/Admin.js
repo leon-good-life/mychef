@@ -5,13 +5,13 @@ import Users from './Users'
 import Dishes from './Dishes'
 import Orders from './Orders'
 
-const Admin = ({ lang }) => {
+const Admin = ({ lang, logout }) => {
   const usersComponent = () => <Users />
   const dishsComponent = () => <Dishes />
   const ordersComponent = () => <Orders />
   return (
     <div>
-      <AdminNav lang={lang} />
+      <AdminNav lang={lang} logout={logout} />
       <div className="container">
         <Switch>
           <Route path="/admin/users" render={usersComponent} />

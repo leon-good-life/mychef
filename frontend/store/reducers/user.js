@@ -1,13 +1,12 @@
-import * as ActionTypes from '../action-types/user';
+import * as ActionTypes from '../action-types/user'
 
 const defaultState = {
   user: null,
   isProcessingRequest: false
-};
+}
 
 const userReducer = (state = defaultState, action) => {
-  switch(action.type){
-
+  switch (action.type) {
     /*
       Create user
     */
@@ -16,22 +15,20 @@ const userReducer = (state = defaultState, action) => {
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: true
-        
-      };
-      break;
+      }
+      break
     case ActionTypes.CREATE_USER_SUCCESS:
       return {
-        user: action.user,
+        user: Object.assign({}, state.user),
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
     case ActionTypes.CREATE_USER_ERROR:
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: false
-      };
-      break;
-
+      }
+      break
 
     /*
       Fetch user
@@ -41,22 +38,20 @@ const userReducer = (state = defaultState, action) => {
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: true
-        
-      };
-      break;
+      }
+      break
     case ActionTypes.FETCH_USER_SUCCESS:
       return {
         user: action.user,
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
     case ActionTypes.FETCH_USER_ERROR:
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: false
-      };
-      break;
-
+      }
+      break
 
     /*
       Update user
@@ -66,25 +61,24 @@ const userReducer = (state = defaultState, action) => {
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: true
-      };
-      break;
+      }
+      break
     case ActionTypes.UPDATE_USER_SUCCESS:
       return {
         user: action.user,
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
     case ActionTypes.UPDATE_USER_ERROR:
       return {
         user: Object.assign({}, state.user),
         isProcessingRequest: false
-      };
-      break;
+      }
+      break
 
-      
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default userReducer;
+export default userReducer
