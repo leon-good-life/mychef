@@ -1,36 +1,38 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { createDish } from '../../ajax';
+import { createDish } from '../../store/action-creators/dishes';
 import DishForm from './DishForm';
 
-class AddNewDish extends React.Component {
-  constructor(props){
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.localization = {
-      en: {
-        addNew: 'Add a new dish'
-      },
-      he: {
-        addNew: 'הוסף מאכל חדש'
-      }
-    };
-    this.values = this.localization[this.props.lang];
-  }
-  render(){
-    return <DishForm lang={this.props.lang} 
-                     idToken={this.props.idToken} 
-                     handleSubmit={this.handleSubmit} 
-                     h1={this.values.addNew} />;
-  }
-  handleSubmit(e, name, description, image, price){
+const AddNewDish = ({lang, idToken, history, handleSubmit}) => {
+  handleSubmit = (e, name, description, image, price) => {
     e.preventDefault();
-    createDish(name, description, image, price, this.props.idToken)
-      .then(() => { 
-        const dishesPath = `/${this.props.lang}/cook/dishes/`;
-        this.props.history.push(dishesPath);
-      });
-  }
-}
+    dispatch(
+      createDish(
+        name, 
+        description, 
+        image, 
+        price, 
+        idToken)
+    ).then(() => {
+      const dishesPath = `/${lang}/cook/dishes/`;
+      history.push(dishesPath);
+    });
+  };
+  localization = {
+    en: {
+      addNew: 'Add a new dish'
+    },
+    he: {
+      addNew: 'הוסף מאכל חדש'
+    }
+  };
+  values = localization[lang];
+  return <DishForm lang={lang} 
+                    idToken={idToken} 
+                    handleSubmit={handleSubmit} 
+                    h1={values.addNew} />;
+};
+
+AddNewDish = connect()(AddNewDish);
 
 export default withRouter(AddNewDish);

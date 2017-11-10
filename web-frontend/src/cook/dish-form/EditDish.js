@@ -1,62 +1,48 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { updateDish, getDish } from '../../ajax';
+import { updateDish } from '../../store/action-creators';
 import DishForm from './DishForm';
 
-class EditDish extends React.Component {
-  constructor(props){
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      isLoading: true
-    };
-  }
-  render(){
-    const localization = {
-      en: {
-        loading: 'Loading...',
-        update: 'Update dish'
-      },
-      he: {
-        loading: 'טוען...',
-        update: 'עדכן מאכל'
-      }
-    };
-    const values = localization[this.props.lang];
-    if (this.state.isLoading) {
-      return <h1>{values.loading}</h1>;
+const EditDish = ({lang, match, dishes, dispatch, idToken, history}) => {
+  const localization = {
+    en: {
+      update: 'Update dish'
+    },
+    he: {
+      update: 'עדכן מאכל'
     }
-    return (
-      <DishForm lang={this.props.lang} 
-                idToken={this.props.idToken}
-                handleSubmit={this.handleSubmit} 
-                h1={values.update} 
-                dishName={this.state.dishName} 
-                dishDescription={this.state.dishDescription} 
-                dishImage={this.state.dishImage} 
-                dishPrice={this.state.dishPrice} />
-    );
-  }
-  componentDidMount(){
-    getDish(
-      this.props.match.params.dishId,
-      this.props.idToken
-    ).then(dish => {
-      const [dishName, dishDescription, dishImage, dishPrice] = [dish.name, dish.description, dish.image, dish.price];
-      this.setState({dishName, dishDescription, dishImage, dishPrice, isLoading: false});
-    });
-  }
-  handleSubmit(e, name, description, image, price){
+  };
+  const values = localization[lang];
+  const dish = dishes.find(dish=>dish.id===match.params.dishId);
+  const handleSubmit = (e, name, description, image, price) => {
     e.preventDefault();
-    updateDish(
-      this.props.match.params.dishId,
+    dispatch(updateDish(
+      match.params.dishId,
       name, description, image, price,
-      this.props.idToken
-    ).then(() => { 
-      const dishesPath = `/${this.props.lang}/cook/dishes/`;
-      this.props.history.push(dishesPath);
+      idToken
+    )).then(() => { 
+      const dishesPath = `/${lang}/cook/dishes/`;
+      history.push(dishesPath);
     });
-  }
-}
+  };
+  return (
+    <DishForm lang={lang} 
+              idToken={idToken}
+              handleSubmit={handleSubmit} 
+              h1={values.update} 
+              dishName={dish.name} 
+              dishDescription={dish.description} 
+              dishImage={dish.image} 
+              dishPrice={dish.price} />
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes.dishes
+  };
+};
+
+EditDish = connect(mapStateToProps)(EditDish);
 
 export default withRouter(EditDish);

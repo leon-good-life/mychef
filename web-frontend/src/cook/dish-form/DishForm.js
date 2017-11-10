@@ -7,7 +7,7 @@ import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { uploadDishImage } from '../../ajax';
 
-class EditDish extends React.Component {
+class DishForm extends React.Component {
   constructor(props){
     super(props);
     this.handleImgSelect = this.handleImgSelect.bind(this);
@@ -131,8 +131,8 @@ class EditDish extends React.Component {
   }
 }
 
-EditDish.childContextTypes = {
+DishForm.childContextTypes = {
   muiTheme: PropTypes.object.isRequired
 };
 
-export default EditDish;
+export default DishForm;
