@@ -9,6 +9,7 @@ import Admin from './admin/Admin'
 import Footer from './Footer'
 import * as userActions from '../store/action-creators/user'
 import * as authActions from '../store/action-creators/auth'
+import * as uiActions from '../store/action-creators/ui'
 
 class App extends React.Component {
   constructor(props) {
@@ -18,18 +19,14 @@ class App extends React.Component {
     this.changeLang = this.changeLang.bind(this)
   }
   render() {
-    const { dishes, orders } = this.props
-    const orderComponent = () => (
-      <Order lang={this.props.lang} dishes={dishes} />
-    )
+    const orderComponent = () => <Order lang={this.props.lang} />
     const cookComponent = () => (
       <Cook
         isLoggedIn={this.props.auth.isLoggedIn}
         login={this.login}
         logout={this.logout}
         lang={this.props.lang}
-        dishes={dishes}
-        orders={orders}
+        orders={this.props.orders}
         fetchUser={this.props.actions.fetchUser}
         user={this.props.user}
         updateUser={this.props.actions.updateUser}
@@ -79,7 +76,6 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    _dishes: state.dishes.dishes,
     user: state.user,
     admin: state.admin,
     auth: state.auth,
@@ -88,7 +84,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ ...userActions, ...authActions }, dispatch)
+  actions: bindActionCreators(
+    { ...userActions, ...authActions, ...uiActions },
+    dispatch
+  )
 })
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)

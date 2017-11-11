@@ -37,6 +37,16 @@ export function getDishes(token) {
   })
 }
 
+export function getPublicDishes(token) {
+  const url = window.location.origin + '/public/dish'
+  return fetch(url).then(response => {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response.json())
+    }
+    return Promise.reject(new Error(response.statusText))
+  })
+}
+
 export function deleteDish(id, token) {
   const url = window.location.origin + '/rest/dish'
   const method = 'DELETE'

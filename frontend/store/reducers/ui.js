@@ -11,6 +11,28 @@ const ui = (state = defaultState, action) => {
         language: action.language
       }
       break
+
+    /*
+      Fetch public dishes
+    */
+
+    case ActionTypes.FETCH_PUBLIC_DISHES_REQUEST:
+      return Object.assign({}, state, {
+        isProcessingRequest: true
+      })
+      break
+    case ActionTypes.FETCH_PUBLIC_DISHES_SUCCESS:
+      return Object.assign({}, state, {
+        isProcessingRequest: false,
+        dishes: action.dishes
+      })
+      break
+    case ActionTypes.FETCH_PUBLIC_DISHES_ERROR:
+      return Object.assign({}, state, {
+        isProcessingRequest: false
+      })
+      break
+
     default:
       return Object.assign({}, state)
       break

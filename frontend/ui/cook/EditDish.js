@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 import DishForm from './DishForm'
 import * as dishActions from '../../store/action-creators/dishes'
 
@@ -28,10 +29,12 @@ class EditDish extends Component {
       this.dish.id,
       dish.name,
       dish.description,
-      dish.price,
       dish.image,
+      dish.price,
       this.props.token
-    )
+    ).then(() => {
+      this.props.history.push('/cook/dishes')
+    })
   }
 }
 
@@ -46,5 +49,6 @@ const mapStateToProps = state => ({
 })
 
 EditDish = connect(mapStateToProps, mapDispatchToProps)(EditDish)
+EditDish = withRouter(EditDish)
 
 export default EditDish

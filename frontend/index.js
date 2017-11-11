@@ -4,7 +4,6 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './ui/main.css'
 import App from './ui/App'
-import { dishesArr } from './mock-data'
 import { Provider } from 'react-redux'
 import store from './store/store'
 
@@ -13,18 +12,13 @@ class Root extends React.Component {
     super(props)
     this.state = {
       orders: [],
-      isAdmin: true,
-      dishes: dishesArr
+      isAdmin: true
     }
   }
   render() {
     return (
       <Provider store={store}>
-        <App
-          dishes={this.state.dishes}
-          orders={this.state.orders}
-          isAdmin={this.state.isAdmin}
-        />
+        <App orders={this.state.orders} isAdmin={this.state.isAdmin} />
       </Provider>
     )
   }

@@ -15,6 +15,8 @@ class DishesContainer extends React.Component {
     }
     this.onDelete = this.onDelete.bind(this)
     this.onDeleteConfirm = this.onDeleteConfirm.bind(this)
+    this.onAvailable = this.onAvailable.bind(this)
+    this.onToggleAvailability = this.onToggleAvailability.bind(this)
   }
   render() {
     if (this.state.loading) {
@@ -26,6 +28,8 @@ class DishesContainer extends React.Component {
         lang={this.state.lang}
         onDelete={this.onDelete}
         onDeleteConfirm={this.onDeleteConfirm}
+        onAvailable={this.onAvailable}
+        onToggleAvailability={this.onToggleAvailability}
       />
     )
   }
@@ -47,6 +51,31 @@ class DishesContainer extends React.Component {
   onDeleteConfirm() {
     this.props.actions
       .deleteDish(this.state.deleteDishId, this.props.token)
+      .then(() => {
+        this.props.actions.fetchDishes(this.props.token)
+      })
+  }
+  onToggleAvailability(dishId, isToggled) {
+    if (isToggled) {
+      this.props.actions
+        .updateDishAvailability(dishId, 0, 'HALF_DAY', this.props.token)
+        .then(() => {
+          this.props.actions.fetchDishes(this.props.token)
+        })
+    } else {
+      this.setState({
+        toggleDishId: dishId
+      })
+    }
+  }
+  onAvailable(limit) {
+    this.props.actions
+      .updateDishAvailability(
+        this.state.toggleDishId,
+        limit,
+        'HALF_DAY',
+        this.props.token
+      )
       .then(() => {
         this.props.actions.fetchDishes(this.props.token)
       })

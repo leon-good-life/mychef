@@ -1,6 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
+import * as uiActions from '../../store/action-creators/ui'
+import Loading from '../Loading'
 
 const translations = {
   en: {
@@ -11,9 +15,33 @@ const translations = {
   }
 }
 
-const Dishes = ({ dishes, translated }) => {
-  const DishesCards = dishes =>
-    dishes.map(dish => (
+class Dishes extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true,
+      dishes: []
+    }
+    this.dishCards = this.dishCards.bind(this)
+  }
+  render() {
+    if (this.state.loading) {
+      return <Loading />
+    }
+    return (
+      <div>
+        <div className="card-columns">{this.dishCards()}</div>
+      </div>
+    )
+  }
+  componentWillMount() {
+    this.props.actions.fetchPublicDishes()
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ dishes: nextProps.dishes, loading: nextProps.loading })
+  }
+  dishCards() {
+    return this.state.dishes.map(dish => (
       <div className="card" key={dish.id}>
         <img className="card-img-top" src={dish.image} alt={dish.name} />
         <div className="card-body">
@@ -25,16 +53,27 @@ const Dishes = ({ dishes, translated }) => {
             data-toggle="modal"
             data-target="#confirmDelete"
           >
-            {translated.order}
+            {this.props.translated.order}
           </a>
         </div>
       </div>
     ))
-  return (
-    <div>
-      <div className="card-columns">{DishesCards(dishes)}</div>
-    </div>
-  )
+  }
 }
+
+const mapStateToProps = state => {
+  console.log(state)
+  return {
+    dishes: state.ui.dishes || [],
+    loading: state.ui.isProcessingRequest,
+    lang: state.ui.language
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(uiActions, dispatch)
+})
+
+Dishes = connect(mapStateToProps, mapDispatchToProps)(Dishes)
 
 export default translateComponent(Dishes, translations)

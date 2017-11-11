@@ -3,18 +3,18 @@ import translateComponent from '../../utils/translateComponent'
 
 const translations = {
   en: {
-    unavailable: 'Unavailable',
-    available: 'Available'
+    unverified: 'Unverified',
+    verified: 'Verified'
   },
   he: {
-    unavailable: 'לא זמין',
-    available: 'זמין'
+    unverified: 'לא מאושר',
+    verified: 'מאושר'
   }
 }
 
-let AvailabilityToggle = ({ isToggled, onToggle, translated }) => (
+let VerifyToggle = ({ isToggled, onToggle, translated }) => (
   <div
-    className="btn-group availability-toggle"
+    className="btn-group verify-toggle"
     role="group"
     aria-label="Basic example"
   >
@@ -23,10 +23,8 @@ let AvailabilityToggle = ({ isToggled, onToggle, translated }) => (
       style={{ boxShadow: 'none' }}
       className="btn btn-sm btn-secondary"
       onClick={() => onToggle(isToggled)}
-      data-toggle="modal"
-      data-target="#AvailabilityDetails"
     >
-      {isToggled ? '' : translated.unavailable}
+      {isToggled ? '' : translated.unverified}
     </button>
     <button
       type="button"
@@ -34,14 +32,14 @@ let AvailabilityToggle = ({ isToggled, onToggle, translated }) => (
       className="btn btn-sm btn-success"
       onClick={() => onToggle(isToggled)}
     >
-      {isToggled ? translated.available : ''}
+      {isToggled ? translated.verified : ''}
     </button>
   </div>
 )
 
-AvailabilityToggle = translateComponent(AvailabilityToggle, translations)
+VerifyToggle = translateComponent(VerifyToggle, translations)
 
-class AvailabilityToggle2 extends React.Component {
+class VerifyToggle2 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -50,7 +48,7 @@ class AvailabilityToggle2 extends React.Component {
   }
   render() {
     return (
-      <AvailabilityToggle
+      <VerifyToggle
         isToggled={this.state.isToggled}
         onToggle={isToggled => this.setState({ isToggled: !isToggled })}
         lang={this.props.lang}
@@ -59,4 +57,4 @@ class AvailabilityToggle2 extends React.Component {
   }
 }
 
-export default AvailabilityToggle
+export default VerifyToggle2

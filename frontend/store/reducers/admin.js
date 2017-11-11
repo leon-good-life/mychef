@@ -1,7 +1,7 @@
 import * as ActionTypes from '../action-types/admin'
 
 const defaultState = {
-  adminUsers: null,
+  adminUsers: [],
   isProcessingRequest: false
 }
 
@@ -13,7 +13,7 @@ const adminReducer = (state = defaultState, action) => {
 
     case ActionTypes.ADMIN_FETCH_USERS_REQUEST:
       return {
-        adminUsers: Object.assign({}, state.adminUsers),
+        adminUsers: Array.from(state.adminUsers),
         isProcessingRequest: true
       }
       break
@@ -25,7 +25,7 @@ const adminReducer = (state = defaultState, action) => {
       break
     case ActionTypes.ADMIN_FETCH_USERS_ERROR:
       return {
-        adminUsers: Object.assign({}, state.adminUsers),
+        adminUsers: Array.from(state.adminUsers),
         isProcessingRequest: false
       }
       break
@@ -36,19 +36,19 @@ const adminReducer = (state = defaultState, action) => {
 
     case ActionTypes.ADMIN_VERIFY_USER_REQUEST:
       return {
-        adminUsers: Object.assign({}, state.adminUsers),
+        adminUsers: Array.from(state.adminUsers),
         isProcessingRequest: true
       }
       break
     case ActionTypes.ADMIN_VERIFY_USER_SUCCESS:
       return {
-        adminUsers: Object.assign({}, state.adminUsers),
+        adminUsers: Array.from(state.adminUsers),
         isProcessingRequest: false
       }
       break
     case ActionTypes.ADMIN_VERIFY_USER_ERROR:
       return {
-        adminUsers: Object.assign({}, state.adminUsers),
+        adminUsers: Array.from(state.adminUsers),
         isProcessingRequest: false
       }
       break

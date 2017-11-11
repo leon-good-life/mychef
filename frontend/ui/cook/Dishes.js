@@ -25,7 +25,9 @@ let Dishes = ({
   translated,
   lang,
   onDelete,
-  onDeleteConfirm
+  onDeleteConfirm,
+  onToggleAvailability,
+  onAvailable
 }) => {
   //if(loading) return <Loading />
   const DishesCards = dishes =>
@@ -35,7 +37,11 @@ let Dishes = ({
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
-          <AvailabilityToggle isToggled={false} lang={lang} />
+          <AvailabilityToggle
+            isToggled={dish.quantity > 0}
+            lang={lang}
+            onToggle={() => onToggleAvailability(dish.id, dish.quantity > 0)}
+          />
           <Link
             to={`/cook/edit/${dish.id}`}
             className="btn btn-sm btn-primary m-1"
@@ -65,7 +71,7 @@ let Dishes = ({
         {DishesCards(dishes)}
       </div>
       <ConfirmDelete lang={lang} onConfirm={onDeleteConfirm} />
-      <AvailabilityDetails lang={lang} onStart={() => {}} />
+      <AvailabilityDetails lang={lang} onStart={onAvailable} />
     </div>
   )
 }

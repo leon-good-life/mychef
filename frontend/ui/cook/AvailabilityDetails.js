@@ -24,7 +24,8 @@ class AvailabilityDetails extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      deliveryType: ''
+      deliveryType: '',
+      limit: 3
     }
   }
   render() {
@@ -81,7 +82,39 @@ class AvailabilityDetails extends React.Component {
                 <label htmlFor="inputDeliveryType">
                   {this.props.translated.ordersLimit}
                 </label>
-                <input className="form-control" type="number" />
+                <div className="input-group">
+                  <input
+                    className="form-control"
+                    type="number"
+                    min="0"
+                    value={this.state.limit}
+                    onChange={e => this.setState({ limit: e.target.value })}
+                  />
+                  <span className="input-group-btn">
+                    <button
+                      className="btn btn-secondary"
+                      type="button"
+                      onClick={e =>
+                        this.setState(prevState => ({
+                          limit: prevState.limit + 1
+                        }))
+                      }
+                    >
+                      &#9650;
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      type="button"
+                      onClick={e =>
+                        this.setState(prevState => ({
+                          limit: prevState.limit > 0 ? prevState.limit - 1 : 0
+                        }))
+                      }
+                    >
+                      &#9660;
+                    </button>
+                  </span>
+                </div>
               </div>
             </div>
             <div className="modal-footer">
@@ -95,7 +128,7 @@ class AvailabilityDetails extends React.Component {
               <button
                 type="button"
                 className="btn btn-primary m-1 btn-sm"
-                onClick={this.props.onStart}
+                onClick={() => this.props.onStart(this.state.limit)}
                 data-dismiss="modal"
               >
                 {this.props.translated.start}
