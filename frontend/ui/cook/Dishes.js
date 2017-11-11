@@ -19,7 +19,14 @@ const translations = {
   }
 }
 
-let Dishes = ({ dishes, loading, translated, lang }) => {
+let Dishes = ({
+  dishes,
+  loading,
+  translated,
+  lang,
+  onDelete,
+  onDeleteConfirm
+}) => {
   //if(loading) return <Loading />
   const DishesCards = dishes =>
     dishes.map(dish => (
@@ -29,7 +36,10 @@ let Dishes = ({ dishes, loading, translated, lang }) => {
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
           <AvailabilityToggle isToggled={false} lang={lang} />
-          <Link to="/cook/edit" className="btn btn-sm btn-primary m-1">
+          <Link
+            to={`/cook/edit/${dish.id}`}
+            className="btn btn-sm btn-primary m-1"
+          >
             {translated.edit}
           </Link>
           <a
@@ -37,6 +47,7 @@ let Dishes = ({ dishes, loading, translated, lang }) => {
             className="btn btn-sm btn-danger"
             data-toggle="modal"
             data-target="#confirmDelete"
+            onClick={e => onDelete(dish.id)}
           >
             {translated.delete}
           </a>
@@ -53,7 +64,7 @@ let Dishes = ({ dishes, loading, translated, lang }) => {
         </div>
         {DishesCards(dishes)}
       </div>
-      <ConfirmDelete lang={lang} onConfirm={() => {}} />
+      <ConfirmDelete lang={lang} onConfirm={onDeleteConfirm} />
       <AvailabilityDetails lang={lang} onStart={() => {}} />
     </div>
   )

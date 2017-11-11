@@ -8,7 +8,7 @@ const translations = {
     deliveryDuration: 'Preparation and delivery duration:',
     ordersLimit: 'Orders limit:',
     cancel: 'Cancel',
-    start: 'Publish and begin to recieve orders'
+    start: 'Publish and begin receiving orders'
   },
   he: {
     h1: 'פרטי הזמינות',

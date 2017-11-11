@@ -48,7 +48,7 @@ const dishesReducer = (state = defaultState, action) => {
       break
     case ActionTypes.FETCH_DISHES_ERROR:
       return Object.assign({}, clonedState, {
-        isProcessingRequest: true
+        isProcessingRequest: false
       })
       break
 

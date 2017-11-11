@@ -13,12 +13,21 @@ class DishesContainer extends React.Component {
       dishes: [],
       lang: 'en'
     }
+    this.onDelete = this.onDelete.bind(this)
+    this.onDeleteConfirm = this.onDeleteConfirm.bind(this)
   }
   render() {
     if (this.state.loading) {
       return <Loading />
     }
-    return <Dishes dishes={this.state.dishes} lang={this.state.lang} />
+    return (
+      <Dishes
+        dishes={this.state.dishes}
+        lang={this.state.lang}
+        onDelete={this.onDelete}
+        onDeleteConfirm={this.onDeleteConfirm}
+      />
+    )
   }
   componentWillMount() {
     this.props.actions.fetchDishes(this.props.token)
@@ -29,6 +38,18 @@ class DishesContainer extends React.Component {
       dishes: nextProps.dishes,
       lang: nextProps.lang
     })
+  }
+  onDelete(dishId) {
+    this.setState({
+      deleteDishId: dishId
+    })
+  }
+  onDeleteConfirm() {
+    this.props.actions
+      .deleteDish(this.state.deleteDishId, this.props.token)
+      .then(() => {
+        this.props.actions.fetchDishes(this.props.token)
+      })
   }
 }
 
