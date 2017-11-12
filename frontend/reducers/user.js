@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/user'
+import * as ActionTypes from '../actions/types/user'
 
 const defaultState = {
   user: null,

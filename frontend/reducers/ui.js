@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/ui'
+import * as ActionTypes from '../actions/types/ui'
 
 const defaultState = {
   language: 'en'

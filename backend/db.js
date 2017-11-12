@@ -76,8 +76,26 @@ const getDish = (dishId, callback) => {
 }
 exports.getDish = getDish
 
-exports.getDishes = (userId, callback) => {
+exports.getUserDishes = (userId, callback) => {
   const query = datastore.createQuery('Dish').filter('user', '=', userId)
+  datastore.runQuery(query, (err, entities, info) => {
+    const dishes = entities.map(dish => {
+      return {
+        name: dish.name,
+        description: dish.description,
+        id: dish[datastore.KEY].id || dish[datastore.KEY].name,
+        image: dish.image,
+        price: dish.price,
+        quantity: dish.quantity || 0,
+        time: dish.time || null
+      }
+    })
+    callback(dishes)
+  })
+}
+
+exports.getPublicDishes = (callback) => {
+  const query = datastore.createQuery('Dish').filter('quantity', '>', 0)
   datastore.runQuery(query, (err, entities, info) => {
     const dishes = entities.map(dish => {
       return {

@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/auth'
+import * as ActionTypes from './types/auth'
 
 export const loginSuccess = (token, profile) => ({
   type: ActionTypes.LOGIN_SUCCESS,

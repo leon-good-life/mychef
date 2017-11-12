@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Switch, Route } from 'react-router-dom'
-import AdminNav from './AdminNav'
-import Users from './Users'
-import Dishes from './Dishes'
-import Orders from './Orders'
-import * as adminActions from '../../store/action-creators/admin'
+import AdminNav from '../components/admin/AdminNav'
+import Users from '../components/admin/Users'
+import Dishes from '../components/admin/Dishes'
+import Orders from '../components/admin/Orders'
+import * as adminActions from '../actions/admin'
 
 class Admin extends React.Component {
   constructor(props) {

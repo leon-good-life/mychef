@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import DishForm from './DishForm'
-import * as dishActions from '../../store/action-creators/dishes'
+import DishForm from '../components/cook/DishForm'
+import * as dishActions from '../actions/dishes'
 
 class EditDish extends Component {
   constructor(props) {

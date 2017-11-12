@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as userActions from '../../store/action-creators/user'
-import Contact from './Contact'
+import * as userActions from '../actions/user'
+import Contact from '../components/cook/Contact'
 
 class ContactContainer extends React.Component {
   constructor(props) {

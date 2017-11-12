@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/admin';
+import * as ActionTypes from './types/admin';
 import * as Ajax from '../ajax/admin'; 
 
 /*

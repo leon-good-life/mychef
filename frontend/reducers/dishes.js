@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/dishes'
+import * as ActionTypes from '../actions/types/dishes'
 
 const defaultState = {
   dishes: [],

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import Logo from './logo.png'
 import { NavLink, Link } from 'react-router-dom'
 import translateComponent from '../utils/translateComponent'
-import * as uiActions from '../store/action-creators/ui'
+import * as uiActions from '../actions/ui'
 
 const translations = {
   en: {

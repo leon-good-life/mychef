@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/admin'
+import * as ActionTypes from '../actions/types/admin'
 
 const defaultState = {
   adminUsers: [],

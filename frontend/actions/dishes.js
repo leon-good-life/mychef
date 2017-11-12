@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/dishes'
+import * as ActionTypes from './types/dishes'
 import * as Ajax from '../ajax/dishes'
 
 /*

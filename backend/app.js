@@ -37,9 +37,13 @@ app.use('/rest/*', (req, res, next) => {
   const auth = new GoogleAuth()
   const client = new auth.OAuth2(secrets.CLIENT_ID, secrets.CLIENT_SECRET, '')
   client.verifyIdToken(token, secrets.CLIENT_ID, (e, login) => {
-    payload = login.getPayload()
-    googleUserId = payload['sub']
-    next()
+    try{
+      payload = login.getPayload()
+      googleUserId = payload['sub']
+      next()
+    }catch(e){
+      res.send(e)
+    }
   })
 })
 
@@ -121,10 +125,16 @@ app.get('/rest/dish', (req, res) => {
       res.send(dish)
     })
   } else {
-    db.getDishes(googleUserId, dishes => {
+    db.getUserDishes(googleUserId, dishes => {
       res.send(dishes)
     })
   }
+})
+
+app.get('/public/dish', (req, res) => {
+  db.getPublicDishes(dishes => {
+    res.send(dishes)
+  })
 })
 
 app.delete('/rest/dish', (req, res) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
-import { uploadDishImage } from '../../store/ajax/dishes'
+import { uploadDishImage } from '../../ajax/dishes'
 import LoadingImg from '../loading.gif'
 
 const translations = {

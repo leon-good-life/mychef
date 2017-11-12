@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/user'
+import * as ActionTypes from './types/user'
 import * as Ajax from '../ajax/user'
 
 /*

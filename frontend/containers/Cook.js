@@ -1,13 +1,12 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import Join from './Join'
-import CookNav from './CookNav'
 import ContactContainer from './ContactContainer'
 import DishesContainer from './DishesContainer'
-import DishForm from './DishForm'
 import AddDish from './AddDish'
 import EditDish from './EditDish'
-import Orders from './Orders'
+import Join from '../components/cook/Join'
+import CookNav from '../components/cook/CookNav'
+import Orders from '../components/cook/Orders'
 
 const Cook = ({ isLoggedIn, login, logout, lang, orders }) => {
   if (!isLoggedIn) {

@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/auth'
+import * as ActionTypes from '../actions/types/auth'
 
 const defaultState = {
   isLoggedIn: false,

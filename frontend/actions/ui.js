@@ -1,4 +1,4 @@
-import * as ActionTypes from '../action-types/ui'
+import * as ActionTypes from './types/ui'
 import * as Ajax from '../ajax/dishes'
 
 export const setLanguage = language => ({

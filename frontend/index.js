@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './ui/main.css'
-import App from './ui/App'
-import { Provider } from 'react-redux'
-import store from './store/store'
+import './components/main.css'
+import App from './containers/App'
+import store from './reducers/store'
 
 class Root extends React.Component {
   constructor(props) {

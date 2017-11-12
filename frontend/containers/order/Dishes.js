@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
-import * as uiActions from '../../store/action-creators/ui'
-import Loading from '../Loading'
+import * as uiActions from '../../actions/ui'
+import Loading from '../../components/Loading'
 
 const translations = {
   en: {
@@ -61,6 +61,8 @@ class Dishes extends React.Component {
   }
 }
 
+Dishes = translateComponent(Dishes, translations)
+
 const mapStateToProps = state => {
   console.log(state)
   return {
@@ -76,4 +78,4 @@ const mapDispatchToProps = dispatch => ({
 
 Dishes = connect(mapStateToProps, mapDispatchToProps)(Dishes)
 
-export default translateComponent(Dishes, translations)
+export default Dishes

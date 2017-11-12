@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Dishes from './Dishes'
-import Loading from '../Loading'
-import * as dishesActions from '../../store/action-creators/dishes'
+import Dishes from '../components/cook/Dishes'
+import Loading from '../components/Loading'
+import * as dishesActions from '../actions/dishes'
 
 class DishesContainer extends React.Component {
   constructor(props) {

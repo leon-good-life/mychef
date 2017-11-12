@@ -2,7 +2,7 @@ import React from 'react'
 import Img from './order.svg'
 import Dishes from './Dishes'
 
-const Order = ({ lang, dishes }) => {
+const Order = ({ lang }) => {
   const localization = {
     en: {
       h1: 'Order directly from the chef',
@@ -36,7 +36,7 @@ const Order = ({ lang, dishes }) => {
         </div>
       </div>
       <div className="container">
-        <Dishes lang={lang} dishes={dishes} />
+        <Dishes />
       </div>
     </div>
   )
