@@ -8,10 +8,12 @@ import Loading from '../../components/Loading'
 
 const translations = {
   en: {
-    order: 'Order'
+    order: 'Order',
+    price: 'Price: '
   },
   he: {
-    order: 'הזמן'
+    order: 'הזמן',
+    price: 'מחיר: '
   }
 }
 
@@ -47,6 +49,7 @@ class Dishes extends React.Component {
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
+          <p className="card-text">{this.props.translated.price} {dish.price}</p>
           <a
             href="#"
             className="btn btn-sm btn-primary"

@@ -10,12 +10,14 @@ const translations = {
   en: {
     edit: 'Edit',
     delete: 'Delete',
-    add: '+ Add new dish'
+    add: '+ Add new dish',
+    price: 'Price: '
   },
   he: {
     edit: 'ערוך',
     delete: 'מחק',
-    add: '+ הוסף מנה חדשה'
+    add: '+ הוסף מנה חדשה',
+    price: 'מחיר: '
   }
 }
 
@@ -37,6 +39,7 @@ let Dishes = ({
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
+          <p className="card-text">{translated.price} {dish.price}</p>
           <AvailabilityToggle
             isToggled={dish.quantity > 0}
             lang={lang}
