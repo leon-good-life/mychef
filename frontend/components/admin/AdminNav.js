@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
+import * as path from '../../utils/path'
 
 const translations = {
   en: {
@@ -17,22 +18,22 @@ const translations = {
   }
 }
 
-const AdminNav = ({ logout, translated }) => (
+const AdminNav = ({ logout, translated, lang }) => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div className="container">
       <ul className="navbar-nav mr-auto">
         <li className="nav-item">
-          <NavLink className="nav-link" to="/admin/users">
+          <NavLink className="nav-link" to={path.admin_users(lang)}>
             {translated.users}
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/admin/dishes">
+          <NavLink className="nav-link" to={path.admin_dishes(lang)}>
             {translated.dishes}
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/admin/orders">
+          <NavLink className="nav-link" to={path.admin_orders(lang)}>
             {translated.orders}
           </NavLink>
         </li>

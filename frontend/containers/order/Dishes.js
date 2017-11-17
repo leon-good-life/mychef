@@ -49,7 +49,9 @@ class Dishes extends React.Component {
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
-          <p className="card-text">{this.props.translated.price} {dish.price}</p>
+          <p className="card-text">
+            {this.props.translated.price} {dish.price}
+          </p>
           <a
             href="#"
             className="btn btn-sm btn-primary"
@@ -70,8 +72,7 @@ const mapStateToProps = state => {
   console.log(state)
   return {
     dishes: state.ui.dishes || [],
-    loading: state.ui.isProcessingRequest,
-    lang: state.ui.language
+    loading: state.ui.isProcessingRequest
   }
 }
 

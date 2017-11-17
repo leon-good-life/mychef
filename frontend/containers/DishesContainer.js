@@ -10,8 +10,7 @@ class DishesContainer extends React.Component {
     super(props)
     this.state = {
       loading: true,
-      dishes: [],
-      lang: 'en'
+      dishes: []
     }
     this.onDelete = this.onDelete.bind(this)
     this.onDeleteConfirm = this.onDeleteConfirm.bind(this)
@@ -25,7 +24,7 @@ class DishesContainer extends React.Component {
     return (
       <Dishes
         dishes={this.state.dishes}
-        lang={this.state.lang}
+        lang={this.props.lang}
         onDelete={this.onDelete}
         onDeleteConfirm={this.onDeleteConfirm}
         onAvailable={this.onAvailable}
@@ -39,8 +38,7 @@ class DishesContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       loading: nextProps.loading,
-      dishes: nextProps.dishes,
-      lang: nextProps.lang
+      dishes: nextProps.dishes
     })
   }
   onDelete(dishId) {
@@ -89,7 +87,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   loading: state.dishes.isProcessingRequest,
   dishes: state.dishes.dishes,
-  lang: state.ui.language,
   token: state.auth.token
 })
 

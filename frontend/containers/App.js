@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import MainNav from '../components/MainNav'
 import Cook from './Cook'
 import Order from './order/Order'
@@ -10,44 +10,41 @@ import Footer from '../components/Footer'
 import * as userActions from '../actions/user'
 import * as authActions from '../actions/auth'
 import * as uiActions from '../actions/ui'
+import * as path from '../utils/path'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
-    this.changeLang = this.changeLang.bind(this)
   }
   render() {
-    const orderComponent = () => <Order lang={this.props.lang} />
+    const lang = this.props.match.params.lang
+    const orderComponent = () => <Order lang={lang} />
     const cookComponent = () => (
       <Cook
         isLoggedIn={this.props.auth.isLoggedIn}
         login={this.login}
         logout={this.logout}
-        lang={this.props.lang}
+        lang={lang}
         orders={this.props.orders}
         fetchUser={this.props.actions.fetchUser}
         user={this.props.user}
         updateUser={this.props.actions.updateUser}
       />
     )
-    const adminComponent = () => (
-      <Admin lang={this.props.lang} logout={this.logout} />
-    )
+    const adminComponent = () => <Admin lang={lang} logout={this.logout} />
     return (
-      <BrowserRouter>
-        <div>
-          <MainNav />
-          <Switch>
-            <Route path="/cook" render={cookComponent} />
-            <Route path="/order" render={orderComponent} />
-            <Route path="/admin" render={adminComponent} />
-            <Route path="/" render={orderComponent} />
-          </Switch>
-          <Footer />
-        </div>
-      </BrowserRouter>
+      <div>
+        <MainNav lang={lang} />
+        <Switch>
+          <Route path={path.COOK} render={cookComponent} />
+          <Route path={path.ORDER} render={orderComponent} />
+          <Route path={path.ADMIN} render={adminComponent} />
+          <Route path={path.HOME} render={orderComponent} />
+        </Switch>
+        <Footer />
+      </div>
     )
   }
   login(googleUser) {
@@ -68,18 +65,13 @@ class App extends React.Component {
       this.props.actions.logoutSuccess()
     })
   }
-  changeLang(lang) {
-    document.querySelector('html').lang = lang
-    this.props.actions.setLanguage(lang)
-  }
 }
 
 const mapStateToProps = state => {
   return {
     user: state.user,
     admin: state.admin,
-    auth: state.auth,
-    lang: state.ui.language
+    auth: state.auth
   }
 }
 

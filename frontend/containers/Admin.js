@@ -7,6 +7,7 @@ import Users from '../components/admin/Users'
 import Dishes from '../components/admin/Dishes'
 import Orders from '../components/admin/Orders'
 import * as adminActions from '../actions/admin'
+import * as path from '../utils/path'
 
 class Admin extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Admin extends React.Component {
         lang={this.props.lang}
       />
     )
+
     const dishsComponent = () => <Dishes />
     const ordersComponent = () => <Orders />
     return (
@@ -32,10 +34,10 @@ class Admin extends React.Component {
         <AdminNav lang={this.props.lang} logout={this.props.logout} />
         <div className="container">
           <Switch>
-            <Route path="/admin/users" render={usersComponent} />
-            <Route path="/admin/dishes" render={dishsComponent} />
-            <Route path="/admin/orders" render={ordersComponent} />
-            <Route path="/admin" render={usersComponent} exact />
+            <Route path={path.ADMIN_USERS} render={usersComponent} />
+            <Route path={path.ADMIN_DISHES} render={dishsComponent} />
+            <Route path={path.ADMIN_ORDERS} render={ordersComponent} />
+            <Route path={path.ADMIN} render={usersComponent} />
           </Switch>
         </div>
       </div>
@@ -54,7 +56,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  lang: state.ui.language,
   users: state.admin.adminUsers,
   loading: state.admin.isProcessingRequest,
   token: state.auth.token

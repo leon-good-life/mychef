@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
 import { uploadDishImage } from '../../ajax/dishes'
 import LoadingImg from '../loading.gif'
+import * as path from '../../utils/path'
 
 const translations = {
   en: {
@@ -174,7 +175,10 @@ class DishForm extends React.Component {
               ? this.props.translated.add
               : this.props.translated.update}
           </button>
-          <Link to="/cook/dishes" className="btn btn-secondary m-1">
+          <Link
+            to={path.cook_dishes(this.props.lang)}
+            className="btn btn-secondary m-1"
+          >
             {this.props.translated.cancel}
           </Link>
         </form>

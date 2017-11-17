@@ -36,7 +36,7 @@ const Order = ({ lang }) => {
         </div>
       </div>
       <div className="container">
-        <Dishes />
+        <Dishes lang={lang} />
       </div>
     </div>
   )

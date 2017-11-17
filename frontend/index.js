@@ -1,24 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './components/main.css'
 import App from './containers/App'
 import store from './reducers/store'
+import * as path from './utils/path'
 
 class Root extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orders: [],
-      isAdmin: true
+      defaultLang: 'en'
     }
   }
   render() {
     return (
       <Provider store={store}>
-        <App orders={this.state.orders} isAdmin={this.state.isAdmin} />
+        <BrowserRouter>
+          <Switch>
+            <Route path={path.HOME} component={App} />
+            <Route
+              path="/"
+              exact
+              render={() => <Redirect to={path.home(this.state.defaultLang)} />}
+            />
+          </Switch>
+        </BrowserRouter>
       </Provider>
     )
   }

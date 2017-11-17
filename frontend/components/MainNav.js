@@ -5,6 +5,7 @@ import Logo from './logo.png'
 import { NavLink, Link } from 'react-router-dom'
 import translateComponent from '../utils/translateComponent'
 import * as uiActions from '../actions/ui'
+import * as path from '../utils/path'
 
 const translations = {
   en: {
@@ -21,7 +22,7 @@ const translations = {
   }
 }
 
-let MainNav = ({ setLanguage, translated, isAdmin }) => {
+let MainNav = ({ translated, isAdmin, lang }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -48,21 +49,25 @@ let MainNav = ({ setLanguage, translated, isAdmin }) => {
             <li className="nav-item">
               <NavLink
                 className="nav-link"
-                to="/order"
+                to={path.order(lang)}
                 activeClassName="active"
               >
                 {translated.order}
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/cook" activeClassName="active">
+              <NavLink
+                className="nav-link"
+                to={path.cook(lang)}
+                activeClassName="active"
+              >
                 {translated.cook}
               </NavLink>
             </li>
             {isAdmin && (
               <NavLink
                 className="nav-link"
-                to="/admin"
+                to={path.admin(lang)}
                 activeClassName="active"
               >
                 {translated.admin}
@@ -83,18 +88,12 @@ let MainNav = ({ setLanguage, translated, isAdmin }) => {
                 {translated.lang}
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <button
-                  className="dropdown-item"
-                  onClick={() => setLanguage('en')}
-                >
+                <Link to={path.changeLang('en')} className="dropdown-item">
                   English
-                </button>
-                <button
-                  className="dropdown-item"
-                  onClick={() => setLanguage('he')}
-                >
+                </Link>
+                <Link to={path.changeLang('he')} className="dropdown-item">
                   עברית
-                </button>
+                </Link>
               </div>
             </li>
           </ul>
@@ -106,18 +105,10 @@ let MainNav = ({ setLanguage, translated, isAdmin }) => {
 
 MainNav = translateComponent(MainNav, translations)
 
-const mapDispatchToProps = dispatch => {
-  const actions = bindActionCreators(uiActions, dispatch)
-  return {
-    setLanguage: actions.setLanguage
-  }
-}
-
 const mapStateToProps = state => ({
-  lang: state.ui.language,
   isAdmin: (state.user.user && state.user.user.isAdmin) || false
 })
 
-MainNav = connect(mapStateToProps, mapDispatchToProps)(MainNav)
+MainNav = connect(mapStateToProps)(MainNav)
 
 export default MainNav

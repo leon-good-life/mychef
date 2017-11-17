@@ -45,8 +45,7 @@ const mapStateToProps = state => {
       address: user.user_filled_address || ''
     },
     loading: state.user.isProcessingRequest,
-    token: state.auth.token,
-    lang: state.ui.language
+    token: state.auth.token
   }
 }
 

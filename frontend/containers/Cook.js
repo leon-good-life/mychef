@@ -7,23 +7,42 @@ import EditDish from './EditDish'
 import Join from '../components/cook/Join'
 import CookNav from '../components/cook/CookNav'
 import Orders from '../components/cook/Orders'
+import * as path from '../utils/path'
 
 const Cook = ({ isLoggedIn, login, logout, lang, orders }) => {
   if (!isLoggedIn) {
     return <Join login={login} lang={lang} />
   }
-  const ordersComponent = () => <Orders orders={orders} lang={lang} />
   return (
     <div>
       <CookNav logout={logout} lang={lang} />
       <div className="container">
         <Switch>
-          <Route path="/cook/add" component={AddDish} />
-          <Route path="/cook/edit/:dishId" component={EditDish} />
-          <Route path="/cook/contact" component={ContactContainer} />
-          <Route path="/cook/dishes" component={DishesContainer} />
-          <Route path="/cook/orders" render={ordersComponent} />
-          <Route path="/cook" component={ContactContainer} exact />
+          <Route
+            path={path.COOK_CONTACT}
+            render={() => <ContactContainer lang={lang} />}
+          />
+          <Route
+            path={path.COOK_DISHES_ADD}
+            render={() => <AddDish lang={lang} />}
+          />
+          <Route
+            path={path.COOK_DISHES_EDIT}
+            render={() => <EditDish lang={lang} />}
+          />
+          <Route
+            path={path.COOK_DISHES}
+            render={() => <DishesContainer lang={lang} />}
+          />
+          <Route
+            path={path.COOK_ORDERS}
+            render={() => <Orders orders={orders} lang={lang} />}
+          />
+          <Route
+            path={path.COOK}
+            render={() => <ContactContainer lang={lang} />}
+            exact
+          />
         </Switch>
       </div>
     </div>

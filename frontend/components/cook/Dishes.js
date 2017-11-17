@@ -4,6 +4,7 @@ import ConfirmDelete from './ConfirmDelete'
 import AvailabilityToggle from './AvailabilityToggle'
 import AvailabilityDetails from './AvailabilityDetails'
 import translateComponent from '../../utils/translateComponent'
+import * as path from '../../utils/path'
 //import Loading from '../Loading'
 
 const translations = {
@@ -39,14 +40,16 @@ let Dishes = ({
         <div className="card-body">
           <h4 className="card-title">{dish.name}</h4>
           <p className="card-text">{dish.description}</p>
-          <p className="card-text">{translated.price} {dish.price}</p>
+          <p className="card-text">
+            {translated.price} {dish.price}
+          </p>
           <AvailabilityToggle
             isToggled={dish.quantity > 0}
             lang={lang}
             onToggle={() => onToggleAvailability(dish.id, dish.quantity > 0)}
           />
           <Link
-            to={`/cook/edit/${dish.id}`}
+            to={path.cook_dishes_edit(lang, dish.id)}
             className="btn btn-sm btn-primary m-1"
           >
             {translated.edit}
@@ -67,7 +70,10 @@ let Dishes = ({
     <div>
       <div className="card-columns">
         <div className="card">
-          <Link to="/cook/add" className="btn btn-success w-100">
+          <Link
+            to={path.cook_dishes_add(lang)}
+            className="btn btn-success w-100"
+          >
             {translated.add}
           </Link>
         </div>

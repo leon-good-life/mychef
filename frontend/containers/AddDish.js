@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import DishForm from '../components/cook/DishForm'
 import * as dishActions from '../actions/dishes'
+import * as path from '../utils/path'
 
 class AddDish extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class AddDish extends Component {
         this.props.token
       )
       .then(() => {
-        this.props.history.push('/cook/dishes')
+        this.props.history.push(path.cook_dishes(this.props.lang))
       })
   }
 }
@@ -40,8 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  token: state.auth.token,
-  lang: state.ui.language
+  token: state.auth.token
 })
 
 AddDish = connect(mapStateToProps, mapDispatchToProps)(AddDish)

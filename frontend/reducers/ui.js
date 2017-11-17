@@ -6,12 +6,6 @@ const defaultState = {
 
 const ui = (state = defaultState, action) => {
   switch (action.type) {
-    case ActionTypes.SET_LANGUAGE:
-      return {
-        language: action.language
-      }
-      break
-
     /*
       Fetch public dishes
     */

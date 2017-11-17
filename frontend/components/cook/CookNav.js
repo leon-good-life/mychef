@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
+import * as path from '../../utils/path'
 
 const translations = {
   en: {
@@ -18,14 +19,14 @@ const translations = {
   }
 }
 
-const CookNav = ({ logout, translated, profile }) => (
+const CookNav = ({ logout, translated, profile, lang }) => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div className="container">
       <ul className="navbar-nav mr-auto">
         <li className="nav-item">
           <NavLink
             className="nav-link"
-            to="/cook/contact"
+            to={path.cook_contact(lang)}
             activeClassName="active"
           >
             {translated.edit}
@@ -34,7 +35,7 @@ const CookNav = ({ logout, translated, profile }) => (
         <li className="nav-item">
           <NavLink
             className="nav-link"
-            to="/cook/dishes"
+            to={path.cook_dishes(lang)}
             activeClassName="active"
           >
             {translated.dishes}
@@ -43,7 +44,7 @@ const CookNav = ({ logout, translated, profile }) => (
         <li className="nav-item">
           <NavLink
             className="nav-link"
-            to="/cook/orders"
+            to={path.cook_orders(lang)}
             activeClassName="active"
           >
             {translated.orders}

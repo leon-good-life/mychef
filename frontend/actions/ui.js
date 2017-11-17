@@ -1,11 +1,6 @@
 import * as ActionTypes from './types/ui'
 import * as Ajax from '../ajax/dishes'
 
-export const setLanguage = language => ({
-  type: ActionTypes.SET_LANGUAGE,
-  language
-})
-
 /*
   Fetch public dishes
 */
