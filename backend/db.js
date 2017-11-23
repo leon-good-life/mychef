@@ -79,6 +79,11 @@ exports.getDish = getDish
 exports.getUserDishes = (userId, callback) => {
   const query = datastore.createQuery('Dish').filter('user', '=', userId)
   datastore.runQuery(query, (err, entities, info) => {
+    if(!Array.isArray(entities)){
+      console.error(`"enteties" is not an array.`)
+      callback([]);
+      return;
+    }
     const dishes = entities.map(dish => {
       return {
         name: dish.name,
@@ -97,6 +102,11 @@ exports.getUserDishes = (userId, callback) => {
 exports.getPublicDishes = (callback) => {
   const query = datastore.createQuery('Dish').filter('quantity', '>', 0)
   datastore.runQuery(query, (err, entities, info) => {
+    if(!Array.isArray(entities)){
+      console.error(`"enteties" is not an array.`)
+      callback([]);
+      return;
+    }
     const dishes = entities.map(dish => {
       return {
         name: dish.name,
