@@ -29,7 +29,8 @@ let Dishes = ({ dishes, translated }) => (
               href="#"
               className="btn btn-sm btn-primary"
               data-toggle="modal"
-              data-target="#confirmDelete"
+              data-target="#order"
+              onClick={() => localStorage.setItem('orderItem', dish.id)}
             >
               {translated.order}
             </a>

@@ -79,10 +79,10 @@ exports.getDish = getDish
 exports.getUserDishes = (userId, callback) => {
   const query = datastore.createQuery('Dish').filter('user', '=', userId)
   datastore.runQuery(query, (err, entities, info) => {
-    if(!Array.isArray(entities)){
+    if (!Array.isArray(entities)) {
       console.error(`"enteties" is not an array.`)
-      callback([]);
-      return;
+      callback([])
+      return
     }
     const dishes = entities.map(dish => {
       return {
@@ -99,13 +99,13 @@ exports.getUserDishes = (userId, callback) => {
   })
 }
 
-exports.getPublicDishes = (callback) => {
+exports.getPublicDishes = callback => {
   const query = datastore.createQuery('Dish').filter('quantity', '>', 0)
   datastore.runQuery(query, (err, entities, info) => {
-    if(!Array.isArray(entities)){
+    if (!Array.isArray(entities)) {
       console.error(`"enteties" is not an array.`)
-      callback([]);
-      return;
+      callback([])
+      return
     }
     const dishes = entities.map(dish => {
       return {
@@ -164,6 +164,22 @@ exports.updateAvailability = (id, quantity, time, callback) => {
     datastore.update(entity).then(() => {
       callback(dish)
     })
+  })
+}
+
+/*---------------
+    Orders
+---------------*/
+
+exports.createOrder = (dishId, userId, callback) => {
+  const orderKey = datastore.key('Order')
+  const order = { dishId, userId }
+  const entity = {
+    key: orderKey,
+    data: order
+  }
+  datastore.insert(entity).then(() => {
+    callback(order)
   })
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 import GoogleLogin from 'react-google-login'
 
-const LoginModal = ({ login }) => (
+const ConfirmModal = ({ onOrder }) => (
   <div className="modal fade" tabIndex="-1" role="dialog" id="order">
     <div className="modal-dialog" role="document">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">Login to order</h5>
+          <h5 className="modal-title">Confirm order</h5>
           <button
             type="button"
             className="close"
@@ -17,17 +17,17 @@ const LoginModal = ({ login }) => (
           </button>
         </div>
         <div className="modal-body">
-          <p>Please login to order this dish.</p>
+          <p>You are about to order.</p>
         </div>
         <div className="modal-footer">
-          <GoogleLogin
-            clientId="377161177382-bqradjn2qablmfso34dcnkrtd31gs25m.apps.googleusercontent.com"
-            buttonText="Login with Google"
-            onSuccess={login}
-            onFailure={login}
-            isSignedIn={true}
+          <button
+            type="button"
             className="btn btn-primary"
-          />
+            data-dismiss="modal"
+            onClick={onOrder}
+          >
+            Confirm ordering
+          </button>
           <button
             type="button"
             className="btn btn-secondary"
@@ -41,4 +41,4 @@ const LoginModal = ({ login }) => (
   </div>
 )
 
-export default LoginModal
+export default ConfirmModal

@@ -20,7 +20,13 @@ class App extends React.Component {
   }
   render() {
     const lang = this.props.match.params.lang
-    const orderComponent = () => <Order lang={lang} />
+    const orderComponent = () => (
+      <Order
+        lang={lang}
+        isLoggedIn={this.props.auth.isLoggedIn}
+        login={this.login}
+      />
+    )
     const cookComponent = () => (
       <Cook
         isLoggedIn={this.props.auth.isLoggedIn}

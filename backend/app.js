@@ -37,11 +37,11 @@ app.use('/rest/*', (req, res, next) => {
   const auth = new GoogleAuth()
   const client = new auth.OAuth2(secrets.CLIENT_ID, secrets.CLIENT_SECRET, '')
   client.verifyIdToken(token, secrets.CLIENT_ID, (e, login) => {
-    try{
+    try {
       payload = login.getPayload()
       googleUserId = payload['sub']
       next()
-    }catch(e){
+    } catch (e) {
       res.send(e)
     }
   })
@@ -170,6 +170,18 @@ app.post('/rest/dish-availability', (req, res) => {
     } else {
       res.status(401).send('Unauthorized')
     }
+  })
+})
+
+/*---------------
+    Orders
+---------------*/
+
+app.put('/rest/order', (req, res) => {
+  const dishId = req.body.dish
+
+  db.createOrder(dishId, googleUserId, order => {
+    res.send(order)
   })
 })
 
