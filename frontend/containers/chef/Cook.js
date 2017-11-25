@@ -4,18 +4,23 @@ import ContactContainer from './ContactContainer'
 import DishesContainer from './DishesContainer'
 import AddDish from './AddDish'
 import EditDish from './EditDish'
-import Join from '../components/cook/Join'
-import CookNav from '../components/cook/CookNav'
-import Orders from '../components/cook/Orders'
-import * as path from '../utils/path'
+import Join from '../../components/chef/Join'
+import Nav from '../../components/chef/Nav'
+import Orders from '../../components/chef/Orders'
+import * as path from '../../path'
 
-const Cook = ({ isLoggedIn, login, logout, lang, orders }) => {
+let Cook = ({ isLoggedIn, logout, lang, orders, profile, login }) => {
   if (!isLoggedIn) {
-    return <Join login={login} lang={lang} />
+    return (
+      <Join
+        login={login}
+        lang={lang}
+      />
+    )
   }
   return (
     <div>
-      <CookNav logout={logout} lang={lang} />
+      <Nav logout={logout} lang={lang} profile={profile} />
       <div className="container">
         <Switch>
           <Route

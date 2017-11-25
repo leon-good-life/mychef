@@ -1,18 +1,14 @@
 import { combineReducers } from 'redux'
-import dishes from './dishes'
-import orders from './orders'
-import user from './user'
+import chef from './chef'
+import customer from './customer'
 import admin from './admin'
 import auth from './auth'
-import ui from './ui'
 
 const rootReducer = combineReducers({
-  dishes,
-  orders,
-  user,
+  chef,
+  customer,
   admin,
-  auth,
-  ui
+  auth
 })
 
 export default rootReducer

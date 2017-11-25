@@ -25,7 +25,6 @@ const LoginModal = ({ login }) => (
             buttonText="Login with Google"
             onSuccess={login}
             onFailure={login}
-            isSignedIn={true}
             className="btn btn-primary"
           />
           <button

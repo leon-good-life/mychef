@@ -2,27 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Switch, Route } from 'react-router-dom'
-import AdminNav from '../components/admin/AdminNav'
-import Users from '../components/admin/Users'
-import Dishes from '../components/admin/Dishes'
-import Orders from '../components/admin/Orders'
-import * as adminActions from '../actions/admin'
-import * as path from '../utils/path'
+import AdminNav from '../../components/admin/AdminNav'
+import Users from '../../components/admin/Users'
+import Dishes from '../../components/admin/Dishes'
+import Orders from '../../components/admin/Orders'
+import * as adminActions from '../../actions/admin'
+import * as path from '../../path'
 
 class Admin extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      users: [],
-      loading: true
-    }
   }
   render() {
     const usersComponent = () => (
       <Users
-        loading={this.state.loading}
-        users={this.state.users}
-        fetch={() => this.props.actions.adminFetchUsers(this.props.token)}
+        loading={this.props.loading}
+        users={this.props.users}
+        fetch={() => this.props.actions.fetchUsers(this.props.token)}
         lang={this.props.lang}
       />
     )
@@ -43,12 +39,6 @@ class Admin extends React.Component {
       </div>
     )
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      users: nextProps.users,
-      loading: nextProps.isProcessingRequest
-    })
-  }
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -56,7 +46,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  users: state.admin.adminUsers,
+  users: state.admin.users,
   loading: state.admin.isProcessingRequest,
   token: state.auth.token
 })

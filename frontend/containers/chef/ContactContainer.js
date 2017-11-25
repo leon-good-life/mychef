@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as userActions from '../actions/user'
-import Contact from '../components/cook/Contact'
+import * as chefActions from '../../actions/chef'
+import Contact from '../../components/chef/Contact'
 
 class ContactContainer extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class ContactContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const user = state.user.user
+  const user = state.chef.contact
   return {
     contact: {
       name: user.user_filled_name || user.google_user_name || '',
@@ -44,13 +44,13 @@ const mapStateToProps = state => {
       telephone: user.user_filled_telephone || '',
       address: user.user_filled_address || ''
     },
-    loading: state.user.isProcessingRequest,
+    loading: state.chef.isProcessingRequest,
     token: state.auth.token
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(userActions, dispatch)
+  actions: bindActionCreators(chefActions, dispatch)
 })
 
 ContactContainer = connect(mapStateToProps, mapDispatchToProps)(

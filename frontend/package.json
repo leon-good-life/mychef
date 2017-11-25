@@ -4,7 +4,6 @@
   "description": "Application that connects chefs with customers",
   "main": "index.js",
   "scripts": {
-    "deploy": "gcloud app deploy",
     "dev": "webpack -d --watch",
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },

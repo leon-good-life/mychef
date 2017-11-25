@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
-import * as path from '../../utils/path'
+import * as path from '../../path'
 
 const translations = {
   en: {
@@ -19,7 +18,7 @@ const translations = {
   }
 }
 
-const CookNav = ({ logout, translated, profile, lang }) => (
+const Nav = ({ logout, translated, profile, lang }) => (
   <nav className="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div className="container">
       <ul className="navbar-nav mr-auto">
@@ -71,10 +70,4 @@ const CookNav = ({ logout, translated, profile, lang }) => (
   </nav>
 )
 
-const mapStateToProps = state => ({
-  profile: state.auth.profile
-})
-
-const CookNavContainer = connect(mapStateToProps)(CookNav)
-
-export default translateComponent(CookNavContainer, translations)
+export default translateComponent(Nav, translations)

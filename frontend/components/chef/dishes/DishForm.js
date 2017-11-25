@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import translateComponent from '../../utils/translateComponent'
-import { uploadDishImage } from '../../ajax/dishes'
-import LoadingImg from '../loading.gif'
-import * as path from '../../utils/path'
+import translateComponent from '../../../utils/translateComponent'
+import { uploadDishImage } from '../../../ajax/chef'
+import LoadingImg from '../../loading.gif'
+import * as path from '../../../path'
 
 const translations = {
   en: {

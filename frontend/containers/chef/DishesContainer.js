@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Dishes from '../components/cook/Dishes'
-import Loading from '../components/Loading'
-import * as dishesActions from '../actions/dishes'
+import Dishes from '../../components/chef/dishes/Dishes'
+import Loading from '../../components/Loading'
+import * as chefActions from '../../actions/chef'
 
 class DishesContainer extends React.Component {
   constructor(props) {
@@ -81,12 +81,12 @@ class DishesContainer extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(dishesActions, dispatch)
+  actions: bindActionCreators(chefActions, dispatch)
 })
 
 const mapStateToProps = state => ({
-  loading: state.dishes.isProcessingRequest,
-  dishes: state.dishes.dishes,
+  loading: state.chef.isProcessingRequest,
+  dishes: state.chef.dishes,
   token: state.auth.token
 })
 

@@ -67,11 +67,12 @@ exports.updateUser = (
     Dishes
 ---------------*/
 
-const getDish = (dishId, callback) => {
+const getDish = (dishId) => {
   const dishKey = datastore.key(['Dish', dishId])
-  datastore.get(dishKey).then(results => {
+  return datastore.get(dishKey).then(results => {
     const dish = results[0]
-    callback(dish)
+    console.log(dish);
+    return dish
   })
 }
 exports.getDish = getDish
@@ -99,7 +100,7 @@ exports.getUserDishes = (userId, callback) => {
   })
 }
 
-exports.getPublicDishes = callback => {
+exports.getCustomerDishes = callback => {
   const query = datastore.createQuery('Dish').filter('quantity', '>', 0)
   datastore.runQuery(query, (err, entities, info) => {
     if (!Array.isArray(entities)) {
@@ -154,7 +155,7 @@ exports.deleteDish = (dishId, callback) => {
 
 exports.updateAvailability = (id, quantity, time, callback) => {
   const dishKey = datastore.key({ path: ['Dish', id] })
-  getDish(id, dish => {
+  getDish(id).then(dish => {
     dish.quantity = quantity
     dish.time = time
     const entity = {
@@ -171,15 +172,42 @@ exports.updateAvailability = (id, quantity, time, callback) => {
     Orders
 ---------------*/
 
-exports.createOrder = (dishId, userId, callback) => {
-  const orderKey = datastore.key('Order')
-  const order = { dishId, userId }
-  const entity = {
-    key: orderKey,
-    data: order
-  }
-  datastore.insert(entity).then(() => {
-    callback(order)
+exports.createOrder = (dishId, clientId, callback) => {
+  getDish(dishId).then(dish => {
+    const chefId = dish.user
+    const orderKey = datastore.key('Order')
+    const order = { dishId, clientId, chefId, dish }
+    const entity = {
+      key: orderKey,
+      data: order
+    }
+    datastore.insert(entity).then(() => {
+      callback(order)
+    })
+  })
+}
+
+exports.getChefOrders = (chefId) => {
+  const query = datastore.createQuery('Dish').filter('chefId', '=', chefId)
+  datastore.runQuery(query, (err, entities, info) => {
+    if (!Array.isArray(entities)) {
+      console.error(`"enteties" is not an array.`)
+      callback([])
+      return
+    }
+    callback(entities)
+  })
+}
+
+exports.getClientOrders = (clientId) => {
+  const query = datastore.createQuery('Dish').filter('clientId', '=', clientId)
+  datastore.runQuery(query, (err, entities, info) => {
+    if (!Array.isArray(entities)) {
+      console.error(`"enteties" is not an array.`)
+      callback([])
+      return
+    }
+    callback(entities)
   })
 }
 
@@ -188,7 +216,7 @@ exports.createOrder = (dishId, userId, callback) => {
 ---------------*/
 
 exports.adminGetUsers = callback => {
-  //console.log('db adminGetUsers');
+  console.log('db adminGetUsers');
   const query = datastore.createQuery('User')
   datastore.runQuery(query, (err, entities, info) => {
     const users = entities.map(user => {
@@ -221,5 +249,21 @@ exports.adminVerifyUser = (userId, callback) => {
     datastore.update(entity).then(() => {
       callback(user)
     })
+  })
+}
+
+exports.adminGetOrders = callback => {
+  const query = datastore.createQuery('Order')
+  datastore.runQuery(query, (err, entities, info) => {
+    const orders = entities.map(order => {
+      return {
+        id: order[datastore.KEY].name,
+        dishId: order.dishId,
+        clientId: order.clientId,
+        chefId: order.chefId,
+        dish: order.dish
+      }
+    })
+    callback(orders)
   })
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import translateComponent from '../../utils/translateComponent'
+import translateComponent from '../../../utils/translateComponent'
 
 const translations = {
   en: {

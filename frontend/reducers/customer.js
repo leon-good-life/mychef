@@ -1,11 +1,11 @@
-import * as ActionTypes from '../actions/types/orders'
+import * as ActionTypes from '../actions/types/customer'
 
 const defaultState = {
   orders: [],
   isProcessingRequest: false
 }
 
-const ordersReducer = (state = defaultState, action) => {
+const customer = (state = defaultState, action) => {
   const clonedState = Object.assign({}, state, {
     orders: Array.from(state.orders)
   })
@@ -30,9 +30,30 @@ const ordersReducer = (state = defaultState, action) => {
       })
       break
 
+    /*
+      Fetch dishes
+    */
+
+    case ActionTypes.FETCH_DISHES_REQUEST:
+      return Object.assign({}, state, {
+        isProcessingRequest: true
+      })
+      break
+    case ActionTypes.FETCH_DISHES_SUCCESS:
+      return Object.assign({}, state, {
+        isProcessingRequest: false,
+        dishes: action.dishes
+      })
+      break
+    case ActionTypes.FETCH_DISHES_ERROR:
+      return Object.assign({}, state, {
+        isProcessingRequest: false
+      })
+      break
+
     default:
       return state
   }
 }
 
-export default ordersReducer
+export default customer

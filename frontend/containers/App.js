@@ -2,15 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Switch, Route } from 'react-router-dom'
-import MainNav from '../components/MainNav'
-import Cook from './Cook'
-import Order from './OrderContainer'
-import Admin from './Admin'
-import Footer from '../components/Footer'
-import * as userActions from '../actions/user'
+import * as chefActions from '../actions/chef'
 import * as authActions from '../actions/auth'
-import * as uiActions from '../actions/ui'
-import * as path from '../utils/path'
+import Cook from './chef/Cook'
+import Order from './customer/OrderContainer'
+import Admin from './admin/Admin'
+import MainNav from '../components/MainNav'
+import Footer from '../components/Footer'
+import * as path from '../path'
 
 class App extends React.Component {
   constructor(props) {
@@ -31,6 +30,7 @@ class App extends React.Component {
       <Cook
         isLoggedIn={this.props.auth.isLoggedIn}
         login={this.login}
+        profile={this.props.profile}
         logout={this.logout}
         lang={lang}
         orders={this.props.orders}
@@ -75,17 +75,15 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
+    user: state.chef.contact,
     admin: state.admin,
+    profile: state.auth.profile,
     auth: state.auth
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    { ...userActions, ...authActions, ...uiActions },
-    dispatch
-  )
+  actions: bindActionCreators({...chefActions, ...authActions}, dispatch)
 })
 
 App = connect(mapStateToProps, mapDispatchToProps)(App)

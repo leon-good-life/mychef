@@ -1,53 +1,53 @@
-import * as ActionTypes from './types/admin';
-import * as Ajax from '../ajax/admin'; 
+import * as ActionTypes from './types/admin'
+import * as Ajax from '../ajax/admin'
 
 /*
-  Admin fetch users
+  fetch users
 */
 
-export const adminFetchUsersRequest = () => ({ 
-  type: ActionTypes.ADMIN_FETCH_USERS_REQUEST 
-});
+export const fetchUsersRequest = () => ({
+  type: ActionTypes.FETCH_USERS_REQUEST
+})
 
-export const adminFetchUsersSuccess = (users) => ({ 
-  type: ActionTypes.ADMIN_FETCH_USERS_SUCCESS, 
+export const fetchUsersSuccess = users => ({
+  type: ActionTypes.FETCH_USERS_SUCCESS,
   users
-});
+})
 
-export const adminFetchUsersError = (error) => ({ 
-  type: ActionTypes.ADMIN_FETCH_USERS_ERROR, 
-  error 
-});
+export const fetchUsersError = error => ({
+  type: ActionTypes.FETCH_USERS_ERROR,
+  error
+})
 
-export const adminFetchUsers = (token) => ((dispatch) => {
-  dispatch(adminFetchUsersRequest());
-  return Ajax.adminGetUsers(token).then(
-    users => dispatch(adminFetchUsersSuccess(users)),
-    error => dispatch(adminFetchUsersError(error))
-  );
-});
+export const fetchUsers = token => dispatch => {
+  dispatch(fetchUsersRequest())
+  return Ajax.getUsers(token).then(
+    users => dispatch(fetchUsersSuccess(users)),
+    error => dispatch(fetchUsersError(error))
+  )
+}
 
 /*
-  Admin verify user
+  verify user
 */
 
-export const adminVerifyUserRequest = () => ({ 
-  type: ActionTypes.ADMIN_VERIFY_USER_REQUEST 
-});
+export const verifyUserRequest = () => ({
+  type: ActionTypes.VERIFY_USER_REQUEST
+})
 
-export const adminVerifyUserSuccess = () => ({ 
-  type: ActionTypes.ADMIN_VERIFY_USER_SUCCESS
-});
+export const verifyUserSuccess = () => ({
+  type: ActionTypes.VERIFY_USER_SUCCESS
+})
 
-export const adminVerifyUserError = (error) => ({ 
-  type: ActionTypes.ADMIN_VERIFY_USER_ERROR, 
-  error 
-});
+export const verifyUserError = error => ({
+  type: ActionTypes.VERIFY_USER_ERROR,
+  error
+})
 
-export const adminVerifyUser = (id, token) => ((dispatch) => {
-  dispatch(adminVerifyUserRequest());
-  return Ajax.adminVerifyUser(id, token).then(
-    () => dispatch(adminVerifyUserSuccess()),
-    error => dispatch(adminVerifyUserError(error))
-  );
-});
+export const verifyUser = (id, token) => dispatch => {
+  dispatch(verifyUserRequest())
+  return Ajax.verifyUser(id, token).then(
+    () => dispatch(verifyUserSuccess()),
+    error => dispatch(verifyUserError(error))
+  )
+}

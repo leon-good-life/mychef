@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import translateComponent from '../../utils/translateComponent'
-import * as path from '../../utils/path'
+import * as path from '../../path'
 
 const translations = {
   en: {

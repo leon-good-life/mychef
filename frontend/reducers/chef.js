@@ -1,14 +1,16 @@
-import * as ActionTypes from '../actions/types/dishes'
+import * as ActionTypes from '../actions/types/chef'
 
 const defaultState = {
   dishes: [],
+  contact: {},
   isProcessingRequest: false,
   lastTimeFetched: null
 }
 
-const dishesReducer = (state = defaultState, action) => {
+const chef = (state = defaultState, action) => {
   const clonedState = Object.assign({}, state, {
-    dishes: Array.from(state.dishes)
+    dishes: Array.from(state.dishes),
+    contact: Object.assign(state.contact)
   })
   switch (action.type) {
     /*
@@ -120,9 +122,71 @@ const dishesReducer = (state = defaultState, action) => {
       return clonedState
       break
 
+    /*
+      Create user
+    */
+
+    case ActionTypes.CREATE_USER_REQUEST:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: true
+      })
+      break
+    case ActionTypes.CREATE_USER_SUCCESS:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: false
+      })
+      break
+    case ActionTypes.CREATE_USER_ERROR:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: false
+      })
+      break
+
+    /*
+      Fetch contact
+    */
+
+    case ActionTypes.FETCH_USER_REQUEST:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: true
+      })
+      break
+    case ActionTypes.FETCH_USER_SUCCESS:
+      return Object.assign({}, clonedState, {
+        contact: action.user,
+        isProcessingRequest: false
+      })
+      break
+    case ActionTypes.FETCH_USER_ERROR:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: false
+      })
+      break
+
+    /*
+      Update contact
+    */
+
+    case ActionTypes.UPDATE_USER_REQUEST:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: true
+      })
+      break
+    case ActionTypes.UPDATE_USER_SUCCESS:
+      return Object.assign({}, clonedState, {
+        contact: action.user,
+        isProcessingRequest: false
+      })
+      break
+    case ActionTypes.UPDATE_USER_ERROR:
+      return Object.assign({}, clonedState, {
+        isProcessingRequest: false
+      })
+      break
+
     default:
       return state
   }
 }
 
-export default dishesReducer
+export default chef

@@ -4,8 +4,7 @@ import { bindActionCreators } from 'redux'
 import Logo from './logo.png'
 import { NavLink, Link } from 'react-router-dom'
 import translateComponent from '../utils/translateComponent'
-import * as uiActions from '../actions/ui'
-import * as path from '../utils/path'
+import * as path from '../path'
 
 const translations = {
   en: {
@@ -106,7 +105,7 @@ let MainNav = ({ translated, isAdmin, lang }) => {
 MainNav = translateComponent(MainNav, translations)
 
 const mapStateToProps = state => ({
-  isAdmin: (state.user.user && state.user.user.isAdmin) || false
+  isAdmin: (state.chef.contact && state.chef.contact.isAdmin) || false
 })
 
 MainNav = connect(mapStateToProps)(MainNav)

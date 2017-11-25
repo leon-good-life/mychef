@@ -1,5 +1,5 @@
-export function adminGetUsers(token) {
-  const url = window.location.origin + '/rest/users-admin';
+export function getUsers(token) {
+  const url = window.location.origin + '/rest/admin/users';
   let headers = {};
   headers['X-Auth-Token'] = token;
   return fetch(url, {headers})
@@ -11,10 +11,10 @@ export function adminGetUsers(token) {
     });
 }
 
-export function adminVerifyUser(userId, token) {
+export function verifyUser(userId, token) {
   const data = { userId };
   const body = JSON.stringify(data);
-  const url = window.location.origin + '/rest/verify-user-admin';
+  const url = window.location.origin + '/rest/admin/verify-user';
   const method = 'POST';
   let headers = {};
   headers['X-Auth-Token'] = token;

@@ -31,7 +31,7 @@ const secrets = require('./secret.js')
 
 let googleUserId, payload
 
-app.use('/rest/*', (req, res, next) => {
+app.use(['/rest/*', '/rest/*/*'], (req, res, next) => {
   const token = req.get('X-Auth-Token')
   const GoogleAuth = require('google-auth-library')
   const auth = new GoogleAuth()
@@ -121,7 +121,7 @@ app.post('/rest/dish', (req, res) => {
 app.get('/rest/dish', (req, res) => {
   if (req.query.hasOwnProperty('id')) {
     const dishId = parseInt(req.query.id)
-    db.getDish(dishId, dish => {
+    db.getDish(dishId).then(dish => {
       res.send(dish)
     })
   } else {
@@ -132,7 +132,7 @@ app.get('/rest/dish', (req, res) => {
 })
 
 app.get('/public/dish', (req, res) => {
-  db.getPublicDishes(dishes => {
+  db.getCustomerDishes(dishes => {
     res.send(dishes)
   })
 })
@@ -177,11 +177,25 @@ app.post('/rest/dish-availability', (req, res) => {
     Orders
 ---------------*/
 
-app.put('/rest/order', (req, res) => {
-  const dishId = req.body.dish
+app.put('/rest/customer/order', (req, res) => {
+  const dishId = parseInt(req.body.dish)
 
   db.createOrder(dishId, googleUserId, order => {
     res.send(order)
+  })
+})
+
+app.get('/rest/customer/order', (req, res) => {
+  const clientId = parseInt(req.body.clientId)
+  db.getClientOrders(clientId, (orders)=>{
+    res.send(orders)
+  })
+})
+
+app.get('/rest/chef/order', (req, res) => {
+  const chefId = parseInt(req.body.chefId)
+  db.getChefOrders(chefId, (orders)=>{
+    res.send(orders)
   })
 })
 
@@ -189,7 +203,7 @@ app.put('/rest/order', (req, res) => {
     Admin
 ---------------*/
 
-app.get('/rest/users-admin', (req, res) => {
+app.get('/rest/admin/users', (req, res) => {
   if (googleUserId === secrets.ADMIN_ID) {
     db.adminGetUsers(users => {
       res.send(users)
@@ -199,7 +213,7 @@ app.get('/rest/users-admin', (req, res) => {
   }
 })
 
-app.post('/rest/verify-user-admin', (req, res) => {
+app.post('/rest/admin/verify-user', (req, res) => {
   const userId = req.body.userId
   if (googleUserId === secrets.ADMIN_ID) {
     db.adminVerifyUser(userId, user => {

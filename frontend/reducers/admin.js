@@ -1,54 +1,54 @@
 import * as ActionTypes from '../actions/types/admin'
 
 const defaultState = {
-  adminUsers: [],
+  users: [],
   isProcessingRequest: false
 }
 
-const adminReducer = (state = defaultState, action) => {
+const admin = (state = defaultState, action) => {
   switch (action.type) {
     /*
-      Admin fetch users
+      fetch users
     */
 
-    case ActionTypes.ADMIN_FETCH_USERS_REQUEST:
+    case ActionTypes.FETCH_USERS_REQUEST:
       return {
-        adminUsers: Array.from(state.adminUsers),
+        users: Array.from(state.users),
         isProcessingRequest: true
       }
       break
-    case ActionTypes.ADMIN_FETCH_USERS_SUCCESS:
+    case ActionTypes.FETCH_USERS_SUCCESS:
       return {
-        adminUsers: action.users,
+        users: action.users,
         isProcessingRequest: false
       }
       break
-    case ActionTypes.ADMIN_FETCH_USERS_ERROR:
+    case ActionTypes.FETCH_USERS_ERROR:
       return {
-        adminUsers: Array.from(state.adminUsers),
+        users: Array.from(state.users),
         isProcessingRequest: false
       }
       break
 
     /*
-      Admin verify user
+      verify user
     */
 
-    case ActionTypes.ADMIN_VERIFY_USER_REQUEST:
+    case ActionTypes.VERIFY_USER_REQUEST:
       return {
-        adminUsers: Array.from(state.adminUsers),
+        users: Array.from(state.users),
         isProcessingRequest: true
       }
       break
-    case ActionTypes.ADMIN_VERIFY_USER_SUCCESS:
+    case ActionTypes.VERIFY_USER_SUCCESS:
       return {
-        adminUsers: Array.from(state.adminUsers),
+        users: Array.from(state.users),
         isProcessingRequest: false
       }
       break
-    case ActionTypes.ADMIN_VERIFY_USER_ERROR:
+    case ActionTypes.VERIFY_USER_ERROR:
       return {
-        adminUsers: Array.from(state.adminUsers),
+        users: Array.from(state.users),
         isProcessingRequest: false
       }
       break
@@ -58,4 +58,4 @@ const adminReducer = (state = defaultState, action) => {
   }
 }
 
-export default adminReducer
+export default admin

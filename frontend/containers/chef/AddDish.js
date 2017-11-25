@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import DishForm from '../components/cook/DishForm'
-import * as dishActions from '../actions/dishes'
-import * as path from '../utils/path'
+import DishForm from '../../components/chef/dishes/DishForm'
+import * as chefActions from '../../actions/chef'
+import * as path from '../../path'
 
 class AddDish extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class AddDish extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(dishActions, dispatch)
+  actions: bindActionCreators(chefActions, dispatch)
 })
 
 const mapStateToProps = state => ({

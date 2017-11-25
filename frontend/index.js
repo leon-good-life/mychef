@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './components/main.css'
 import App from './containers/App'
 import store from './reducers/store'
-import * as path from './utils/path'
+import * as path from './path'
 
 class Root extends React.Component {
   constructor(props) {

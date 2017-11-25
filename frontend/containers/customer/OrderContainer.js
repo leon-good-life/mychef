@@ -1,18 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Order from '../components/order/Order'
-import * as uiActions from '../actions/ui'
-import * as ordersActions from '../actions/orders'
-import LoginModal from '../components/order/LoginModal'
-import ConfirmModal from '../components/order/ConfirmModal'
+import Order from '../../components/customer/Order'
+import * as customerActions from '../../actions/customer'
+import LoginModal from '../../components/customer/LoginModal'
+import ConfirmModal from '../../components/customer/ConfirmModal'
 
 class OrderContainer extends React.Component {
   constructor(props) {
     super(props)
   }
   componentWillMount() {
-    this.props.actions.fetchPublicDishes()
+    this.props.actions.fetchDishes()
   }
   render() {
     return (
@@ -44,13 +43,13 @@ class OrderContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  dishes: state.ui.dishes || [],
-  loading: state.ui.isProcessingRequest,
+  dishes: state.customer.dishes || [],
+  loading: state.customer.isProcessingRequest,
   token: state.auth.token
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ ...uiActions, ...ordersActions }, dispatch)
+  actions: bindActionCreators(customerActions, dispatch)
 })
 
 OrderContainer = connect(mapStateToProps, mapDispatchToProps)(OrderContainer)
